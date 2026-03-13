@@ -1,0 +1,22 @@
+{
+  "data":[
+    {
+      "index":1,
+      "question_en":"What is Umrah?",
+      "question_ar":"ما هي العمرة؟",
+      "question_ur":"عمرہ کیا ہے؟",
+      "answer_en":"Umrah is an Islamic pilgrimage to the holy city of Mecca.",
+      "answer_ar":"العمرة هي حج إسلامي إلى مكة المكرمة.",
+      "answer_ur":"عمرہ مکہ کا ایک اسلامی سفر ہے۔"
+    },
+    {
+      "index":2,
+      "question_en":"Can Umrah be performed anytime?",
+      "question_ar":"هل يمكن أداء العمرة في أي وقت؟",
+      "question_ur":"کیا عمرہ کسی بھی وقت کیا جا سکتا ہے؟",
+      "answer_en":"Yes, Umrah can be performed any time of the year.",
+      "answer_ar":"نعم، يمكن أداء العمرة في أي وقت من السنة.",
+      "answer_ur":"جی ہاں، عمرہ سال کے کسی بھی وقت ادا کیا جا سکتا ہے۔"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+    "data":[
+        {
+            "index":1,
+            "gate_no":79,
+            "english_name":"King Fahad Gate",
+            "arabic_name":"باب الملك فهد",
+            "description_en":"Gate 79: Large eastern entrance with, often used for direct, convenient access to the Mataf.",
+            "description_ar":"البوابة 79: مدخل شرقي كبير، وغالبًا ما يُستخدم للوصول المباشر والمريح إلى المطاف.",
+            "description_ur":"گیٹ 79: ایک بڑا مشرقی دروازہ، جو اکثر مطاف تک براہِ راست اور آسان رسائی کے لیے استعمال ہوتا ہے۔"
+        }
+    ]
+}
