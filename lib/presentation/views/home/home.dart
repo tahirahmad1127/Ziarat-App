@@ -1,12 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:adhan_dart/adhan_dart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hijri/hijri_calendar.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ziarat_app/presentation/constants/app_constant.dart';
 import 'package:ziarat_app/presentation/constants/text_responsive.dart';
 import 'package:ziarat_app/presentation/elements/container.dart';
@@ -15,6 +19,63 @@ import '../../../configurations/frontend_config.dart';
 import '../../constants/asset_constant.dart';
 import '../../constants/app_strings.dart';
 
+// ── Data Models ───────────────────────────────────────────────────────────────
+class AyatModel {
+  final int index;
+  final String arabicAyat;
+  final String urduAyat;
+  final String englishAyat;
+
+  AyatModel({
+    required this.index,
+    required this.arabicAyat,
+    required this.urduAyat,
+    required this.englishAyat,
+  });
+
+  factory AyatModel.fromJson(Map<String, dynamic> json) => AyatModel(
+    index: json['index'],
+    arabicAyat: json['arabic_ayat'],
+    urduAyat: json['urdu_ayat'],
+    englishAyat: json['english_ayat'],
+  );
+}
+
+class HadithModel {
+  final int index;
+  final String arabicHadith;
+  final String urduHadith;
+  final String englishHadith;
+
+  HadithModel({
+    required this.index,
+    required this.arabicHadith,
+    required this.urduHadith,
+    required this.englishHadith,
+  });
+
+  factory HadithModel.fromJson(Map<String, dynamic> json) => HadithModel(
+    index: json['index'],
+    arabicHadith: json['arabic_hadith'],
+    urduHadith: json['urdu_hadith'],
+    englishHadith: json['english_hadith'],
+  );
+}
+
+class _PrayerEntry {
+  final String name;
+  final DateTime time;
+  _PrayerEntry(this.name, this.time);
+}
+
+class _PrayerDisplay {
+  final String name;
+  final String time;
+  final String iconPath;
+  _PrayerDisplay(this.name, this.time, this.iconPath);
+}
+
+// ── Home Widget ───────────────────────────────────────────────────────────────
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -23,14 +84,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  static const String _cachedLatKey = 'home_cached_lat';
+  static const String _cachedLngKey = 'home_cached_lng';
+  static const String _cachedLocationNameKey = 'home_cached_location_name';
+
   // ── Clock ──
   late Timer _clockTimer;
   String _currentTime = "";
   String _hijriDate = "";
+  String _gregorianDate = "";
+  String _hijriDateOnly = "";
 
   // ── Location ──
   String _locationName = "Locating...";
-  double _latitude = 21.3891; // fallback: Makkah
+  double _latitude = 21.3891;
   double _longitude = 39.8579;
 
   // ── Prayer Times ──
@@ -39,11 +106,78 @@ class _HomeState extends State<Home> {
   String _remainingTime = "";
   Timer? _countdownTimer;
 
+  // ── Daily Ayat & Hadith ──
+  AyatModel? _todayAyat;
+  HadithModel? _todayHadith;
+
   @override
   void initState() {
     super.initState();
+    _bootstrapHome();
+  }
+
+  Future<void> _bootstrapHome() async {
+    // intl requires locale data initialization when using DateFormat with locale.
+    await initializeDateFormatting('en_US', null);
+    await initializeDateFormatting('ur_PK', null);
+    await initializeDateFormatting('ar_SA', null);
+
+    if (!mounted) return;
     _startClock();
     _initPrayerTimes();
+    _loadDailyContent();
+  }
+
+  // ── Daily Content Loader ───────────────────────────────────────────────
+
+  Future<void> _loadDailyContent() async {
+    await Future.wait([_loadDailyAyat(), _loadDailyHadith()]);
+  }
+
+  Future<void> _loadDailyAyat() async {
+    try {
+      final String raw =
+      await rootBundle.loadString('assets/json/ayat.json');
+      final Map<String, dynamic> json = jsonDecode(raw);
+      final List data = json['data'];
+      final List<AyatModel> ayatList =
+      data.map((e) => AyatModel.fromJson(e)).toList();
+
+      final int dayOfYear = _getDayOfYear();
+      final int todayIndex = dayOfYear % ayatList.length;
+
+      if (mounted) {
+        setState(() => _todayAyat = ayatList[todayIndex]);
+      }
+    } catch (e) {
+      debugPrint('❌ Failed to load ayat.json: $e');
+    }
+  }
+
+  Future<void> _loadDailyHadith() async {
+    try {
+      final String raw =
+      await rootBundle.loadString('assets/json/hadith.json');
+      final Map<String, dynamic> json = jsonDecode(raw);
+      final List data = json['data'];
+      final List<HadithModel> hadithList =
+      data.map((e) => HadithModel.fromJson(e)).toList();
+
+      final int dayOfYear = _getDayOfYear();
+      final int todayIndex = dayOfYear % hadithList.length;
+
+      if (mounted) {
+        setState(() => _todayHadith = hadithList[todayIndex]);
+      }
+    } catch (e) {
+      debugPrint('❌ Failed to load hadith.json: $e');
+    }
+  }
+
+  int _getDayOfYear() {
+    final now = DateTime.now();
+    final startOfYear = DateTime(now.year, 1, 1);
+    return now.difference(startOfYear).inDays;
   }
 
   // ── Clock ──────────────────────────────────────────────────────────────────
@@ -57,15 +191,109 @@ class _HomeState extends State<Home> {
   void _updateTime() {
     final now = DateTime.now();
     final hijri = HijriCalendar.fromDate(now);
+    final langCode = Get.locale?.languageCode ?? 'en';
+    final dateLocale =
+        (langCode == 'ar') ? 'ar_SA' : (langCode == 'ur') ? 'ur_PK' : 'en_US';
+
+    String hijriMonth;
+    String hijriSuffix;
+
+    if (langCode == 'ar') {
+      const months = <String>[
+        'محرم',
+        'صفر',
+        'ربيع الأول',
+        'ربيع الثاني',
+        'جمادى الأولى',
+        'جمادى الآخرة',
+        'رجب',
+        'شعبان',
+        'رمضان',
+        'شوال',
+        'ذو القعدة',
+        'ذو الحجة',
+      ];
+      hijriMonth = (hijri.hMonth >= 1 && hijri.hMonth <= 12)
+          ? months[hijri.hMonth - 1]
+          : hijri.longMonthName;
+      hijriSuffix = 'هـ';
+    } else if (langCode == 'ur') {
+      const months = <String>[
+        'محرم',
+        'صفر',
+        'ربیع الاول',
+        'ربیع الثانی',
+        'جمادی الاول',
+        'جمادی الثانی',
+        'رجب',
+        'شعبان',
+        'رمضان',
+        'شوال',
+        'ذوالقعدہ',
+        'ذوالحجہ',
+      ];
+      hijriMonth = (hijri.hMonth >= 1 && hijri.hMonth <= 12)
+          ? months[hijri.hMonth - 1]
+          : hijri.longMonthName;
+      hijriSuffix = 'ہجری';
+    } else {
+      hijriMonth = hijri.longMonthName;
+      hijriSuffix = 'AH';
+    }
+
+    final gregorianFormatted =
+        DateFormat('EEE, MMM dd, yyyy', dateLocale).format(now);
+    final hijriFormatted =
+        '${hijri.hDay} $hijriMonth ${hijri.hYear} $hijriSuffix';
+
     setState(() {
       _currentTime = DateFormat('hh:mm').format(now);
       _hijriDate =
-      '${hijri.hDay} ${hijri.longMonthName} ${hijri.hYear} AH  |  ${DateFormat('EEE, MMM dd, yyyy').format(now)}';
+          '$hijriFormatted  |  $gregorianFormatted';
+      _gregorianDate = gregorianFormatted;
+      _hijriDateOnly = hijriFormatted;
     });
   }
 
   // ── Location + Prayer Times ────────────────────────────────────────────────
+  Future<bool> _loadCachedLocation() async {
+    final prefs = await SharedPreferences.getInstance();
+    final lat = prefs.getDouble(_cachedLatKey);
+    final lng = prefs.getDouble(_cachedLngKey);
+    final locationName = prefs.getString(_cachedLocationNameKey);
+
+    if (lat == null || lng == null) return false;
+
+    if (!mounted) return true;
+    setState(() {
+      _latitude = lat;
+      _longitude = lng;
+      _locationName =
+          (locationName != null && locationName.trim().isNotEmpty)
+              ? locationName
+              : AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr;
+    });
+    return true;
+  }
+
+  Future<void> _saveCachedLocation({
+    required double lat,
+    required double lng,
+    required String locationName,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(_cachedLatKey, lat);
+    await prefs.setDouble(_cachedLngKey, lng);
+    await prefs.setString(_cachedLocationNameKey, locationName);
+  }
+
   Future<void> _initPrayerTimes() async {
+    final hasCachedLocation = await _loadCachedLocation();
+    if (hasCachedLocation) {
+      _calcPrayerTimes(_latitude, _longitude);
+      return;
+    }
+
     try {
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied ||
@@ -74,7 +302,9 @@ class _HomeState extends State<Home> {
       }
 
       if (permission == LocationPermission.deniedForever) {
-        if (mounted) setState(() => _locationName = AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr);
+        if (mounted)
+          setState(() => _locationName =
+              AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr);
         _calcPrayerTimes(_latitude, _longitude);
         return;
       }
@@ -90,7 +320,6 @@ class _HomeState extends State<Home> {
         });
       }
 
-      // ── Reverse geocode → "City, Country" ──
       try {
         final placemarks = await placemarkFromCoordinates(
           position.latitude,
@@ -109,18 +338,31 @@ class _HomeState extends State<Home> {
                 ? country
                 : AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr;
           });
+          await _saveCachedLocation(
+            lat: position.latitude,
+            lng: position.longitude,
+            locationName: _locationName,
+          );
         }
       } catch (_) {
-        if (mounted) setState(() => _locationName = AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr);
+        if (mounted)
+          setState(() => _locationName =
+              AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr);
+        await _saveCachedLocation(
+          lat: position.latitude,
+          lng: position.longitude,
+          locationName: AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr,
+        );
       }
     } catch (_) {
-      if (mounted) setState(() => _locationName = AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr);
+      if (mounted)
+        setState(() =>
+        _locationName = AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr);
     }
 
     _calcPrayerTimes(_latitude, _longitude);
   }
 
-  // ── Prayer Time Calculation ────────────────────────────────────────────────
   void _calcPrayerTimes(double lat, double lng) {
     final coordinates = Coordinates(lat, lng);
     final params = CalculationMethodParameters.karachi()
@@ -136,7 +378,6 @@ class _HomeState extends State<Home> {
     _startCountdown();
   }
 
-  // ── Countdown ──────────────────────────────────────────────────────────────
   void _startCountdown() {
     _updateNextPrayer();
     _countdownTimer?.cancel();
@@ -151,10 +392,9 @@ class _HomeState extends State<Home> {
     final now = DateTime.now();
     final pt = _prayerTimes!;
 
-    // ── Use .toLocal() so times match device timezone ──
     final prayerMap = {
       'Fajr': pt.fajr.toLocal(),
-      'Dhuhr': pt.dhuhr.toLocal(),
+      'Zuhr': pt.dhuhr.toLocal(),
       'Asr': pt.asr.toLocal(),
       'Maghrib': pt.maghrib.toLocal(),
       'Isha': pt.isha.toLocal(),
@@ -171,12 +411,10 @@ class _HomeState extends State<Home> {
       }
     }
 
-    // All prayers passed — use fajrAfter (next day Fajr)
     nextTime ??= pt.fajrAfter.toLocal();
     nextName ??= 'Fajr';
 
-    // Friday Dhuhr → Jummah
-    if (now.weekday == DateTime.friday && nextName == 'Dhuhr') {
+    if (now.weekday == DateTime.friday && nextName == 'Zuhr') {
       nextName = 'Jummah';
     }
 
@@ -192,18 +430,16 @@ class _HomeState extends State<Home> {
     }
   }
 
-  // ── Active prayer for gradient highlight ──────────────────────────────────
   String _currentPrayerName() {
     if (_prayerTimes == null) return '';
     final now = DateTime.now();
     final pt = _prayerTimes!;
 
-    // ── Use .toLocal() so comparison is correct ──
     final list = [
       _PrayerEntry('Isha', pt.isha.toLocal()),
       _PrayerEntry('Maghrib', pt.maghrib.toLocal()),
       _PrayerEntry('Asr', pt.asr.toLocal()),
-      _PrayerEntry('Dhuhr', pt.dhuhr.toLocal()),
+      _PrayerEntry('Zuhr', pt.dhuhr.toLocal()),
       _PrayerEntry('Fajr', pt.fajr.toLocal()),
     ];
 
@@ -213,8 +449,53 @@ class _HomeState extends State<Home> {
     return 'Isha';
   }
 
-  // ── Format time in local timezone ──
   String _fmt(DateTime dt) => DateFormat('hh:mm a').format(dt.toLocal());
+
+  String _getLocaleText({
+    required String arabic,
+    required String urdu,
+    required String english,
+  }) {
+    final lang = Get.locale?.languageCode ?? 'en';
+    switch (lang) {
+      case 'ar':
+        return arabic;
+      case 'ur':
+        return urdu;
+      default:
+        return english;
+    }
+  }
+
+  // ── RTL Date Display ──────────────────────────────────────────────────────
+  Widget _buildRtlDateDisplay() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Flexible(
+          child: Text(
+            _hijriDateOnly,
+            style: FrontEndConfig.subHeadingTextStyle,
+            textAlign: TextAlign.right,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text(
+            '|',
+            style: FrontEndConfig.subHeadingTextStyle,
+          ),
+        ),
+        Flexible(
+          child: Text(
+            _gregorianDate,
+            style: FrontEndConfig.subHeadingTextStyle,
+            textAlign: TextAlign.left,
+          ),
+        ),
+      ],
+    );
+  }
 
   @override
   void dispose() {
@@ -230,6 +511,9 @@ class _HomeState extends State<Home> {
     final height = size.height;
     final width = size.width;
 
+    final langCode = Get.locale?.languageCode ?? 'en';
+    final isRtl = langCode == 'ar' || langCode == 'ur';
+
     return Scaffold(
       body: Stack(
         children: [
@@ -242,13 +526,17 @@ class _HomeState extends State<Home> {
             top: 0,
             left: 0,
             child: Image.asset(AssetConstant.homeLeft,
-                width: width * 0.35, height: height * 0.22, fit: BoxFit.cover),
+                width: width * 0.35,
+                height: height * 0.22,
+                fit: BoxFit.cover),
           ),
           Positioned(
             top: 0,
             right: 0,
             child: Image.asset(AssetConstant.homeRight,
-                width: width * 0.35, height: height * 0.22, fit: BoxFit.cover),
+                width: width * 0.35,
+                height: height * 0.22,
+                fit: BoxFit.cover),
           ),
           Align(
             alignment: Alignment.topRight,
@@ -300,24 +588,27 @@ class _HomeState extends State<Home> {
                       ),
                     ),
 
+                    0.015.height(context), // ✅ gap between location pill and clock
+
                     // ── Clock ──
                     Text(
                       _currentTime,
-                      style: GoogleFonts.raleway(
-                        fontWeight: FontWeight.w600,
+                      style: FrontEndConfig.languageHeadingTextStyle.copyWith(
                         fontSize: width * 0.22,
-                        color: FrontEndConfig.textColor,
                         height: 1,
                       ),
                     ),
                     0.01.height(context),
 
                     // ── Hijri + Gregorian Date ──
-                    Text(
-                      _hijriDate,
-                      style: FrontEndConfig.subHeadingTextStyle,
-                      textAlign: TextAlign.center,
-                    ),
+                    if (isRtl)
+                      _buildRtlDateDisplay()
+                    else
+                      Text(
+                        _hijriDate,
+                        style: FrontEndConfig.subHeadingTextStyle,
+                        textAlign: TextAlign.center,
+                      ),
                     0.02.height(context),
 
                     // ── Next Prayer Bar ──
@@ -384,9 +675,12 @@ class _HomeState extends State<Home> {
 
                     // ── Ayat of the Day ──
                     Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(AppStrings.ayatOfTheDayTxt.tr,
-                          style: FrontEndConfig.mainTextStyle),
+                      alignment:
+                      isRtl ? Alignment.centerRight : Alignment.centerLeft,
+                      child: Text(
+                        AppStrings.ayatOfTheDayTxt.tr,
+                        style: FrontEndConfig.mainTextStyle,
+                      ),
                     ),
                     0.02.height(context),
                     _buildAyatCard(context),
@@ -394,9 +688,12 @@ class _HomeState extends State<Home> {
 
                     // ── Hadith of the Day ──
                     Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(AppStrings.hadithOfTheDayTxt.tr,
-                          style: FrontEndConfig.mainTextStyle),
+                      alignment:
+                      isRtl ? Alignment.centerRight : Alignment.centerLeft,
+                      child: Text(
+                        AppStrings.hadithOfTheDayTxt.tr,
+                        style: FrontEndConfig.mainTextStyle,
+                      ),
                     ),
                     0.02.height(context),
                     _buildHadithCard(context),
@@ -404,9 +701,12 @@ class _HomeState extends State<Home> {
 
                     // ── Prayer Times ──
                     Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(AppStrings.prayerTimesTxt.tr,
-                          style: FrontEndConfig.mainTextStyle),
+                      alignment:
+                      isRtl ? Alignment.centerRight : Alignment.centerLeft,
+                      child: Text(
+                        AppStrings.prayerTimesTxt.tr,
+                        style: FrontEndConfig.mainTextStyle,
+                      ),
                     ),
                     0.02.height(context),
                     _buildPrayerTimesCard(context, width, height),
@@ -430,8 +730,8 @@ class _HomeState extends State<Home> {
     final prayers = [
       _PrayerDisplay('Fajr',
           pt != null ? _fmt(pt.fajr) : '--:--', AssetConstant.fajar),
-      _PrayerDisplay('Zuhr',
-          pt != null ? _fmt(pt.dhuhr) : '--:--', AssetConstant.zuhr),
+      _PrayerDisplay(
+          'Zuhr', pt != null ? _fmt(pt.dhuhr) : '--:--', AssetConstant.zuhr),
       _PrayerDisplay(
           'Asr', pt != null ? _fmt(pt.asr) : '--:--', AssetConstant.asar),
       _PrayerDisplay('Maghrib',
@@ -496,8 +796,8 @@ class _HomeState extends State<Home> {
             shaderCallback: (b) =>
                 FrontEndConfig.btnBorderColor.createShader(b),
             child: Text(p.name,
-                style: FrontEndConfig.bodyTextStyle
-                    .copyWith(color: Colors.white)),
+                style:
+                FrontEndConfig.bodyTextStyle.copyWith(color: Colors.white)),
           ),
           0.01.height(context),
           ShaderMask(
@@ -537,6 +837,12 @@ class _HomeState extends State<Home> {
 
   // ── Ayat Card ──────────────────────────────────────────────────────────────
   Widget _buildAyatCard(BuildContext context) {
+    if (_todayAyat == null) {
+      return _buildLoadingCard(context);
+    }
+
+    final ayat = _todayAyat!;
+
     return MyContainer(
       decoration: BoxDecoration(
         gradient: FrontEndConfig.btnBorderColor,
@@ -569,33 +875,32 @@ class _HomeState extends State<Home> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      "وَٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ لَنُكَفِّرَنَّ عَنْهُمْ سَيِّـَٔاتِهِمْ وَلَنَجْزِيَنَّهُمْ أَحْسَنَ ٱلَّذِى كَانُوا۟ يَعْمَلُونَ",
+                      ayat.arabicAyat,
                       style: TextStyle(
                           fontSize: context.responsiveFont(18),
                           color: Colors.white,
-                          fontFamily: "al-majeed"),
+                          fontFamily: "al-majeed-quranic"),
                       textAlign: TextAlign.center,
                     ),
                     0.02.height(context),
                     _buildDividerLinear(),
                     0.02.height(context),
                     Text(
-                      "جو لوگ ایمان لائے اور نیک عمل کرتے رہے ہم ان کے گناہوں کو ضرور معاف کر دیں گے اور ان کو ان کے بہترین اعمال کے مطابق جزا دیں گے۔",
+                      ayat.urduAyat,
                       style: TextStyle(
                           fontSize: context.responsiveFont(13),
                           color: Colors.white,
-                          fontFamily: "al-majeed"),
+                          fontFamily: "jameel-noori"),
                       textAlign: TextAlign.center,
                     ),
                     0.02.height(context),
                     _buildDividerLinear(),
                     0.02.height(context),
                     Text(
-                      '"On that Day people will proceed in separate groups to be shown the consequences of their deeds." (Az-Zalzalah 99:6)',
-                      style: TextStyle(
-                          fontSize: context.responsiveFont(12),
-                          color: Colors.white,
-                          fontFamily: GoogleFonts.raleway().fontFamily),
+                      ayat.englishAyat,
+                      style: FrontEndConfig.bodyTextStyle.copyWith(
+                        fontSize: context.responsiveFont(12),
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     0.01.height(context),
@@ -611,6 +916,12 @@ class _HomeState extends State<Home> {
 
   // ── Hadith Card ────────────────────────────────────────────────────────────
   Widget _buildHadithCard(BuildContext context) {
+    if (_todayHadith == null) {
+      return _buildLoadingCard(context);
+    }
+
+    final hadith = _todayHadith!;
+
     return MyContainer(
       decoration: BoxDecoration(
         gradient: FrontEndConfig.btnBorderColor,
@@ -643,33 +954,32 @@ class _HomeState extends State<Home> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      "لِقَوْلِهِ تَعَالى: {قُلْ مَا يَعْبَؤُا بِكُمْ رَبِّ لَوْلَا دُعَاؤُكُمْ} [الفرقان: ٧٧] وَمَعْنَى الدُّعاءِ في اللُّغَةِ (الإيمان)َ",
+                      hadith.arabicHadith,
                       style: TextStyle(
                           fontSize: context.responsiveFont(18),
                           color: Colors.white,
-                          fontFamily: "al-majeed"),
+                          fontFamily: "al-majeed-quranic"),
                       textAlign: TextAlign.center,
                     ),
                     0.02.height(context),
                     _buildDividerLinear(),
                     0.02.height(context),
                     Text(
-                      "اللہ تعالیٰ کے اس فرمان کی وجہ سے: آپ کہہ دیجیے کہ میرا رب تمہاری کوئی پروا نہیں کرتا اگر تمہاری دعا نہ ہو [الفرقان: ٧٧] اور لغت میں دعاء کا معنی ایمان ہے۔",
+                      hadith.urduHadith,
                       style: TextStyle(
                           fontSize: context.responsiveFont(13),
                           color: Colors.white,
-                          fontFamily: "al-majeed"),
+                          fontFamily: "jameel-noori"),
                       textAlign: TextAlign.center,
                     ),
                     0.02.height(context),
                     _buildDividerLinear(),
                     0.02.height(context),
                     Text(
-                      'Your invocation means your faith. And Allah تعالى said: "Say (O Muhammad ﷺ): My Lord pays attention to you only because of your invocation." (V.25:77)',
-                      style: TextStyle(
-                          fontSize: context.responsiveFont(12),
-                          color: Colors.white,
-                          fontFamily: GoogleFonts.raleway().fontFamily),
+                      hadith.englishHadith,
+                      style: FrontEndConfig.bodyTextStyle.copyWith(
+                        fontSize: context.responsiveFont(12),
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     0.01.height(context),
@@ -677,6 +987,31 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ── Loading Placeholder ────────────────────────────────────────────────────
+  Widget _buildLoadingCard(BuildContext context) {
+    return MyContainer(
+      decoration: BoxDecoration(
+        gradient: FrontEndConfig.btnBorderColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(1.0),
+        child: MyContainer(
+          decoration: BoxDecoration(
+            color: FrontEndConfig.listTileColor,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(color: Color(0xffFAD25B)),
+            ),
           ),
         ),
       ),
@@ -703,18 +1038,4 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-}
-
-// ── Data Models ───────────────────────────────────────────────────────────────
-class _PrayerEntry {
-  final String name;
-  final DateTime time;
-  _PrayerEntry(this.name, this.time);
-}
-
-class _PrayerDisplay {
-  final String name;
-  final String time;
-  final String iconPath;
-  _PrayerDisplay(this.name, this.time, this.iconPath);
 }

@@ -9,69 +9,80 @@ import '../models/error.dart';
 
 abstract class ZiaratRepository {
   Future<Either<GlobalErrorModel, ZiaratListingModel>> getMadinaZiarat();
-
   Future<Either<GlobalErrorModel, ZiaratListingModel>> getMakkahZiarat();
-
-  Future<Either<GlobalErrorModel, ZiaratListingModel>> searchZiarat(
-    String searchKey,
-  );
-
-  Future<Either<GlobalErrorModel, ZiaratDetailModel>> getZiaratDetail(
-    String ziaratId,
-  );
+  Future<Either<GlobalErrorModel, ZiaratListingModel>> searchZiarat(String searchKey);
+  Future<Either<GlobalErrorModel, ZiaratDetailModel>> getZiaratDetail(String ziaratId);
 }
 
 class ZiaratRepositoryImp extends ZiaratRepository {
-  @override
-  Future<Either<GlobalErrorModel, ZiaratListingModel>> getMadinaZiarat() async {
-    var data = await ApiBaseHelper().getEither(
-      endPoint: ApiEndPoints.kGetMadinaZiarat,
-      isRequiredHeader: true,
-      header: {'Accept': '*/*'},
-    );
-    return data.fold(
-      (l) {
-        return Left(GlobalErrorModel(error: l.error.toString()));
-      },
-      (r) {
-        return Right(ZiaratListingModel.fromJson(r));
-      },
-    );
+
+  // ── In-memory cache ────────────────────────────────────────────────────────
+  ZiaratListingModel? _makkahCache;
+  ZiaratListingModel? _madinaCache;
+
+  // Call this if you ever want to force a fresh fetch (e.g. pull-to-refresh)
+  void clearCache() {
+    _makkahCache = null;
+    _madinaCache = null;
   }
 
   @override
   Future<Either<GlobalErrorModel, ZiaratListingModel>> getMakkahZiarat() async {
+    // ✅ Return cache if available — no API call
+    if (_makkahCache != null) {
+      return Right(_makkahCache!);
+    }
+
     var data = await ApiBaseHelper().getEither(
       endPoint: ApiEndPoints.kGetMakkahZiarat,
       isRequiredHeader: true,
       header: {'Accept': '*/*'},
     );
+
     return data.fold(
-      (l) {
-        return Left(GlobalErrorModel(error: l.error.toString()));
+          (l) => Left(GlobalErrorModel(error: l.error.toString())),
+          (r) {
+        _makkahCache = ZiaratListingModel.fromJson(r); // ✅ Save to cache
+        return Right(_makkahCache!);
       },
-      (r) {
-        return Right(ZiaratListingModel.fromJson(r));
+    );
+  }
+
+  @override
+  Future<Either<GlobalErrorModel, ZiaratListingModel>> getMadinaZiarat() async {
+    // ✅ Return cache if available — no API call
+    if (_madinaCache != null) {
+      return Right(_madinaCache!);
+    }
+
+    var data = await ApiBaseHelper().getEither(
+      endPoint: ApiEndPoints.kGetMadinaZiarat,
+      isRequiredHeader: true,
+      header: {'Accept': '*/*'},
+    );
+
+    return data.fold(
+          (l) => Left(GlobalErrorModel(error: l.error.toString())),
+          (r) {
+        _madinaCache = ZiaratListingModel.fromJson(r); // ✅ Save to cache
+        return Right(_madinaCache!);
       },
     );
   }
 
   @override
   Future<Either<GlobalErrorModel, ZiaratDetailModel>> getZiaratDetail(
-    String ziaratId,
-  ) async {
+      String ziaratId,
+      ) async {
+    // Details are not cached (each ziarat is unique, less frequent)
     var data = await ApiBaseHelper().getEither(
       endPoint: ApiEndPoints.kGetMadinaZiarat,
       isRequiredHeader: true,
       header: {'Accept': '*/*'},
     );
     return data.fold(
-      (l) {
-        return Left(GlobalErrorModel(error: l.error.toString()));
-      },
-      (r) {
-        return Right(ZiaratDetailModel.fromJson(r));
-      },
+          (l) => Left(GlobalErrorModel(error: l.error.toString())),
+          (r) => Right(ZiaratDetailModel.fromJson(r)),
     );
   }
 
@@ -79,6 +90,7 @@ class ZiaratRepositoryImp extends ZiaratRepository {
   Future<Either<GlobalErrorModel, ZiaratListingModel>> searchZiarat(
       String searchKey,
       ) async {
+    // Search is never cached — always fresh results
     var data = await ApiBaseHelper().getEither(
       endPoint: "${ApiEndPoints.kSearchZiarat}?q=${Uri.encodeComponent(searchKey)}",
       isRequiredHeader: true,

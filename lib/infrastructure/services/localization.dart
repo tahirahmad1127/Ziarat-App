@@ -25,10 +25,27 @@ class LanguageService {
     return null;
   }
 
-  // Update language and save it
+  // Update language, font and save
   static Future<void> updateLanguage(String languageCode, String countryCode) async {
     final locale = Locale(languageCode, countryCode);
     Get.updateLocale(locale);
+
+    // Switch font based on language
+    Get.changeTheme(ThemeData(
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      fontFamily: _getFontForLocale(languageCode),
+      // null for English means Flutter uses its default font
+    ));
+
     await saveLanguage(languageCode, countryCode);
+  }
+
+  // Returns null for English (keeps default), custom font for Urdu/Arabic
+  static String? _getFontForLocale(String languageCode) {
+    switch (languageCode) {
+      case 'ur': return 'jameel-noori'; // Jameel Noori Nastaleeq
+      case 'ar': return 'noto-sans';    // Noto Sans Arabic
+      default:   return null;           // English — no override
+    }
   }
 }

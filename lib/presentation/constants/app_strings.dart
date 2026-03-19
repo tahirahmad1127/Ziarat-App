@@ -4,6 +4,7 @@ class AppStrings {
   static const String appTitle = 'Ziarat App';
 
   /// General / Common
+  static const String availablePackagesTxt = 'Available Packages';
   static const String settingsTitleTxt = "Settings";
   static const String manageSettingsHeadingTxt = "Manage Settings";
   static const String appFeaturesHeadingTxt = "App Features";
@@ -159,6 +160,11 @@ class AppStrings {
   static const String haramGateBabIbrahimDescTxt =
       "Gate 4: Named after Prophet Ibrahim, located on the western side of the mosque.";
   static const String closeBottomSheetBtnTxt = "Close";
+  static const String exitAppTitleTxt = "Exit App?";
+  static const String exitAppSubtitleTxt =
+      "Do you want to exit the app or stay on this screen?";
+  static const String stayBtnLabelTxt = "Stay";
+  static const String exitBtnLabelTxt = "Exit";
 
   /// FAQ Screen
   static const String faqAppBarTitleTxt = "Umrah Questions";

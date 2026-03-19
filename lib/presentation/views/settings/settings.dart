@@ -188,22 +188,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
                           0.02.height(context),
 
-                          /// Umrah Masail
-                          CommonListTile(
-                            tileColor: FrontEndConfig.listTileColor,
-                            borderGradient: FrontEndConfig.listTileBorder,
-                            image: AssetConstant.privacyIcon,
-                            title: AppStrings.umrahMasailScreenTxt.tr,
-                            onTap: () {
-                              NavigatorHelper.push(
-                                context,
-                                 FaqScreen(),
-                              );
-                            },
-                          ),
-
-                          0.02.height(context),
-
                           /// Haram Gates
                           CommonListTile(
                             tileColor: FrontEndConfig.listTileColor,

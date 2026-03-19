@@ -60,7 +60,7 @@ class PackageDetails extends StatelessWidget {
                                     height: 65,
                                     child: ListTile(
                                       title: Text(
-                                        package.packageTitle ?? '', // ✅ real title
+                                        package.packageName ?? '', // ✅ Fixed: was packageTitle
                                         style: FrontEndConfig.packageTextStyle,
                                       ),
                                       subtitle: Text(
@@ -68,14 +68,14 @@ class PackageDetails extends StatelessWidget {
                                         style: FrontEndConfig.subHeadingTextStyle,
                                       ),
                                       trailing: Text(
-                                        "SAR ${package.amount ?? 0}", // ✅ real amount (currency left as is)
+                                        "${package.price ?? 0} ${package.currency ?? 'SAR'}", // ✅ Fixed: was amount
                                         style: FrontEndConfig.packageTextStyle,
                                       ),
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                    child: Divider(height: 1, color: Color(0xffD2D2D2), thickness: 1),
+                                    child: Divider(height: 1, color: const Color(0xffD2D2D2), thickness: 1),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10),
@@ -86,8 +86,8 @@ class PackageDetails extends StatelessWidget {
                                           children: [
                                             Image.asset(AssetConstant.signal, width: 20, height: 20, color: FrontEndConfig.iconColor),
                                             0.005.height(context),
-                                            Text(AppStrings.gbsLabelTxt.tr, style: FrontEndConfig.packageDetailTextStyle.copyWith(color: Color(0xffD2D2D2))),
-                                            Text("${package.gbs ?? 0}", style: FrontEndConfig.packageTextStyle), // ✅ real GBs
+                                            Text(AppStrings.gbsLabelTxt.tr, style: FrontEndConfig.packageDetailTextStyle.copyWith(color: const Color(0xffD2D2D2))),
+                                            Text("${package.dataGB ?? 0} GB", style: FrontEndConfig.packageTextStyle), // ✅ Fixed: was gbs
                                           ],
                                         ),
                                         _buildDividerLinear(),
@@ -105,7 +105,7 @@ class PackageDetails extends StatelessWidget {
                                             Image.asset(AssetConstant.phoneCall, width: 20, height: 20),
                                             0.005.height(context),
                                             Text(AppStrings.internationalMinutesLabelTxt.tr, style: FrontEndConfig.packageDetailTextStyle),
-                                            Text("${package.interMinutes ?? 0}", style: FrontEndConfig.packageTextStyle), // ✅ real int minutes
+                                            Text("${package.internationalMinutes ?? 0}", style: FrontEndConfig.packageTextStyle), // ✅ Fixed: was interMinutes
                                           ],
                                         ),
                                         _buildDividerLinear(),
@@ -141,7 +141,7 @@ class PackageDetails extends StatelessWidget {
     return Container(
       height: 44,
       width: 0.5,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xff999999), Color(0xffFFFFFF), Color(0xff999999)],
         ),

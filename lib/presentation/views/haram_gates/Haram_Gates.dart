@@ -24,7 +24,7 @@ class _HaramGatesScreenState extends State<HaramGatesScreen> {
   bool _isLoading = true;
 
   static const TextStyle _arabicStyle = TextStyle(
-    fontFamily: 'al-majeed',
+    fontFamily: 'noto-sans',
     fontSize: 16,
     color: Colors.white,
   );
@@ -50,6 +50,7 @@ class _HaramGatesScreenState extends State<HaramGatesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
     return Scaffold(
       body: Stack(
         children: [
@@ -98,20 +99,21 @@ class _HaramGatesScreenState extends State<HaramGatesScreen> {
                           radius: 18,
                           child: Text(
                             "${gate.gateNo}",
-                            style: GoogleFonts.raleway(
-                              color: FrontEndConfig.textColor,
+                            style: FrontEndConfig.headingTextStyle.copyWith(
                               fontSize: 13,
-                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
                         title: gate.localizedName,
                         subtitle: gate.arabicName,
                         subtitleStyle: _arabicStyle,
-                        trailing: Image.asset(
-                          AssetConstant.arrowDownIcon,
-                          width: 10,
-                          height: 10,
+                        trailing: Transform.flip(
+                          flipX: isRtl,
+                          child: Image.asset(
+                            AssetConstant.arrowDownIcon,
+                            width: 10,
+                            height: 10,
+                          ),
                         ),
                         onTap: () => HaramGateBottomSheet.show(context, gate),
                       );
@@ -134,7 +136,7 @@ class HaramGateBottomSheet extends StatelessWidget {
 
   static void show(BuildContext context, HaramGateModel gate) {
     showModalBottomSheet(
-      isDismissible: false,
+      isDismissible: true,
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -197,10 +199,8 @@ class HaramGateBottomSheet extends StatelessWidget {
                             radius: 28,
                             child: Text(
                               "${gate.gateNo}",
-                              style: GoogleFonts.raleway(
-                                color: FrontEndConfig.textColor,
+                              style: FrontEndConfig.headingTextStyle.copyWith(
                                 fontSize: 22,
-                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
@@ -210,13 +210,24 @@ class HaramGateBottomSheet extends StatelessWidget {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: "${gate.localizedName} | ",
+                                  text: gate.localizedName,
                                   style: FrontEndConfig.mainTextStyle,
+                                ),
+                                // ✅ 5px spacing on both sides of the pipe
+                                const WidgetSpan(
+                                  child: SizedBox(width: 5),
+                                ),
+                                TextSpan(
+                                  text: '|',
+                                  style: FrontEndConfig.mainTextStyle,
+                                ),
+                                const WidgetSpan(
+                                  child: SizedBox(width: 5),
                                 ),
                                 TextSpan(
                                   text: gate.arabicName,
                                   style: const TextStyle(
-                                    fontFamily: 'al-majeed',
+                                    fontFamily: 'noto-sans',
                                     fontSize: 20,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.white,
@@ -229,7 +240,7 @@ class HaramGateBottomSheet extends StatelessWidget {
                           Expanded(
                             child: SingleChildScrollView(
                               child: Text(
-                                gate.localizedDescription, // ✅ localized
+                                gate.localizedDescription,
                                 textAlign: TextAlign.center,
                                 style: FrontEndConfig.bodyTextStyle,
                               ),

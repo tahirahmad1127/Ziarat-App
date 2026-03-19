@@ -5,7 +5,7 @@ import 'package:ziarat_app/presentation/constants/app_constant.dart';
 import 'package:ziarat_app/presentation/elements/boarding_button.dart';
 import 'package:ziarat_app/presentation/elements/container.dart';
 import 'package:ziarat_app/presentation/elements/language_tile.dart';
-import '../../../infrastructure/services/localiztion.dart';
+import '../../../infrastructure/services/localization.dart';
 import '../../constants/app_strings.dart';
 import '../../../configurations/frontend_config.dart';
 import '../../constants/asset_constant.dart';
@@ -89,11 +89,11 @@ class _LanguageState extends State<Language> {
                   0.02.height(context),
                   Text(
                     AppStrings.choosePreferredLanguageDescriptionTxt.tr,
-                    style: GoogleFonts.raleway(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
                   ),
                   0.04.height(context),
 

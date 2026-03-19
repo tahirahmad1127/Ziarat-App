@@ -1,138 +1,165 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 
-class FrontEndConfig{
-   static late double screenWidth;
-   static late double screenHeight;
+class FrontEndConfig {
+  static late double screenWidth;
+  static late double screenHeight;
 
-   static void init(BuildContext context) {
-      screenWidth = MediaQuery.of(context).size.width;
-      screenHeight = MediaQuery.of(context).size.height;
-   }
+  static void init(BuildContext context) {
+    screenWidth = MediaQuery.of(context).size.width;
+    screenHeight = MediaQuery.of(context).size.height;
+  }
 
-   // Base design width (your UI designed on this width)
-   static double _baseWidth = 375;
+  // Base design width
+  static const double _baseWidth = 375;
 
-   static double responsiveFont(double size) {
-      return screenWidth * (size / _baseWidth);
-   }
-   ///Colors
-   static Color backgroundColor = const Color(0xff243243);
-   static LinearGradient btnBorderColor = const LinearGradient(colors: [
-      Color(0xffA0832C),
-      Color(0xffFAD25B),
-      Color(0xff9B8030),
-   ]);
-   static Color btnTextColor = const Color(0xffFFFFFF);
-   static Color iconColor = const Color(0xffFFFFFF);
-   static Color appBarTitleColor = const Color(0xffFFFFFF);
-   static Color textColor = const Color(0xffFFFFFF);
-   static LinearGradient tasbihColor = const LinearGradient(colors: [
-      Color(0xffC89C18),
-      Color(0xffE9C41E),
-   ]);
+  static double responsiveFont(double size) {
+    return screenWidth * (size / _baseWidth);
+  }
 
-   static Color listTileColor = const Color(0xff354A64);
-   static LinearGradient listTileBorder = const LinearGradient(colors: [
-      Color(0xffA0832C),
-      Color(0xffFAD25B),
-      Color(0xff9B8030),
-   ]);
-   static Color listTileTextColor = const Color(0xffFFFFFF);
-   static Color listTileIconColor = const Color(0xffFFFFFF);
-   static Color arabicTextColor = const Color(0xffA2A2A2);
-   static Color arabicAyatTextColor = const Color(0xffFFFFFF);
-   static Color subHeadingTextColor = const Color(0xffC1C1C1);
+  // ── Colors ─────────────────────────────────────────────────────────────────
+  static Color backgroundColor = const Color(0xff243243);
+  static LinearGradient btnBorderColor = const LinearGradient(colors: [
+    Color(0xffA0832C),
+    Color(0xffFAD25B),
+    Color(0xff9B8030),
+  ]);
+  static Color btnTextColor = const Color(0xffFFFFFF);
+  static Color iconColor = const Color(0xffFFFFFF);
+  static Color appBarTitleColor = const Color(0xffFFFFFF);
+  static Color textColor = const Color(0xffFFFFFF);
+  static LinearGradient tasbihColor = const LinearGradient(colors: [
+    Color(0xffC89C18),
+    Color(0xffE9C41E),
+  ]);
+  static Color listTileColor = const Color(0xff354A64);
+  static LinearGradient listTileBorder = const LinearGradient(colors: [
+    Color(0xffA0832C),
+    Color(0xffFAD25B),
+    Color(0xff9B8030),
+  ]);
+  static Color listTileTextColor = const Color(0xffFFFFFF);
+  static Color listTileIconColor = const Color(0xffFFFFFF);
+  static Color arabicTextColor = const Color(0xffA2A2A2);
+  static Color arabicAyatTextColor = const Color(0xffFFFFFF);
+  static Color subHeadingTextColor = const Color(0xffC1C1C1);
 
+  // ── Dynamic Font Helper ────────────────────────────────────────────────────
+  /// Called at runtime on every text style access.
+  /// Always reflects the current locale — works after live language switch too.
+  static String? _currentFont() {
+    final lang = Get.locale?.languageCode ?? 'en';
+    switch (lang) {
+      case 'ur':
+        return 'jameel-noori';
+      case 'ar':
+        return 'noto-sans';
+      default:
+        return GoogleFonts.raleway().fontFamily; // English
+    }
+  }
 
+  /// Arabic/Quran text is always noto-sans regardless of app locale
+  static String get _arabicFont => 'noto-sans';
 
+  /// Urdu-only font size boost (+2px).
+  /// English and Arabic keep their original sizes.
+  static double _fontSizeForCurrentLocale(double baseSize) {
+    final lang = Get.locale?.languageCode ?? 'en';
+    if (lang == 'ur') return baseSize + 2;
+    return baseSize;
+  }
 
+  // ── Text Styles ────────────────────────────────────────────────────────────
+  // All styles are GETTERS (not fields) so _currentFont() is called
+  // fresh every time — ensuring correct font after language switch.
 
+  /// Button Text Style
+  static TextStyle get btnTextStyle => TextStyle(
+    fontSize: _fontSizeForCurrentLocale(20),
+    fontWeight: FontWeight.w500,
+    color: btnTextColor,
+    fontFamily: _currentFont(),
+  );
 
+  /// Body Text Style
+  static TextStyle get bodyTextStyle => TextStyle(
+    fontSize: _fontSizeForCurrentLocale(14),
+    fontWeight: FontWeight.w400,
+    color: textColor,
+    fontFamily: _currentFont(),
+  );
 
+  /// Sub Heading Text Style
+  static TextStyle get subHeadingTextStyle => TextStyle(
+    fontSize: _fontSizeForCurrentLocale(12),
+    fontWeight: FontWeight.w400,
+    color: subHeadingTextColor,
+    fontFamily: _currentFont(),
+  );
 
+  /// Heading Text Style
+  static TextStyle get headingTextStyle => TextStyle(
+    fontSize: _fontSizeForCurrentLocale(14),
+    fontWeight: FontWeight.w700,
+    color: textColor,
+    fontFamily: _currentFont(),
+  );
 
-   ///Button Text Style
-   static TextStyle btnTextStyle = TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.w500,
-      color: btnTextColor,
-      fontFamily: GoogleFonts.raleway().fontFamily,
-   );
-   ///Body Text Style
-   static TextStyle bodyTextStyle = TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w400,
-      color: textColor,
-      fontFamily: GoogleFonts.raleway().fontFamily,
-   );
-   ///Sub Heading Text Style
-   static TextStyle subHeadingTextStyle = TextStyle(
-      fontSize: 12,
-      fontWeight: FontWeight.w400,
-      color: subHeadingTextColor,
-      fontFamily: GoogleFonts.raleway().fontFamily,
-   );
-   ///Heading Text Style
-   static TextStyle headingTextStyle = TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w700,
-      color: textColor,
-      fontFamily: GoogleFonts.raleway().fontFamily,
-   );
-   ///Arabic Text Style
-   static TextStyle arabicTextStyle = TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.w400,
-      color: arabicTextColor,
-      fontFamily: GoogleFonts.amiriQuran().fontFamily,
-   );
-   ///Arabic Text Style
-   static TextStyle arabicAyatTextStyle = TextStyle(
-      fontSize: 13,
-      fontWeight: FontWeight.w500,
-      color: arabicAyatTextColor,
-      fontFamily: GoogleFonts.amiriQuran().fontFamily,
-   );
+  /// Arabic Text Style — always noto-sans regardless of app locale
+  static TextStyle get arabicTextStyle => TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: arabicTextColor,
+    fontFamily: _arabicFont,
+  );
 
-   ///Main Text Style
-   static TextStyle mainTextStyle = TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.w600,
-      color: textColor,
-      fontFamily: GoogleFonts.raleway().fontFamily,
-   );
+  /// Arabic Ayat Text Style — always noto-sans regardless of app locale
+  static TextStyle get arabicAyatTextStyle => TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
+    color: arabicAyatTextColor,
+    fontFamily: _arabicFont,
+  );
 
-   ///Language Heading Style
-   static TextStyle languageHeadingTextStyle = TextStyle(
-      fontWeight: FontWeight.w700,
-      fontSize: 24,
-      color: textColor,
-      fontFamily: GoogleFonts.raleway().fontFamily,
-   );
-   ///TabBar Text Style
-   static TextStyle tabBarTextStyle = TextStyle(
-      fontWeight: FontWeight.w500,
-      fontSize: 18,
-      color: textColor,
-      fontFamily: GoogleFonts.raleway().fontFamily,
-   );
-   ///Package Details Text Style
-   static TextStyle packageDetailTextStyle = TextStyle(
-      fontWeight: FontWeight.w500,
-      fontSize: 9,
-      color: textColor,
-      fontFamily: GoogleFonts.inter().fontFamily,
-   );
-   ///Package Details Text Style
-   static TextStyle packageTextStyle = TextStyle(
-      fontWeight: FontWeight.w700,
-      fontSize: 12,
-      color: textColor,
-      fontFamily: GoogleFonts.raleway().fontFamily,
+  /// Main Text Style
+  static TextStyle get mainTextStyle => TextStyle(
+    fontSize: _fontSizeForCurrentLocale(20),
+    fontWeight: FontWeight.w600,
+    color: textColor,
+    fontFamily: _currentFont(),
+  );
 
-   );
+  /// Language Heading Style
+  static TextStyle get languageHeadingTextStyle => TextStyle(
+    fontWeight: FontWeight.w700,
+    fontSize: _fontSizeForCurrentLocale(24),
+    color: textColor,
+    fontFamily: _currentFont(),
+  );
 
+  /// TabBar Text Style
+  static TextStyle get tabBarTextStyle => TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: _fontSizeForCurrentLocale(18),
+    color: textColor,
+    fontFamily: _currentFont(),
+  );
 
+  /// Package Details Text Style
+  static TextStyle get packageDetailTextStyle => TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: _fontSizeForCurrentLocale(9),
+    color: textColor,
+    fontFamily: _currentFont(),
+  );
 
+  /// Package Text Style
+  static TextStyle get packageTextStyle => TextStyle(
+    fontWeight: FontWeight.w700,
+    fontSize: _fontSizeForCurrentLocale(12),
+    color: textColor,
+    fontFamily: _currentFont(),
+  );
 }

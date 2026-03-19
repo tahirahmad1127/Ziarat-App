@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import 'package:ziarat_app/configurations/frontend_config.dart';
 import 'package:ziarat_app/presentation/constants/asset_constant.dart';
 
@@ -11,6 +11,7 @@ class CommonAppBar extends StatelessWidget {
   final VoidCallback? onActionTap;
   final VoidCallback? onLeadingTap;
   final bool showLeading;
+  final double actionIconSize;
 
   const CommonAppBar({
     super.key,
@@ -21,18 +22,36 @@ class CommonAppBar extends StatelessWidget {
     this.onActionTap,
     this.onLeadingTap,
     this.showLeading = true,
+    this.actionIconSize = 24,
   });
+
+  String _getFontFamily() {
+    final locale = Get.locale?.languageCode;
+    if (locale == 'ar') return 'noto-sans';
+    if (locale == 'ur') return 'jameel-noori';
+    return 'Raleway';
+  }
 
   @override
   Widget build(BuildContext context) {
+    final bool isRtl = Directionality.of(context) == TextDirection.rtl;
+
+    final IconData? leadingIcon = icon ??
+        (Navigator.canPop(context)
+            ? (isRtl ? Icons.arrow_back : Icons.arrow_forward)
+            : null);
+
     return AppBar(
       backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
       leading: showLeading
           ? GestureDetector(
-        onTap: onLeadingTap ?? (Navigator.canPop(context) ? () => Navigator.pop(context) : null),
+        onTap: onLeadingTap ??
+            (Navigator.canPop(context)
+                ? () => Navigator.pop(context)
+                : null),
         child: Icon(
-          icon ?? (Navigator.canPop(context) ? Icons.arrow_back_ios : null),
+          leadingIcon,
           color: FrontEndConfig.iconColor,
         ),
       )
@@ -46,8 +65,8 @@ class CommonAppBar extends StatelessWidget {
               child: Image.asset(
                 actionIcon!,
                 color: FrontEndConfig.iconColor,
-                width: 24,
-                height: 24,
+                width: actionIconSize,
+                height: actionIconSize,
               ),
             ),
           ),
@@ -55,7 +74,8 @@ class CommonAppBar extends StatelessWidget {
       centerTitle: true,
       title: Text(
         title.toString(),
-        style: GoogleFonts.raleway(
+        style: TextStyle(
+          fontFamily: _getFontFamily(),
           fontWeight: FontWeight.w600,
           fontSize: 22,
           color: FrontEndConfig.appBarTitleColor,

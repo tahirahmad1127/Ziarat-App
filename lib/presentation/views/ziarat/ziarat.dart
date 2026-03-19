@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:ziarat_app/application/ziarat_bloc/ziarat_bloc.dart';
 import 'package:ziarat_app/infrastructure/models/ziarat.dart';
 import 'package:ziarat_app/presentation/constants/app_constant.dart';
@@ -12,7 +14,6 @@ import '../../../application/navigation_helper.dart';
 import '../../../configurations/frontend_config.dart';
 import '../../constants/asset_constant.dart';
 import '../../constants/app_strings.dart';
-import '../../processing_widget.dart';
 import '../ziarat_details/layout/body.dart';
 
 class Ziarat extends StatefulWidget {
@@ -29,6 +30,7 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   bool isSearching = false;
   Timer? _debounce;
+  List<ZiaratModel> _currentList = [];
 
   @override
   void initState() {
@@ -58,24 +60,20 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
 
     if (query.trim().isEmpty) {
-      /// Immediately refetch on clear — no debounce needed
       if (_tabController.index == 0) {
         widget.ziaratBloc.add(const GetMakkahZiaratEvent());
       } else {
         widget.ziaratBloc.add(const GetMadinaZiaratEvent());
       }
-      return; // 👈 return early, no debounce timer needed
+      return;
     }
 
-    /// Only search if at least 3 characters
-    if (query.trim().length < 3) return; // 👈 ignore 1-2 char inputs
+    if (query.trim().length < 3) return;
 
     _debounce = Timer(const Duration(milliseconds: 600), () {
       widget.ziaratBloc.add(SearchZiaratEvent(keyword: query));
     });
   }
-
-  List<ZiaratModel> _currentList = [];
 
   void _onSearchToggle() {
     setState(() {
@@ -99,7 +97,8 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
         children: [
           Container(color: FrontEndConfig.backgroundColor),
           Positioned.fill(
-            child: Image.asset(AssetConstant.backgroundimage, fit: BoxFit.cover),
+            child:
+            Image.asset(AssetConstant.backgroundimage, fit: BoxFit.cover),
           ),
           SafeArea(
             child: Column(
@@ -118,7 +117,8 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                 /// Search Field
                 if (isSearching)
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
                     child: MyContainer(
                       decoration: BoxDecoration(
                         gradient: FrontEndConfig.btnBorderColor,
@@ -134,7 +134,8 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                             hintText: AppStrings.searchZiyaratHintTxt.tr,
                             hintStyle: FrontEndConfig.subHeadingTextStyle,
                             filled: true,
-                            fillColor: FrontEndConfig.backgroundColor.withOpacity(0.8),
+                            fillColor:
+                            FrontEndConfig.backgroundColor.withOpacity(0.8),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Image.asset(
@@ -156,7 +157,8 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                 /// TabBar — hide when searching
                 if (!isSearching)
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10),
                     child: MyContainer(
                       height: 50,
                       gradient: FrontEndConfig.btnBorderColor,
@@ -165,7 +167,8 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                         padding: const EdgeInsets.all(1.0),
                         child: MyContainer(
                           decoration: BoxDecoration(
-                            color: FrontEndConfig.backgroundColor.withOpacity(0.8),
+                            color: FrontEndConfig.backgroundColor
+                                .withOpacity(0.8),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: TabBar(
@@ -179,8 +182,10 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                             ),
                             labelColor: FrontEndConfig.textColor,
                             tabs: [
-                              Text(AppStrings.makkahTabTxt.tr, style: FrontEndConfig.tabBarTextStyle),
-                              Text(AppStrings.madinaTabTxt.tr, style: FrontEndConfig.tabBarTextStyle),
+                              Text(AppStrings.makkahTabTxt.tr,
+                                  style: FrontEndConfig.tabBarTextStyle),
+                              Text(AppStrings.madinaTabTxt.tr,
+                                  style: FrontEndConfig.tabBarTextStyle),
                             ],
                           ),
                         ),
@@ -194,7 +199,7 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                     bloc: widget.ziaratBloc,
                     builder: (context, state) {
                       if (state is ZiaratInitial || state is ZiaratLoading) {
-                        return const Center(child: ProcessingWidget());
+                        return _ZiaratShimmer();
                       }
 
                       if (state is ZiaratFailed) {
@@ -208,28 +213,26 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
 
                       if (state is ZiaratLoaded) {
                         _currentList = state.model.data ?? [];
-
                         if (_currentList.isEmpty) {
                           return Center(
-                            child: Text(AppStrings.noResultsFoundTxt.tr, style: FrontEndConfig.headingTextStyle),
+                            child: Text(AppStrings.noResultsFoundTxt.tr,
+                                style: FrontEndConfig.headingTextStyle),
                           );
                         }
                         return _buildZiaratList(_currentList);
                       }
 
-                      /// ✅ Separate state for search — won't be overwritten by tab listing
                       if (state is ZiaratSearchLoaded) {
                         final searchList = state.model.data ?? [];
-
                         if (searchList.isEmpty) {
                           return Center(
-                            child: Text(AppStrings.noResultsFoundTxt.tr, style: FrontEndConfig.headingTextStyle),
+                            child: Text(AppStrings.noResultsFoundTxt.tr,
+                                style: FrontEndConfig.headingTextStyle),
                           );
                         }
                         return _buildZiaratList(searchList);
                       }
 
-                      /// Fallback — show last cached list if state changes unexpectedly
                       if (_currentList.isNotEmpty) {
                         return _buildZiaratList(_currentList);
                       }
@@ -251,7 +254,6 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
       itemCount: list.length,
       itemBuilder: (context, index) {
         final ZiaratModel item = list[index];
-
         final String imageUrl =
         (item.images != null && item.images!.isNotEmpty)
             ? item.images!.first
@@ -289,17 +291,41 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                           topRight: Radius.circular(12),
                         ),
                         child: imageUrl.isNotEmpty
-                            ? Image.network(
-                          imageUrl,
+                            ? CachedNetworkImage(
+                          imageUrl: imageUrl,
                           height: 163,
                           width: double.infinity,
                           fit: BoxFit.fill,
-                          errorBuilder: (_, __, ___) => Image.asset(
-                            AssetConstant.masjid,
-                            height: 163,
-                            width: double.infinity,
-                            fit: BoxFit.fill,
-                          ),
+                          imageBuilder: (context, imageProvider) {
+                            debugPrint('✅ IMAGE LOADED: $imageUrl');
+                            return Container(
+                              height: 163,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            );
+                          },
+                          placeholder: (context, url) {
+                            return Image.asset(
+                              'assets/images/logo2.png',
+                              height: 163,
+                              width: double.infinity,
+                              fit: BoxFit.fill,
+                            );
+                          },
+                          errorWidget: (context, url, error) {
+                            debugPrint('❌ IMAGE ERROR: $error for $url');
+                            return Image.asset(
+                              AssetConstant.masjid,
+                              height: 163,
+                              width: double.infinity,
+                              fit: BoxFit.fill,
+                            );
+                          },
                         )
                             : Image.asset(
                           AssetConstant.masjid,
@@ -308,9 +334,7 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                           fit: BoxFit.fill,
                         ),
                       ),
-
                       0.01.height(context),
-
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 11.0),
                         child: Text(
@@ -318,14 +342,13 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                           style: FrontEndConfig.headingTextStyle,
                         ),
                       ),
-
                       0.01.height(context),
-
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 11.0),
                         child: Row(
                           children: [
-                            Image.asset(AssetConstant.location, width: 18, height: 18),
+                            Image.asset(AssetConstant.location,
+                                width: 18, height: 18),
                             0.01.width(context),
                             Text(
                               item.type ?? "",
@@ -334,12 +357,10 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                           ],
                         ),
                       ),
-
                       0.01.height(context),
-
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 11.0),
-                          child: Text(
+                        child: Text(
                           "${item.description ?? ""}${AppStrings.seeMoreSuffixTxt.tr}",
                           style: FrontEndConfig.bodyTextStyle,
                           maxLines: 2,
@@ -354,6 +375,111 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
           ),
         );
       },
+    );
+  }
+}
+
+// ─── Ziarat Shimmer ───────────────────────────────────────────────────────────
+
+class _ZiaratShimmer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+          child: Shimmer.fromColors(
+            baseColor: Colors.white.withOpacity(0.22),
+            highlightColor: Colors.white.withOpacity(0.48),
+            child: Container(
+              height: 296,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.16),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.white.withOpacity(0.26)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Image placeholder
+                  Container(
+                    height: 163,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.26),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // Title
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 11.0),
+                    child: _bar(
+                        width: MediaQuery.of(context).size.width * 0.55,
+                        height: 15),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  // Location row
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 11.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 18,
+                          height: 18,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.32),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        _bar(width: 80, height: 12),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  // Description line 1
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 11.0),
+                    child: _bar(width: double.infinity, height: 12),
+                  ),
+
+                  const SizedBox(height: 6),
+
+                  // Description line 2
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 11.0),
+                    child: _bar(
+                        width: MediaQuery.of(context).size.width * 0.65,
+                        height: 12),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _bar({required double width, required double height}) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.32),
+        borderRadius: BorderRadius.circular(4),
+      ),
     );
   }
 }

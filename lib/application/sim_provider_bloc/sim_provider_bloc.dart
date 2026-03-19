@@ -7,7 +7,6 @@ import '../../infrastructure/models/sim_provider.dart';
 import '../../infrastructure/services/sim_provider.dart';
 
 part 'sim_provider_event.dart';
-
 part 'sim_provider_state.dart';
 
 class SimProviderBloc extends Bloc<SimProviderEvent, SimProviderState> {
@@ -18,28 +17,24 @@ class SimProviderBloc extends Bloc<SimProviderEvent, SimProviderState> {
       if (event is GetSimProviderEvent) {
         try {
           emit(SimProviderLoading());
-
           final failureOrSuccess = await repositoryImp.getSimProviders();
-          failureOrSuccess.fold((l) => emit(SimProviderFailed(l.error.toString())),
-                  (r) {
-                return emit(SimProviderLoaded(r));
-              });
+          failureOrSuccess.fold(
+                (l) => emit(SimProviderFailed(l.error.toString())),
+                (r) => emit(SimProviderLoaded(r)),
+          );
         } catch (e) {
-          rethrow;
+          emit(SimProviderFailed(e.toString()));
         }
-      }
-
-      else if (event is GetPackagesEvent) {
+      } else if (event is GetPackagesEvent) {
         try {
           emit(SimProviderLoading());
-
           final failureOrSuccess = await repositoryImp.getPackagesBySimId(event.id);
-          failureOrSuccess.fold((l) => emit(SimProviderFailed(l.error.toString())),
-                  (r) {
-                return emit(PackagesLoaded(r));
-              });
+          failureOrSuccess.fold(
+                (l) => emit(SimProviderFailed(l.error.toString())),
+                (r) => emit(PackagesLoaded(r)),
+          );
         } catch (e) {
-          rethrow;
+          emit(SimProviderFailed(e.toString()));
         }
       }
     });

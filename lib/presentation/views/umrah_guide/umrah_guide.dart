@@ -11,6 +11,7 @@ import '../../../configurations/frontend_config.dart';
 import '../../constants/asset_constant.dart';
 import '../../elements/listTile.dart';
 import '../../constants/app_strings.dart';
+import '../faqs_screen/FAQ_Screen.dart';
 
 class UmrahGuide extends StatefulWidget {
   const UmrahGuide({super.key});
@@ -33,10 +34,17 @@ class _UmrahGuideState extends State<UmrahGuide> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CommonAppBar(
-                  title: AppStrings.umrahGuideAppBarTitleTxt.tr,
-                  color: FrontEndConfig.iconColor,
-                  showLeading: false,
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(end: 10.0),
+                  child: CommonAppBar(
+                    title: AppStrings.umrahGuideAppBarTitleTxt.tr,
+                    color: FrontEndConfig.iconColor,
+                    showLeading: false,
+                    actionIcon: AssetConstant.helpIcon,
+                    onActionTap: () {
+                      NavigatorHelper.push(context, FaqScreen());
+                    },
+                  ),
                 ),
                 0.02.height(context),
                 Expanded(
@@ -150,25 +158,30 @@ class _UmrahGuideState extends State<UmrahGuide> {
   }
 }
 
-
+// ─── Travel Documents Bottom Sheet ────────────────────────────────────────────
 
 class TravelDocumentsSheet extends StatelessWidget {
   const TravelDocumentsSheet({super.key});
 
   static void show(BuildContext context) {
     showModalBottomSheet(
-      isDismissible: false,
+      isDismissible: true,
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
+      // FIX: respect bottom system UI (nav bar / gesture area)
+      useSafeArea: true,
       builder: (context) => const TravelDocumentsSheet(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    // FIX: bottom padding so content never hides behind system gesture bar
+    final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
+
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 25),
+      padding: EdgeInsets.only(left: 16, right: 16, bottom: 25 + bottomPadding),
       child: MyContainer(
         decoration: BoxDecoration(
           gradient: FrontEndConfig.btnBorderColor,
@@ -177,7 +190,6 @@ class TravelDocumentsSheet extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(1.0),
           child: MyContainer(
-            height: MediaQuery.of(context).size.height * 0.40,
             decoration: BoxDecoration(
               color: FrontEndConfig.backgroundColor,
               borderRadius: BorderRadius.circular(13),
@@ -190,27 +202,36 @@ class TravelDocumentsSheet extends StatelessWidget {
                 ),
               ],
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: Stack(
-                children: [
-                  /// Background Image
-                  Positioned.fill(
-                    child: Image.asset(
-                      AssetConstant.bottomSheetDesgin,
-                      fit: BoxFit.cover,
+            // FIX: no fixed height — let the sheet size itself to its content,
+            // capped at 60% of screen so it never feels too tall.
+            // If content exceeds the cap it becomes scrollable via the ListView.
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.60,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Stack(
+                  children: [
+                    /// Background Image
+                    Positioned.fill(
+                      child: Image.asset(
+                        AssetConstant.bottomSheetDesgin,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
 
-                  /// Content
-                  Positioned.fill(
-                    child: Padding(
+                    /// Content — intrinsic column, scrollable only when needed
+                    Padding(
                       padding: const EdgeInsets.only(
                         left: 20,
                         right: 20,
                         top: 10,
                       ),
                       child: Column(
+                        // mainAxisSize.min makes the sheet wrap its content
+                        // instead of always expanding to maxHeight
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           /// Handle bar
                           Container(
@@ -246,35 +267,37 @@ class TravelDocumentsSheet extends StatelessWidget {
 
                           0.01.height(context),
 
-                          /// Items
-                          Expanded(
-                            child: ListView(
-                              shrinkWrap: true,
-                              children: [
-                                Text(AppStrings.travelDocPassportValidityTxt.tr,
-                                    style: FrontEndConfig.bodyTextStyle),
-                                const SizedBox(height: 12),
-                                Text(AppStrings.travelDocVisaRequirementsTxt.tr,
-                                    style: FrontEndConfig.bodyTextStyle),
-                                const SizedBox(height: 12),
-                                Text(AppStrings.travelDocFlightDetailsTxt.tr,
-                                    style: FrontEndConfig.bodyTextStyle),
-                                const SizedBox(height: 12),
-                                Text(AppStrings.travelDocHotelBookingTxt.tr,
-                                    style: FrontEndConfig.bodyTextStyle),
-                              ],
-                            ),
+                          /// Items — shrinkWrap + NeverScrollableScrollPhysics
+                          /// so the outer ConstrainedBox controls overflow,
+                          /// not an inner scroll view fighting for space.
+                          ListView(
+                            shrinkWrap: true,
+                            // FIX: disable inner scrolling; the sheet itself
+                            // will scroll if content exceeds maxHeight
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: [
+                              Text(AppStrings.travelDocPassportValidityTxt.tr,
+                                  style: FrontEndConfig.bodyTextStyle),
+                              const SizedBox(height: 12),
+                              Text(AppStrings.travelDocVisaRequirementsTxt.tr,
+                                  style: FrontEndConfig.bodyTextStyle),
+                              const SizedBox(height: 12),
+                              Text(AppStrings.travelDocFlightDetailsTxt.tr,
+                                  style: FrontEndConfig.bodyTextStyle),
+                              const SizedBox(height: 12),
+                              Text(AppStrings.travelDocHotelBookingTxt.tr,
+                                  style: FrontEndConfig.bodyTextStyle),
+                            ],
                           ),
 
                           /// Close
                           Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
+                            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                             child: TextButton(
                               onPressed: () => NavigatorHelper.pop(context),
                               child: Text(
                                 AppStrings.closeBottomSheetBtnTxt.tr,
-                                style:
-                                FrontEndConfig.headingTextStyle.copyWith(
+                                style: FrontEndConfig.headingTextStyle.copyWith(
                                   decoration: TextDecoration.underline,
                                   decorationColor: Colors.white,
                                   decorationThickness: 2,
@@ -287,8 +310,8 @@ class TravelDocumentsSheet extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

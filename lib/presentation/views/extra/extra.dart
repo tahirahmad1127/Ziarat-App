@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:ziarat_app/presentation/views/bottom_bar/bottom_bar.dart';
 import 'package:ziarat_app/presentation/views/home/home.dart';
@@ -6,13 +7,14 @@ import 'package:ziarat_app/presentation/views/language/language.dart';
 import 'package:ziarat_app/presentation/views/privacy_policy/privacy_policy.dart';
 import 'package:ziarat_app/presentation/views/settings/settings.dart';
 import 'package:ziarat_app/presentation/views/sim/network_provider.dart';
-import 'package:ziarat_app/presentation/views/sim/package_details.dart';
 import 'package:ziarat_app/presentation/views/tasbih_counter/tasbih_counter.dart';
 import 'package:ziarat_app/presentation/views/term_conditions/term_conditions.dart';
 import 'package:ziarat_app/presentation/views/umrah_guide/umrah_guide.dart';
 import 'package:ziarat_app/presentation/views/ziarat/ziarat.dart';
 
+import '../../../application/sim_provider_bloc/sim_provider_bloc.dart';
 import '../../../infrastructure/models/sim_provider.dart';
+import '../../../injection_container.dart';
 import '../faqs_screen/FAQ_Screen.dart';
 import '../haram_gates/Haram_Gates.dart';
 import '../privacy_policy/layout/body.dart';
@@ -38,55 +40,68 @@ class _ExtraState extends State<Extra> {
         centerTitle: true,
       ),
       body: Center(child:
-        Column(children: [
-          ElevatedButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> BottomBarScreen()));
-          }, child: Text(AppStrings.bottomBarTxt.tr)),
-          ElevatedButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()));
-          }, child: Text(AppStrings.homeScreenTxt.tr)),
-          ElevatedButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> Language()));
-          }, child: Text(AppStrings.languageScreenTxt.tr)),
-          ElevatedButton(onPressed: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ZiaratViewBody()),
-            );          }, child: Text(AppStrings.ziyaratScreenTxt.tr)),
-          ElevatedButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> SimProviderViewBody()));
-          }, child: Text(AppStrings.networkProviderScreenTxt.tr)),
-          ElevatedButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => PackageDetailsViewBody(
-              provider: SimProviderModel(
-                id: '699b98021896e481da555605', // ✅ this one has packages
-                title: 'Zong',
-              ),
-            )));
-          }, child: Text(AppStrings.packageDetailsScreenTxt.tr)),        ElevatedButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> TasbihCounter()));
-          }, child: Text(AppStrings.tasbihCounterScreenTxt.tr)),
-          ElevatedButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> UmrahGuide()));
-          }, child: Text(AppStrings.umrahGuideScreenTxt.tr)),
-          ElevatedButton(onPressed: (){
-// ✅ New
-            Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyViewBody()));          }, child: Text(AppStrings.privacyPolicyScreenTxt.tr)),
-          ElevatedButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> TermsConditionsViewBody()));
-          }, child: Text(AppStrings.termsAndConditionsScreenTxt.tr)),
-          ElevatedButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> SettingsPage()));
-          }, child: Text(AppStrings.settingsTitleTxt.tr)),
-          // In Extra screen
-          ElevatedButton(onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => FaqScreen()));
-          }, child: Text(AppStrings.faqScreenTxt.tr)),
+      Column(children: [
+        ElevatedButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const BottomBarScreen()));
+        }, child: Text(AppStrings.bottomBarTxt.tr)),
+        ElevatedButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const Home()));
+        }, child: Text(AppStrings.homeScreenTxt.tr)),
+        ElevatedButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const Language()));
+        }, child: Text(AppStrings.languageScreenTxt.tr)),
+        ElevatedButton(onPressed: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ZiaratViewBody()),
+          );
+        }, child: Text(AppStrings.ziyaratScreenTxt.tr)),
+        ElevatedButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const SimProviderViewBody()));
+        }, child: Text(AppStrings.networkProviderScreenTxt.tr)),
 
-          ElevatedButton(onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => HaramGatesScreen()));
-          }, child: Text(AppStrings.haramGatesScreenTxt.tr)),
-        ],),),
+        // ✅ Fixed: Package Details - needs bloc so we create it here
+        ElevatedButton(onPressed: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BlocProvider(
+                create: (context) => sl<SimProviderBloc>(),
+                child: PackageDetailsViewBody(
+                  provider: SimProviderModel(
+                    id: '699b98021896e481da555605', // ✅ this one has packages
+                    title: 'Zong',
+                  ),
+                ),
+              ),
+            ),
+          );
+        }, child: Text(AppStrings.packageDetailsScreenTxt.tr)),
+
+        ElevatedButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const TasbihCounter()));
+        }, child: Text(AppStrings.tasbihCounterScreenTxt.tr)),
+        ElevatedButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const UmrahGuide()));
+        }, child: Text(AppStrings.umrahGuideScreenTxt.tr)),
+        ElevatedButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const PrivacyPolicyViewBody()));
+        }, child: Text(AppStrings.privacyPolicyScreenTxt.tr)),
+        ElevatedButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const TermsConditionsViewBody()));
+        }, child: Text(AppStrings.termsAndConditionsScreenTxt.tr)),
+        ElevatedButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const SettingsPage()));
+        }, child: Text(AppStrings.settingsTitleTxt.tr)),
+        // In Extra screen
+        ElevatedButton(onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const FaqScreen()));
+        }, child: Text(AppStrings.faqScreenTxt.tr)),
+
+        ElevatedButton(onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const HaramGatesScreen()));
+        }, child: Text(AppStrings.haramGatesScreenTxt.tr)),
+      ],),),
     );
   }
 }

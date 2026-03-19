@@ -121,7 +121,7 @@ class FaqBottomSheet extends StatelessWidget {
 
   static void show(BuildContext context, int number, UmrahMasailModel faq) {
     showModalBottomSheet(
-      isDismissible: false,
+      isDismissible: true,
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,

@@ -1,13 +1,204 @@
 {
-    "data":[
-        {
-            "index":1,
-            "gate_no":79,
-            "english_name":"King Fahad Gate",
-            "arabic_name":"باب الملك فهد",
-            "description_en":"Gate 79: Large eastern entrance with, often used for direct, convenient access to the Mataf.",
-            "description_ar":"البوابة 79: مدخل شرقي كبير، وغالبًا ما يُستخدم للوصول المباشر والمريح إلى المطاف.",
-            "description_ur":"گیٹ 79: ایک بڑا مشرقی دروازہ، جو اکثر مطاف تک براہِ راست اور آسان رسائی کے لیے استعمال ہوتا ہے۔"
-        }
-    ]
+  "data":[
+    {
+      "index":1,
+      "gate_no":1,
+      "english_name":"King Abdulaziz Gate",
+      "arabic_name":"باب الملك عبدالعزيز",
+      "urdu_name":"باب الملک عبدالعزیز",
+      "description_en":"The main and most famous entrance of Masjid al-Haram, usually used by pilgrims for easy access to the Kaaba.",
+      "description_ar":"البوابة الرئيسية والأشهر في المسجد الحرام، يستخدمها الحجاج للوصول بسهولة إلى الكعبة المشرفة.",
+      "description_ur":"مسجد الحرام کا مرکزی اور سب سے مشہور دروازہ، جہاں سے زائرین آسانی سے کعبہ تک پہنچتے ہیں۔"
+    },
+    {
+      "index":2,
+      "gate_no":79,
+      "english_name":"King Fahd Gate",
+      "arabic_name":"باب الملك فهد",
+      "urdu_name":"باب الملک فہد",
+      "description_en":"A large and modern entrance located on the western side, known for its beautiful architecture.",
+      "description_ar":"بوابة كبيرة وحديثة تقع في الجهة الغربية، وتتميز بتصميمها المعماري الجميل.",
+      "description_ur":"مغربی جانب واقع ایک جدید اور وسیع دروازہ جو اپنی خوبصورت تعمیر کے لیے مشہور ہے۔"
+    },
+    {
+      "index":3,
+      "gate_no":62,
+      "english_name":"Bab al-Umrah",
+      "arabic_name":"باب العمرة",
+      "urdu_name":"باب العمرہ",
+      "description_en":"A commonly used gate by Umrah pilgrims, providing direct access towards Mataf area.",
+      "description_ar":"بوابة يستخدمها المعتمرون بكثرة وتؤدي مباشرة إلى صحن المطاف.",
+      "description_ur":"عمرہ کرنے والے زائرین کے لیے عام استعمال ہونے والا دروازہ جو مطاف کی طرف لے جاتا ہے۔"
+    },
+    {
+      "index":4,
+      "gate_no":19,
+      "english_name":"Bab al-Salam (Gate of Peace)",
+      "arabic_name":"باب السلام",
+      "urdu_name":"باب السلام",
+      "description_en":"A historic gate through which many pilgrims prefer to enter calmly before seeing the Kaaba.",
+      "description_ar":"بوابة تاريخية يفضل الحجاج الدخول منها بهدوء قبل رؤية الكعبة المشرفة.",
+      "description_ur":"ایک تاریخی دروازہ جہاں سے زائرین سکون کے ساتھ داخل ہو کر پہلی بار کعبہ کا دیدار کرتے ہیں۔"
+    },
+    {
+      "index":5,
+      "gate_no":45,
+      "english_name":"Bab al-Fath (Gate of Victory)",
+      "arabic_name":"باب الفتح",
+      "urdu_name":"باب الفتح",
+      "description_en":"A historic gate associated with the conquest of Makkah by Prophet Muhammad ﷺ.",
+      "description_ar":"بوابة تاريخية مرتبطة بفتح مكة على يد النبي محمد ﷺ.",
+      "description_ur":"یہ دروازہ فتح مکہ کی تاریخی یادگار سے منسوب ہے۔"
+    },
+    {
+      "index":6,
+      "gate_no":56,
+      "english_name":"Bab al-Nisa (Women's Gate)",
+      "arabic_name":"باب النساء",
+      "urdu_name":"باب النساء",
+      "description_en":"A gate commonly used by female worshippers for easier access.",
+      "description_ar":"بوابة مخصصة أو مستخدمة بشكل أكبر من قبل النساء لتسهيل الدخول.",
+      "description_ur":"خواتین کے لیے مخصوص یا زیادہ استعمال ہونے والا دروازہ۔"
+    },
+    {
+      "index":7,
+      "gate_no":100,
+      "english_name":"King Abdullah Gate",
+      "arabic_name":"باب الملك عبدالله",
+      "urdu_name":"باب الملک عبداللہ",
+      "description_en":"One of the newest and largest gates, providing access to the expanded areas of the Haram.",
+      "description_ar":"من أحدث وأكبر بوابات الحرم، ويوفر الوصول إلى التوسعات الجديدة.",
+      "description_ur":"حرم کی توسیع شدہ حصے تک رسائی دینے والا جدید اور بڑا دروازہ۔"
+    },
+    {
+      "index":8,
+      "gate_no":24,
+      "english_name":"Bab Ali (Gate of Ali)",
+      "arabic_name":"باب علي",
+      "urdu_name":"باب علی",
+      "description_en":"A well-known gate located near the Mataf area, frequently used by pilgrims.",
+      "description_ar":"بوابة معروفة تقع بالقرب من صحن المطاف ويستخدمها الحجاج بكثرة.",
+      "description_ur":"مطاف کے قریب واقع ایک مشہور دروازہ جو زائرین کثرت سے استعمال کرتے ہیں۔"
+    },
+    {
+      "index":9,
+      "gate_no":37,
+      "english_name":"Bab al-Marwah",
+      "arabic_name":"باب المروة",
+      "urdu_name":"باب المروہ",
+      "description_en":"This gate leads directly to the Marwah side of Sa'i (Safa–Marwah).",
+      "description_ar":"بوابة تؤدي مباشرة إلى جهة المروة في مسعى الصفا والمروة.",
+      "description_ur":"یہ دروازہ صفا مروہ کی سعی کے مروہ والے حصے کی طرف جاتا ہے۔"
+    },
+    {
+      "index":10,
+      "gate_no":11,
+      "english_name":"Bab al-Safa",
+      "arabic_name":"باب الصفا",
+      "urdu_name":"باب الصفا",
+      "description_en":"Entrance towards Safa hill, commonly used to begin Sa'i.",
+      "description_ar":"بوابة تؤدي إلى الصفا ويبدأ منها السعي.",
+      "description_ur":"صفا کی طرف جانے والا دروازہ جہاں سے سعی کا آغاز کیا جاتا ہے۔"
+    },
+    {
+      "index":11,
+      "gate_no":17,
+      "english_name":"Bab al-Hudaybiyah",
+      "arabic_name":"باب الحديبية",
+      "urdu_name":"باب الحدیبیہ",
+      "description_en":"Named after the historic Treaty of Hudaybiyyah, used by many visitors.",
+      "description_ar":"بوابة سميت نسبة إلى صلح الحديبية ويستخدمها الزوار.",
+      "description_ur":"صلح حدیبیہ کے نام سے منسوب دروازہ، زائرین کے زیرِ استعمال۔"
+    },
+    {
+      "index":12,
+      "gate_no":26,
+      "english_name":"Bab al-Mujahid",
+      "arabic_name":"باب المجاهد",
+      "urdu_name":"باب المجاہد",
+      "description_en":"A gate frequently used due to its central location in the Haram.",
+      "description_ar":"بوابة تستخدم بكثرة بسبب موقعها المركزي في الحرم.",
+      "description_ur":"مرکزی مقام کی وجہ سے یہ دروازہ کثرت سے استعمال ہوتا ہے۔"
+    },
+    {
+      "index":13,
+      "gate_no":38,
+      "english_name":"Bab al-Qasr",
+      "arabic_name":"باب القصر",
+      "urdu_name":"باب القصر",
+      "description_en":"Located near important pathways, providing easy access to inner areas.",
+      "description_ar":"تقع بالقرب من الممرات المهمة وتوفر وصولاً سهلاً إلى داخل الحرم.",
+      "description_ur":"اہم راستوں کے قریب واقع، اندرونی حصوں تک آسان رسائی دیتا ہے۔"
+    },
+    {
+      "index":14,
+      "gate_no":74,
+      "english_name":"Bab al-Ziyadah",
+      "arabic_name":"باب الزيادة",
+      "urdu_name":"باب الزیادہ",
+      "description_en":"Located in the expanded area of the Haram, widely used during rush times.",
+      "description_ar":"تقع في منطقة التوسعة وتستخدم بكثرة في أوقات الازدحام.",
+      "description_ur":"حرم کی توسیعی حصے میں واقع، رش کے دوران زیادہ استعمال ہوتا ہے۔"
+    },
+    {
+      "index":15,
+      "gate_no":33,
+      "english_name":"Bab al-Hijrah",
+      "arabic_name":"باب الهجرة",
+      "urdu_name":"باب الہجرہ",
+      "description_en":"Named after the migration (Hijrah), this gate is commonly used by pilgrims from specific routes.",
+      "description_ar":"سميت نسبة إلى الهجرة ويستخدمها القادمون من جهات مختلفة.",
+      "description_ur":"ہجرت کے نام سے منسوب، مختلف راستوں سے آنے والے زائرین کے لیے اہم دروازہ۔"
+    },
+    {
+      "index":16,
+      "gate_no":27,
+      "english_name":"Bab Ismail",
+      "arabic_name":"باب إسماعيل",
+      "urdu_name":"باب اسماعیل",
+      "description_en":"A well-known internal access gate near important prayer areas.",
+      "description_ar":"بوابة معروفة تقع بالقرب من أماكن الصلاة المهمة.",
+      "description_ur":"اہم نماز کے مقامات کے قریب واقع ایک معروف دروازہ۔"
+    },
+    {
+      "index":17,
+      "gate_no":34,
+      "english_name":"Bab al-Basrah",
+      "arabic_name":"باب البصرة",
+      "urdu_name":"باب البصرہ",
+      "description_en":"Named after the city of Basra, this gate has historical significance.",
+      "description_ar":"سميت نسبة إلى مدينة البصرة ولها أهمية تاريخية.",
+      "description_ur":"شہر بصرہ کے نام پر رکھا گیا، تاریخی اہمیت کا حامل دروازہ۔"
+    },
+    {
+      "index":18,
+      "gate_no":0,
+      "english_name":"Bab al-Kaaba (Internal Access Gate)",
+      "arabic_name":"باب الكعبة",
+      "urdu_name":"باب الکعبہ",
+      "description_en":"Internal access near the Kaaba area, not a public entrance but important historically.",
+      "description_ar":"مدخل داخلي قريب من الكعبة وليس مخصصًا للدخول العام وله أهمية تاريخية.",
+      "description_ur":"کعبہ کے قریب اندرونی راستہ، عام داخلے کے لیے نہیں مگر تاریخی اہمیت رکھتا ہے۔"
+    },
+    {
+      "index":19,
+      "gate_no":12,
+      "english_name":"Bab al-Ajyal",
+      "arabic_name":"باب الأجيال",
+      "urdu_name":"باب اجیال",
+      "description_en":"A frequently used gate due to its accessibility from surrounding areas.",
+      "description_ar":"بوابة تستخدم كثيرًا لسهولة الوصول إليها من المناطق المحيطة.",
+      "description_ur":"اطراف کے علاقوں سے آسان رسائی کی وجہ سے زیادہ استعمال ہونے والا دروازہ۔"
+    },
+    {
+      "index":20,
+      "gate_no":16,
+      "english_name":"Bab al-Madinah",
+      "arabic_name":"باب المدينة",
+      "urdu_name":"باب المدینہ",
+      "description_en":"Named after Madinah, symbolizing the connection between the two holy cities.",
+      "description_ar":"سميت نسبة إلى المدينة المنورة وترمز إلى العلاقة بين الحرمين.",
+      "description_ur":"مدینہ منورہ کے نام سے منسوب، دونوں مقدس شہروں کے تعلق کی علامت۔"
+    }
+  ]
 }

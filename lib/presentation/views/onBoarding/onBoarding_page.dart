@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:ziarat_app/application/navigation_helper.dart';
 import 'package:ziarat_app/infrastructure/models/onboarding.dart';
@@ -46,6 +46,21 @@ class _OnboardingPageState extends State<OnboardingPage> {
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+
+  /// Explicit font for onboarding independent of theme,
+  /// using correct family names from pubspec.
+  String _onboardingFontFamily() {
+    final lang = Get.locale?.languageCode ?? 'en';
+    switch (lang) {
+      case 'ur':
+        return 'jameel-noori';
+      case 'ar':
+        return 'noto-sans';
+      default:
+      // ✅ fixed: use GoogleFonts directly, same as FrontEndConfig._currentFont()
+        return GoogleFonts.raleway().fontFamily!;
+    }
   }
 
   String getMainButtonText() {
@@ -103,9 +118,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Align(
-                        //     alignment: Alignment.centerRight,
-                        //     child: Text("Skip",style: FrontEndConfig.btnTextStyle,)),
 
                         Expanded(
                           flex: 5,
@@ -121,10 +133,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         SmoothPageIndicator(
                           controller: controller,
                           count: onBoardingList.length,
-                          effect: ExpandingDotsEffect(
+                          effect: const ExpandingDotsEffect(
                             dotColor: Color(0xffFFFFFF),
-                            activeDotColor:
-                            const Color(0xffC89C18),
+                            activeDotColor: Color(0xffC89C18),
                             dotHeight: 9,
                             dotWidth: 9,
                           ),
@@ -137,10 +148,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           child: Text(
                             onBoardingList[index].title.tr,
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.raleway(
+                            style: FrontEndConfig.languageHeadingTextStyle
+                                .copyWith(
                               fontSize: 28,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
+                              fontFamily: _onboardingFontFamily(),
                             ),
                           ),
                         ),
@@ -152,10 +163,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           child: Text(
                             onBoardingList[index].subtitle.tr,
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.raleway(
+                            style: FrontEndConfig.bodyTextStyle.copyWith(
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
-                              color: Colors.white,
+                              fontFamily: _onboardingFontFamily(),
                             ),
                           ),
                         ),
@@ -199,6 +210,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       ),
 
                     0.03.width(context),
+
                     Expanded(
                       child: GradientOutlineButton(
                         height: 56,
@@ -213,7 +225,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         ),
                         onPressed: () {
                           if (currentIndex == onBoardingList.length - 1) {
-                            NavigatorHelper.pushReplacement(context, const BottomBarScreen());
+                            NavigatorHelper.pushReplacement(
+                                context, const BottomBarScreen());
                           } else {
                             controller.nextPage(
                               duration: const Duration(milliseconds: 400),
@@ -223,19 +236,16 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         },
                         child: Text(
                           getMainButtonText(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                          style: FrontEndConfig.btnTextStyle.copyWith(
+                            fontSize: 16,
+                            fontFamily: _onboardingFontFamily(),
                           ),
                         ),
                       ),
                     ),
-
-
                   ],
                 ),
               )
-
             ],
           ),
         ],

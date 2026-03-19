@@ -1,0 +1,64 @@
+{
+  "data": [
+    {
+      "index": 1,
+      "arabic_hadith": "لِقَوْلِهِ تَعَالى: {قُلْ مَا يَعْبَؤُا بِكُمْ رَبِّ لَوْلَا دُعَاؤُكُمْ} [الفرقان: ٧٧] وَمَعْنَى الدُّعاءِ في اللُّغَةِ (الإيمان)",
+      "urdu_hadith": "اللہ تعالیٰ کے اس فرمان کی وجہ سے: آپ کہہ دیجیے کہ میرا رب تمہاری کوئی پروا نہیں کرتا اگر تمہاری دعا نہ ہو [الفرقان: ٧٧] اور لغت میں دعاء کا معنی ایمان ہے۔",
+      "english_hadith": "Your invocation means your faith. And Allah said: Say (O Muhammad): My Lord pays attention to you only because of your invocation. (V.25:77)"
+    },
+    {
+      "index": 2,
+      "arabic_hadith": "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى",
+      "urdu_hadith": "اعمال کا دارومدار نیتوں پر ہے، اور ہر شخص کو وہی ملے گا جس کی اس نے نیت کی۔",
+      "english_hadith": "Actions are judged by intentions, and every person will get the reward according to what he has intended. (Bukhari & Muslim)"
+    },
+    {
+      "index": 3,
+      "arabic_hadith": "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ",
+      "urdu_hadith": "مسلمان وہ ہے جس کی زبان اور ہاتھ سے دوسرے مسلمان محفوظ رہیں۔",
+      "english_hadith": "A Muslim is the one from whose tongue and hand other Muslims are safe. (Bukhari)"
+    },
+    {
+      "index": 4,
+      "arabic_hadith": "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
+      "urdu_hadith": "جو شخص اللہ اور آخرت کے دن پر ایمان رکھتا ہو، وہ یا تو اچھی بات کہے یا خاموش رہے۔",
+      "english_hadith": "Whoever believes in Allah and the Last Day should speak good or remain silent. (Bukhari & Muslim)"
+    },
+    {
+      "index": 5,
+      "arabic_hadith": "لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ",
+      "urdu_hadith": "تم میں سے کوئی اس وقت تک مومن نہیں ہو سکتا جب تک وہ اپنے بھائی کے لیے وہی نہ چاہے جو اپنے لیے چاہتا ہے۔",
+      "english_hadith": "None of you will have faith until he loves for his brother what he loves for himself. (Bukhari & Muslim)"
+    },
+    {
+      "index": 6,
+      "arabic_hadith": "أَحَبُّ الأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ",
+      "urdu_hadith": "اللہ کو سب سے زیادہ پسندیدہ عمل وہ ہے جو ہمیشہ کیا جائے، چاہے تھوڑا ہی ہو۔",
+      "english_hadith": "The most beloved deed to Allah is the most regular and constant even if it were little. (Bukhari & Muslim)"
+    },
+    {
+      "index": 7,
+      "arabic_hadith": "الدُّنْيَا سِجْنُ الْمُؤْمِنِ وَجَنَّةُ الْكَافِرِ",
+      "urdu_hadith": "دنیا مومن کے لیے قید خانہ ہے اور کافر کے لیے جنت ہے۔",
+      "english_hadith": "The world is a prison for the believer and a paradise for the disbeliever. (Muslim)"
+    },
+    {
+      "index": 8,
+      "arabic_hadith": "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ",
+      "urdu_hadith": "جو شخص علم حاصل کرنے کے لیے کوئی راستہ اختیار کرے، اللہ اس کے لیے جنت کا راستہ آسان کر دیتا ہے۔",
+      "english_hadith": "Whoever takes a path seeking knowledge, Allah will make easy for him a path to Paradise. (Muslim)"
+    },
+    {
+      "index": 9,
+      "arabic_hadith": "تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ صَدَقَةٌ",
+      "urdu_hadith": "اپنے بھائی کے چہرے پر مسکرانا صدقہ ہے۔",
+      "english_hadith": "Your smile in the face of your brother is charity. (Tirmidhi)"
+    },
+    {
+      "index": 10,
+      "arabic_hadith": "إِنَّ اللَّهَ لَا يَنْظُرُ إِلَى صُوَرِكُمْ وَأَمْوَالِكُمْ وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ وَأَعْمَالِكُمْ",
+      "urdu_hadith": "بے شک اللہ تمہاری شکلوں اور مالوں کو نہیں دیکھتا، بلکہ وہ تمہارے دلوں اور اعمال کو دیکھتا ہے۔",
+      "english_hadith": "Indeed Allah does not look at your appearance or wealth, but rather He looks at your hearts and actions. (Muslim)"
+    }
+  ]
+}

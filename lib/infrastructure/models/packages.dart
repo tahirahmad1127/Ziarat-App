@@ -1,3 +1,5 @@
+// packages.dart - CORRECTED MODEL
+
 import 'dart:convert';
 
 PackageListingModel packageListingModelFromJson(String str) => PackageListingModel.fromJson(json.decode(str));
@@ -8,35 +10,43 @@ class PackageListingModel {
   final bool? success;
   final int? count;
   final List<PackageModel>? data;
+  final String? message;
 
   PackageListingModel({
     this.success,
     this.count,
     this.data,
+    this.message,
   });
 
   factory PackageListingModel.fromJson(Map<String, dynamic> json) => PackageListingModel(
     success: json["success"],
     count: json["count"],
     data: json["data"] == null ? [] : List<PackageModel>.from(json["data"]!.map((x) => PackageModel.fromJson(x))),
+    message: json["message"],
   );
 
   Map<String, dynamic> toJson() => {
     "success": success,
     "count": count,
     "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+    "message": message,
   };
 }
 
 class PackageModel {
   final String? id;
-  final ProviderId? providerId;
-  final String? packageTitle;
-  final int? amount;
+  /// Backend may return providerId as String or as populated object.
+  final String? providerId;
+  final ProviderInfo? providerInfo;
+  final String? providerName;
+  final String? packageName;
   final String? duration;
-  final int? gbs;
+  final int? price;
+  final String? currency;
+  final int? dataGB;
   final int? onNetMinutes;
-  final int? interMinutes;
+  final int? internationalMinutes;
   final int? sms;
   final bool? isActive;
   final DateTime? createdAt;
@@ -46,12 +56,15 @@ class PackageModel {
   PackageModel({
     this.id,
     this.providerId,
-    this.packageTitle,
-    this.amount,
+    this.providerInfo,
+    this.providerName,
+    this.packageName,
     this.duration,
-    this.gbs,
+    this.price,
+    this.currency,
+    this.dataGB,
     this.onNetMinutes,
-    this.interMinutes,
+    this.internationalMinutes,
     this.sms,
     this.isActive,
     this.createdAt,
@@ -61,17 +74,22 @@ class PackageModel {
 
   factory PackageModel.fromJson(Map<String, dynamic> json) => PackageModel(
     id: json["_id"],
-    providerId: json["providerId"] == null
-        ? null
-        : json["providerId"] is String          // ✅ handle string
-        ? ProviderId(id: json["providerId"])
-        : ProviderId.fromJson(json["providerId"]),
-    packageTitle: json["packageTitle"],
-    amount: json["amount"],
+    providerId: json["providerId"] is String
+        ? json["providerId"] as String
+        : (json["providerId"] is Map<String, dynamic>
+            ? (json["providerId"]["_id"] as String?)
+            : null),
+    providerInfo: json["providerId"] is Map<String, dynamic>
+        ? ProviderInfo.fromJson(json["providerId"] as Map<String, dynamic>)
+        : null,
+    providerName: json["providerName"],
+    packageName: json["packageName"],
     duration: json["duration"],
-    gbs: json["gbs"],
+    price: json["price"],
+    currency: json["currency"],
+    dataGB: json["dataGB"],
     onNetMinutes: json["onNetMinutes"],
-    interMinutes: json["interMinutes"],
+    internationalMinutes: json["internationalMinutes"],
     sms: json["sms"],
     isActive: json["isActive"],
     createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
@@ -81,13 +99,15 @@ class PackageModel {
 
   Map<String, dynamic> toJson() => {
     "_id": id,
-    "providerId": providerId?.toJson(),
-    "packageTitle": packageTitle,
-    "amount": amount,
+    "providerId": providerInfo?.toJson() ?? providerId,
+    "providerName": providerName,
+    "packageName": packageName,
     "duration": duration,
-    "gbs": gbs,
+    "price": price,
+    "currency": currency,
+    "dataGB": dataGB,
     "onNetMinutes": onNetMinutes,
-    "interMinutes": interMinutes,
+    "internationalMinutes": internationalMinutes,
     "sms": sms,
     "isActive": isActive,
     "createdAt": createdAt?.toIso8601String(),
@@ -96,30 +116,30 @@ class PackageModel {
   };
 }
 
-class ProviderId {
+class ProviderInfo {
   final String? id;
-  final String? image;
-  final String? title;
+  final String? providerImage;
+  final String? providerName;
   final String? helplineNumber;
 
-  ProviderId({
+  ProviderInfo({
     this.id,
-    this.image,
-    this.title,
+    this.providerImage,
+    this.providerName,
     this.helplineNumber,
   });
 
-  factory ProviderId.fromJson(Map<String, dynamic> json) => ProviderId(
+  factory ProviderInfo.fromJson(Map<String, dynamic> json) => ProviderInfo(
     id: json["_id"],
-    image: json["Image"],
-    title: json["Title"],
+    providerImage: json["ProviderImage"],
+    providerName: json["ProviderName"],
     helplineNumber: json["HelplineNumber"],
   );
 
   Map<String, dynamic> toJson() => {
     "_id": id,
-    "Image": image,
-    "Title": title,
+    "ProviderImage": providerImage,
+    "ProviderName": providerName,
     "HelplineNumber": helplineNumber,
   };
 }

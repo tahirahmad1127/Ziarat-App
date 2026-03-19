@@ -38,7 +38,7 @@ class StringConstantEn extends Translations {
       /// Language screen
       AppStrings.selectLanguageHeadingTxt: "Select Language",
       AppStrings.choosePreferredLanguageDescriptionTxt:
-          "Choose your preferred language to continue",
+      "Choose your preferred language to continue",
       AppStrings.languageEnglishTxt: "English",
       AppStrings.languageUrduTxt: "Urdu",
       AppStrings.languageArabicTxt: "Arabic",
@@ -72,20 +72,21 @@ class StringConstantEn extends Translations {
       AppStrings.networkProvidersAppBarTitleTxt: "Network Providers",
       AppStrings.simInfoHeadingTxt: "SIM Info",
       AppStrings.simInfoDescriptionTxt:
-          "Stay connected with families. Most booths are located at King Abdulaziz Airport arrivals.",
+      "Stay connected with families. Most booths are located at King Abdulaziz Airport arrivals.",
       AppStrings.listOfProvidersHeadingTxt: "List of Providers",
       AppStrings.helplineLabelTxt: "Helpline:",
       AppStrings.requirementsForSimHeadingTxt: "Requirements for SIM",
       AppStrings.requirementPassportValidityTxt:
-          "1. Original Passport with Visa entry stamp.",
+      "1. Original Passport with Visa entry stamp.",
       AppStrings.requirementFingerprintVerificationTxt:
-          "2. Fingerprint Verification on Counter.",
+      "2. Fingerprint Verification on Counter.",
       AppStrings.requirementUsuallyActiveTxt:
-          "3. Usually active with in 30 minutes.",
+      "3. Usually active with in 30 minutes.",
       AppStrings.requirementGetSimsJeddahTxt:
-          "4. You can get sims easily from Jeddah Airport.",
+      "4. You can get sims easily from Jeddah Airport.",
 
       /// Package details
+      AppStrings.availablePackagesTxt: "Available Packages",
       AppStrings.gbsLabelTxt: "GBs",
       AppStrings.onNetMinutesLabelTxt: "On Net Minutes",
       AppStrings.internationalMinutesLabelTxt: "International Minutes",
@@ -97,13 +98,13 @@ class StringConstantEn extends Translations {
       /// Umrah guide
       AppStrings.umrahGuideAppBarTitleTxt: "Umrah Guide",
       AppStrings.prepareBeforeUmrahHeadingTxt:
-          "Prepare Before You Perform Umrah",
+      "Prepare Before You Perform Umrah",
       AppStrings.checkTravelDocumentsTxt: "Check Travel Documents",
       AppStrings.packSmartlyTxt: "Pack Smartly",
       AppStrings.checkUmrahPackageDetailsTxt:
-          "Check Your Umrah Package Details",
+      "Check Your Umrah Package Details",
       AppStrings.howToPerformUmrahHeadingTxt:
-          "How to Perform Umrah - Step by Step Guide",
+      "How to Perform Umrah - Step by Step Guide",
       AppStrings.methodOfPuttingIhramTxt: "Method of Putting Ihram",
       AppStrings.checkTravelDocumentsTitleTxt: "Check Travel Documents",
       AppStrings.travelDocPassportValidityTxt: "1. Passport Validity",
@@ -114,13 +115,13 @@ class StringConstantEn extends Translations {
       /// Onboarding
       AppStrings.onboardingTitle1Txt: "Prepare for Hajj & Umrah",
       AppStrings.onboardingSubtitle1Txt:
-          "Essential guides, rituals, and steps to help you perform Hajj & Umrah correctly",
+      "Essential guides, rituals, and steps to help you perform Hajj & Umrah correctly",
       AppStrings.onboardingTitle2Txt: "Discover Duas & Zeyaraat",
       AppStrings.onboardingSubtitle2Txt:
-          "Access powerful duas, Islamic prayers & detailed Zeyaraat guides",
+      "Access powerful duas, Islamic prayers & detailed Zeyaraat guides",
       AppStrings.onboardingTitle3Txt: "Plan visit with our map",
       AppStrings.onboardingSubtitle3Txt:
-          "Explore and find the holy sites of Hajj Umrah & other Zeyaraat with our interactive map",
+      "Explore and find the holy sites of Hajj Umrah & other Zeyaraat with our interactive map",
       AppStrings.onboardingGetStartedBtnTxt: "Get Started",
       AppStrings.onboardingNextBtnTxt: "Next",
       AppStrings.onboardingExploreNowBtnTxt: "Explore Now!",
@@ -130,13 +131,13 @@ class StringConstantEn extends Translations {
       AppStrings.tasbihAppBarTitleTxt: "Zikar",
       AppStrings.resetCounterTitleTxt: "Reset Counter?",
       AppStrings.resetCounterSubtitleTxt:
-          "Are you sure you want to reset the counter? This action cannot be undone.",
+      "Are you sure you want to reset the counter? This action cannot be undone.",
       AppStrings.cancelBtnLabelTxt: "Cancel",
       AppStrings.yesResetBtnLabelTxt: "Yes, Reset",
       AppStrings.tasbihAyahArabicTxt:
-          "أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ",
+      "أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ",
       AppStrings.tasbihAyahTranslationTxt:
-          "\"Verily, in the remembrance of Allah do hearts find rest.\"",
+      "\"Verily, in the remembrance of Allah do hearts find rest.\"",
 
       /// Haram Gates
       AppStrings.haramGatesAppBarTitleTxt: "Haram Gates",
@@ -144,45 +145,50 @@ class StringConstantEn extends Translations {
       AppStrings.haramGateKingFahadEnTxt: "King Fahad Gate",
       AppStrings.haramGateKingFahadArTxt: "باب الملك فهد",
       AppStrings.haramGateKingFahadDescTxt:
-          "Gate 79: Large eastern entrance with, often used for direct, convenient access to the Mataf.",
+      "Gate 79: Large eastern entrance with, often used for direct, convenient access to the Mataf.",
       AppStrings.haramGateKingAbdulAzizEnTxt: "King Abdul Aziz Gate",
       AppStrings.haramGateKingAbdulAzizArTxt: "باب الملك عبدالعزيز",
       AppStrings.haramGateKingAbdulAzizDescTxt:
-          "Gate 1: One of the main entrances to Masjid al-Haram, located on the northern side.",
+      "Gate 1: One of the main entrances to Masjid al-Haram, located on the northern side.",
       AppStrings.haramGateBabAlSalamEnTxt: "Bab Al Salam",
       AppStrings.haramGateBabAlSalamArTxt: "باب السلام",
       AppStrings.haramGateBabAlSalamDescTxt:
-          "Gate 2: The Gate of Peace, a historic entrance used by pilgrims for centuries.",
+      "Gate 2: The Gate of Peace, a historic entrance used by pilgrims for centuries.",
       AppStrings.haramGateBabAlUmrahEnTxt: "Bab Al Umrah",
       AppStrings.haramGateBabAlUmrahArTxt: "باب العمرة",
       AppStrings.haramGateBabAlUmrahDescTxt:
-          "Gate 3: Commonly used by pilgrims performing Umrah to enter Masjid al-Haram.",
+      "Gate 3: Commonly used by pilgrims performing Umrah to enter Masjid al-Haram.",
       AppStrings.haramGateBabIbrahimEnTxt: "Bab Ibrahim",
       AppStrings.haramGateBabIbrahimArTxt: "باب إبراهيم",
       AppStrings.haramGateBabIbrahimDescTxt:
-          "Gate 4: Named after Prophet Ibrahim, located on the western side of the mosque.",
+      "Gate 4: Named after Prophet Ibrahim, located on the western side of the mosque.",
       AppStrings.closeBottomSheetBtnTxt: "Close",
+      AppStrings.exitAppTitleTxt: "Exit App?",
+      AppStrings.exitAppSubtitleTxt:
+      "Do you want to exit the app or stay on this screen?",
+      AppStrings.stayBtnLabelTxt: "Stay",
+      AppStrings.exitBtnLabelTxt: "Exit",
 
       /// FAQ Screen
       AppStrings.faqAppBarTitleTxt: "Umrah Questions",
       AppStrings.faqIntroTxt:
-          "Some frequently asked questions (FAQs) about Umrah that people commonly ask before planning their journey:",
+      "Some frequently asked questions (FAQs) about Umrah that people commonly ask before planning their journey:",
       AppStrings.faqQ1Txt: "Can Umrah be performed anytime?",
       AppStrings.faqA1Txt:
-          "Yes, Umrah can be performed any time of the year, except during specific days of Hajj when pilgrims focus on Hajj rituals.",
+      "Yes, Umrah can be performed any time of the year, except during specific days of Hajj when pilgrims focus on Hajj rituals.",
       AppStrings.faqQ2Txt: "What is the difference between Hajj and Umrah?",
       AppStrings.faqA2Txt:
-          "Hajj is obligatory once in a lifetime for able Muslims and performed on specific dates. Umrah is voluntary and can be performed anytime.",
+      "Hajj is obligatory once in a lifetime for able Muslims and performed on specific dates. Umrah is voluntary and can be performed anytime.",
       AppStrings.faqQ3Txt: "What should I wear for Umrah?",
       AppStrings.faqA3Txt:
-          "Men wear two white unstitched cloths called Ihram. Women wear modest, loose-fitting clothing that covers the entire body except face and hands.",
+      "Men wear two white unstitched cloths called Ihram. Women wear modest, loose-fitting clothing that covers the entire body except face and hands.",
       AppStrings.faqQ4Txt: "How long does Umrah take?",
       AppStrings.faqA4Txt:
-          "Umrah typically takes 2 to 5 hours to complete, depending on crowd levels and your pace.",
+      "Umrah typically takes 2 to 5 hours to complete, depending on crowd levels and your pace.",
 
       /// Method of Putting Ihram detail
       AppStrings.methodOfPuttingIhramDescriptionTxt:
-          "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage.",
+      "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage.",
 
     },
   };

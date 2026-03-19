@@ -165,6 +165,7 @@ class TasbihCounter extends StatelessWidget {
                     title: AppStrings.tasbihAppBarTitleTxt.tr,
                     showLeading: false,
                     color: FrontEndConfig.iconColor,
+                    actionIconSize: 20,
                     actionIcon: AssetConstant.restartIcon,
                     onActionTap: () => _showResetDialog(context),
                   ),

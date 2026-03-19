@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final simProviderListingModel = simProviderListingModelFromJson(jsonString);
-
 import 'dart:convert';
 
 SimProviderListingModel simProviderListingModelFromJson(String str) => SimProviderListingModel.fromJson(json.decode(str));
@@ -34,10 +30,10 @@ class SimProviderListingModel {
 
 class SimProviderModel {
   final String? id;
-  final String? image;
-  final String? title;
+  final String? image;        // Maps to "ProviderImage"
+  final String? title;        // Maps to "ProviderName"
   final String? description;
-  final String? helplineNumber;
+  final String? helplineNumber; // Maps to "HelplineNumber"
   final String? providerId;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -57,8 +53,8 @@ class SimProviderModel {
 
   factory SimProviderModel.fromJson(Map<String, dynamic> json) => SimProviderModel(
     id: json["_id"],
-    image: json["Image"],
-    title: json["Title"],
+    image: json["ProviderImage"],           // ✅ Fixed: was "Image"
+    title: json["ProviderName"],            // ✅ Fixed: was "Title"
     description: json["Description"],
     helplineNumber: json["HelplineNumber"],
     providerId: json["ProviderID"],
@@ -69,8 +65,8 @@ class SimProviderModel {
 
   Map<String, dynamic> toJson() => {
     "_id": id,
-    "Image": image,
-    "Title": title,
+    "ProviderImage": image,
+    "ProviderName": title,
     "Description": description,
     "HelplineNumber": helplineNumber,
     "ProviderID": providerId,
