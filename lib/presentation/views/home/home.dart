@@ -641,7 +641,7 @@ class _HomeState extends State<Home> {
                                   child: Text(
                                     _nextPrayerName.isEmpty
                                         ? "--"
-                                        : _nextPrayerName,
+                                        : _localizedNamazName(_nextPrayerName),
                                     style: FrontEndConfig.headingTextStyle
                                         .copyWith(color: Colors.white),
                                   ),
@@ -795,7 +795,7 @@ class _HomeState extends State<Home> {
           ShaderMask(
             shaderCallback: (b) =>
                 FrontEndConfig.btnBorderColor.createShader(b),
-            child: Text(p.name,
+            child: Text(_localizedNamazName(p.name),
                 style:
                 FrontEndConfig.bodyTextStyle.copyWith(color: Colors.white)),
           ),
@@ -823,7 +823,8 @@ class _HomeState extends State<Home> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(p.name, style: FrontEndConfig.bodyTextStyle),
+        Text(_localizedNamazName(p.name),
+            style: FrontEndConfig.bodyTextStyle),
         0.01.height(context),
         Image.asset(p.iconPath,
             width: width * 0.06,
@@ -1019,6 +1020,51 @@ class _HomeState extends State<Home> {
   }
 
   // ── Helpers ────────────────────────────────────────────────────────────────
+  String _localizedNamazName(String key) {
+    final lang = Get.locale?.languageCode ?? 'en';
+
+    if (lang == 'ar') {
+      switch (key) {
+        case 'Fajr':
+          return 'الفجر';
+        case 'Zuhr':
+          return 'الظهر';
+        case 'Asr':
+          return 'العصر';
+        case 'Maghrib':
+          return 'المغرب';
+        case 'Isha':
+          return 'العشاء';
+        case 'Jummah':
+          return 'الجمعة';
+        default:
+          return key;
+      }
+    }
+
+    if (lang == 'ur') {
+      switch (key) {
+        case 'Fajr':
+          return 'فجر';
+        case 'Zuhr':
+          return 'ظہر';
+        case 'Asr':
+          return 'عصر';
+        case 'Maghrib':
+          return 'مغرب';
+        case 'Isha':
+          return 'عشاء';
+        case 'Jummah':
+          return 'جمعہ';
+        default:
+          return key;
+      }
+    }
+
+    // English (default)
+    return key;
+  }
+
   Widget _buildDivider() {
     return const SizedBox(
         height: 75, child: VerticalDivider(thickness: 1, color: Colors.grey));

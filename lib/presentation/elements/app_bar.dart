@@ -77,7 +77,7 @@ class CommonAppBar extends StatelessWidget {
         style: TextStyle(
           fontFamily: _getFontFamily(),
           fontWeight: FontWeight.w600,
-          fontSize: 22,
+          fontSize: FrontEndConfig.fontSize(22),
           color: FrontEndConfig.appBarTitleColor,
         ),
       ),

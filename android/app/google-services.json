@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "53586754054",
+    "project_id": "ziarat-app",
+    "storage_bucket": "ziarat-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:53586754054:android:bc03e09f8881d22e6ba187",
+        "android_client_info": {
+          "package_name": "com.example.ziarat_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzWviACTGxpQYF12A8wlfDhXlNXZTLoW8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

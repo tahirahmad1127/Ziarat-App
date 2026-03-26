@@ -38,7 +38,6 @@ class _FaqScreenState extends State<FaqScreen> {
         _isLoading = false;
       });
     } catch (e) {
-      debugPrint('❌ Error loading faqs: $e'); // ← this will tell us what's wrong
       setState(() => _isLoading = false);
     }
   }

@@ -92,6 +92,7 @@ class AppStrings {
   static const String genericSomethingWentWrongTxt = "Something went wrong";
 
   /// Umrah guide
+  static const String guideAppBarTitleTxt = "Guide";
   static const String umrahGuideAppBarTitleTxt = "Umrah Guide";
   static const String prepareBeforeUmrahHeadingTxt =
       "Prepare Before You Perform Umrah";
@@ -170,6 +171,9 @@ class AppStrings {
   static const String faqAppBarTitleTxt = "Umrah Questions";
   static const String faqIntroTxt =
       "Some frequently asked questions (FAQs) about Umrah that people commonly ask before planning their journey:";
+  static const String hajjFaqAppBarTitleTxt = "Hajj Questions";
+  static const String hajjFaqIntroTxt =
+      "Some frequently asked questions (FAQs) about Hajj that people commonly ask before planning their journey:";
   static const String faqQ1Txt = "Can Umrah be performed anytime?";
   static const String faqA1Txt =
       "Yes, Umrah can be performed any time of the year, except during specific days of Hajj when pilgrims focus on Hajj rituals.";
@@ -182,6 +186,12 @@ class AppStrings {
   static const String faqQ4Txt = "How long does Umrah take?";
   static const String faqA4Txt =
       "Umrah typically takes 2 to 5 hours to complete, depending on crowd levels and your pace.";
+
+  /// Maintenance screen
+  static const String maintenanceTitleTxt =
+      "Ziyarat-e-Haramain is Under Maintenance!";
+  static const String maintenanceDescriptionTxt =
+      "We are improving the app to enhance your spiritual journey experience.\nInshaAllah, we'll be back shortly.\nThank you for your patience.";
 
   /// Method of Putting Ihram detail
   static const String methodOfPuttingIhramDescriptionTxt =

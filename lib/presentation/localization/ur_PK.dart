@@ -102,6 +102,7 @@ class StringConstantUr extends Translations {
       AppStrings.genericSomethingWentWrongTxt: "کچھ غلط ہو گیا",
 
       /// Umrah guide
+      AppStrings.guideAppBarTitleTxt: "گائیڈ",
       AppStrings.umrahGuideAppBarTitleTxt: "عمرہ گائیڈ",
       AppStrings.prepareBeforeUmrahHeadingTxt:
       "عمرہ ادا کرنے سے پہلے تیاری کریں",
@@ -180,6 +181,13 @@ class StringConstantUr extends Translations {
       AppStrings.faqAppBarTitleTxt: "عمرہ سے متعلق سوالات",
       AppStrings.faqIntroTxt:
       "عمرہ کے بارے میں چند عام سوالات جو لوگ عموماً سفر سے پہلے پوچھتے ہیں:",
+      AppStrings.hajjFaqAppBarTitleTxt: "حج سے متعلق سوالات",
+      AppStrings.hajjFaqIntroTxt:
+      "حج کے بارے میں چند عام سوالات جو لوگ عموماً سفر سے پہلے پوچھتے ہیں:",
+      AppStrings.maintenanceTitleTxt:
+      "زیارتِ حرمین اس وقت دیکھ بھال میں ہے!",
+      AppStrings.maintenanceDescriptionTxt:
+      "ہم آپ کے روحانی سفر کے تجربے کو بہتر بنانے کے لیے ایپ میں بہتری کر رہے ہیں۔\nان شاء اللہ ہم جلد واپس آئیں گے۔\nآپ کے صبر کا شکریہ۔",
       AppStrings.faqQ1Txt: "کیا عمرہ سال کے کسی بھی وقت ادا کیا جا سکتا ہے؟",
       AppStrings.faqA1Txt:
       "جی ہاں، عمرہ سال کے کسی بھی وقت کیا جا سکتا ہے، سوائے مخصوص ایامِ حج کے جب حجاج حج کے ارکان میں مصروف ہوتے ہیں۔",

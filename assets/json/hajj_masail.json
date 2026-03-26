@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "index": 1,
+      "question_en": "Who must perform Hajj?",
+      "question_ar": "من يجب عليه أداء الحج؟",
+      "question_ur": "حج کن پر فرض ہے؟",
+      "answer_en": "Hajj is obligatory once in a lifetime for every adult Muslim who is physically and financially able.",
+      "answer_ar": "الحج فريضة مرة واحدة في العمر على كل مسلم بالغ قادر بدنيًا وماليًا.",
+      "answer_ur": "حج زندگی میں ایک بار ہر بالغ مسلمان پر فرض ہے جو جسمانی اور مالی طور پر استطاعت رکھتا ہو۔"
+    },
+    {
+      "index": 2,
+      "question_en": "What are the main rituals of Hajj?",
+      "question_ar": "ما هي المناسك الأساسية للحج؟",
+      "question_ur": "حج کے بنیادی ارکان کیا ہیں؟",
+      "answer_en": "The main rituals include Ihram, Tawaf, Sa'i, standing at Arafat, staying in Muzdalifah, and stoning at Mina.",
+      "answer_ar": "تشمل المناسك الأساسية الإحرام، والطواف، والسعي، والوقوف بعرفة، والمبيت بمزدلفة، ورمي الجمرات في منى.",
+      "answer_ur": "بنیادی اعمال میں احرام، طواف، سعی، وقوفِ عرفات، مزدلفہ میں قیام، اور منیٰ میں رمی شامل ہیں۔"
+    },
+    {
+      "index": 3,
+      "question_en": "How many days does Hajj usually take?",
+      "question_ar": "كم يومًا يستغرق الحج عادة؟",
+      "question_ur": "حج عام طور پر کتنے دن کا ہوتا ہے؟",
+      "answer_en": "Hajj rituals are generally performed over five to six days in Dhul Hijjah.",
+      "answer_ar": "تؤدى مناسك الحج عادة خلال خمسة إلى ستة أيام في شهر ذي الحجة.",
+      "answer_ur": "حج کے اعمال عموماً ذوالحجہ میں پانچ سے چھ دن میں ادا کیے جاتے ہیں۔"
+    },
+    {
+      "index": 4,
+      "question_en": "Can someone perform Hajj on behalf of another person?",
+      "question_ar": "هل يمكن أداء الحج نيابةً عن شخص آخر؟",
+      "question_ur": "کیا کسی دوسرے شخص کی طرف سے حج کیا جا سکتا ہے؟",
+      "answer_en": "Yes, in specific cases a person may perform Hajj on behalf of someone who is permanently unable, according to Islamic rulings.",
+      "answer_ar": "نعم، في حالات معينة يمكن أداء الحج عن شخص غير قادر دائمًا، وفق الأحكام الشرعية.",
+      "answer_ur": "جی ہاں، مخصوص صورتوں میں مستقل معذور شخص کی طرف سے شرعی احکام کے مطابق حج کیا جا سکتا ہے۔"
+    }
+  ]
+}

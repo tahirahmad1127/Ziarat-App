@@ -67,9 +67,12 @@ class FrontEndConfig {
   /// English and Arabic keep their original sizes.
   static double _fontSizeForCurrentLocale(double baseSize) {
     final lang = Get.locale?.languageCode ?? 'en';
-    if (lang == 'ur') return baseSize + 2;
+    if (lang == 'ur') return baseSize + 4;
     return baseSize;
   }
+
+  /// Use this when a widget sets fontSize manually (copyWith / TextStyle).
+  static double fontSize(double baseSize) => _fontSizeForCurrentLocale(baseSize);
 
   // ── Text Styles ────────────────────────────────────────────────────────────
   // All styles are GETTERS (not fields) so _currentFont() is called

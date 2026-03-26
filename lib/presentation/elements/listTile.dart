@@ -87,7 +87,7 @@ class CommonListTile extends StatelessWidget {
             title ?? "",
             style: titleStyle ??
                 TextStyle(
-                  fontSize: 16,
+                  fontSize: FrontEndConfig.fontSize(16),
                   fontWeight: FontWeight.w600,
                   color: FrontEndConfig.listTileTextColor,
                   fontFamily: _getFontFamily(),
@@ -99,7 +99,7 @@ class CommonListTile extends StatelessWidget {
             subtitle!,
             style: subtitleStyle ??
                 TextStyle(
-                  fontSize: 12,
+                  fontSize: FrontEndConfig.fontSize(12),
                   fontWeight: FontWeight.w400,
                   color: FrontEndConfig.listTileTextColor,
                   fontFamily: _getFontFamily(),

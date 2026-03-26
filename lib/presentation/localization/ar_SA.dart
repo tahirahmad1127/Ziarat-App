@@ -99,6 +99,7 @@ class StringConstantAr extends Translations {
       AppStrings.genericSomethingWentWrongTxt: "حدث خطأ ما",
 
       /// Umrah guide
+      AppStrings.guideAppBarTitleTxt: "الدليل",
       AppStrings.umrahGuideAppBarTitleTxt: "دليل العمرة",
       AppStrings.prepareBeforeUmrahHeadingTxt: "استعد قبل أداء العمرة",
       AppStrings.checkTravelDocumentsTxt: "فحص وثائق السفر",
@@ -175,6 +176,13 @@ class StringConstantAr extends Translations {
       AppStrings.faqAppBarTitleTxt: "أسئلة حول العمرة",
       AppStrings.faqIntroTxt:
       "بعض الأسئلة الشائعة حول العمرة التي يسألها الناس عادة قبل التخطيط لرحلتهم:",
+      AppStrings.hajjFaqAppBarTitleTxt: "أسئلة حول الحج",
+      AppStrings.hajjFaqIntroTxt:
+      "بعض الأسئلة الشائعة حول الحج التي يسألها الناس عادة قبل التخطيط لرحلتهم:",
+      AppStrings.maintenanceTitleTxt:
+      "زيارات الحرمين قيد الصيانة!",
+      AppStrings.maintenanceDescriptionTxt:
+      "نحن نعمل على تحسين التطبيق لتعزيز تجربتك الروحانية.\nإن شاء الله سنعود قريبًا.\nشكرًا لصبرك.",
       AppStrings.faqQ1Txt: "هل يمكن أداء العمرة في أي وقت؟",
       AppStrings.faqA1Txt:
       "نعم، يمكن أداء العمرة في أي وقت من السنة، باستثناء أيام محددة للحج حيث ينشغل الحجاج بمناسك الحج.",

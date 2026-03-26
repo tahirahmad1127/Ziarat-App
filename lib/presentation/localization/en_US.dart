@@ -96,6 +96,7 @@ class StringConstantEn extends Translations {
       AppStrings.genericSomethingWentWrongTxt: "Something went wrong",
 
       /// Umrah guide
+      AppStrings.guideAppBarTitleTxt: "Guide",
       AppStrings.umrahGuideAppBarTitleTxt: "Umrah Guide",
       AppStrings.prepareBeforeUmrahHeadingTxt:
       "Prepare Before You Perform Umrah",
@@ -173,6 +174,13 @@ class StringConstantEn extends Translations {
       AppStrings.faqAppBarTitleTxt: "Umrah Questions",
       AppStrings.faqIntroTxt:
       "Some frequently asked questions (FAQs) about Umrah that people commonly ask before planning their journey:",
+      AppStrings.hajjFaqAppBarTitleTxt: "Hajj Questions",
+      AppStrings.hajjFaqIntroTxt:
+      "Some frequently asked questions (FAQs) about Hajj that people commonly ask before planning their journey:",
+      AppStrings.maintenanceTitleTxt:
+      "Ziyarat-e-Haramain is Under Maintenance!",
+      AppStrings.maintenanceDescriptionTxt:
+      "We are improving the app to enhance your spiritual journey experience.\nInshaAllah, we'll be back shortly.\nThank you for your patience.",
       AppStrings.faqQ1Txt: "Can Umrah be performed anytime?",
       AppStrings.faqA1Txt:
       "Yes, Umrah can be performed any time of the year, except during specific days of Hajj when pilgrims focus on Hajj rituals.",

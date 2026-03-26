@@ -19,7 +19,7 @@ class ZiaratDetailsViewBody extends StatelessWidget {
       dua: item.dua,
       lat: item.lat,
       lng: item.lng,
-      images: item.images,
+      images: item.images?.map((e) => e.imageUrl ?? '').toList(),
       audioGuide: item.audioGuide,
       isActive: item.isActive,
       createdAt: item.createdAt,

@@ -12,6 +12,7 @@ import '../../constants/asset_constant.dart';
 import '../../elements/listTile.dart';
 import '../../constants/app_strings.dart';
 import '../faqs_screen/FAQ_Screen.dart';
+import '../faqs_screen/hajj_faq_screen.dart';
 
 class UmrahGuide extends StatefulWidget {
   const UmrahGuide({super.key});
@@ -20,7 +21,148 @@ class UmrahGuide extends StatefulWidget {
   State<UmrahGuide> createState() => _UmrahGuideState();
 }
 
-class _UmrahGuideState extends State<UmrahGuide> {
+class _UmrahGuideState extends State<UmrahGuide>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  String _guideTabLabel(bool isHajj) {
+    final lang = Get.locale?.languageCode ?? 'en';
+    if (lang == 'ar') return isHajj ? 'دليل الحج' : 'دليل العمرة';
+    if (lang == 'ur') return isHajj ? 'حج گائیڈ' : 'عمرہ گائیڈ';
+    return isHajj ? 'Hajj Guide' : 'Umrah Guide';
+  }
+
+  String _replaceGuideWord(String text, bool isHajj) {
+    if (!isHajj) return text;
+    return text
+        .replaceAll('Umrah', 'Hajj')
+        .replaceAll('umrah', 'hajj')
+        .replaceAll('عمرہ', 'حج')
+        .replaceAll('العمرة', 'الحج');
+  }
+
+  Widget _buildGuideContent(BuildContext context, {required bool isHajj}) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 17.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            _replaceGuideWord(AppStrings.prepareBeforeUmrahHeadingTxt.tr, isHajj),
+            style: FrontEndConfig.mainTextStyle
+                .copyWith(fontSize: FrontEndConfig.fontSize(18)),
+          ),
+          0.02.height(context),
+
+          CommonListTile(
+            tileColor: FrontEndConfig.listTileColor,
+            borderGradient: FrontEndConfig.listTileBorder,
+            image: AssetConstant.documentIcon,
+            title: AppStrings.checkTravelDocumentsTxt.tr,
+            trailing:
+                Image.asset(AssetConstant.arrowDownIcon, width: 10, height: 10),
+            onTap: () => TravelDocumentsSheet.show(context),
+          ),
+          0.02.height(context),
+
+          CommonListTile(
+            tileColor: FrontEndConfig.listTileColor,
+            borderGradient: FrontEndConfig.listTileBorder,
+            image: AssetConstant.packIcon,
+            title: AppStrings.packSmartlyTxt.tr,
+            trailing:
+                Image.asset(AssetConstant.arrowDownIcon, width: 10, height: 10),
+            onTap: () {},
+          ),
+          0.02.height(context),
+
+          CommonListTile(
+            tileColor: FrontEndConfig.listTileColor,
+            borderGradient: FrontEndConfig.listTileBorder,
+            image: AssetConstant.bagListIcon,
+            title:
+                _replaceGuideWord(AppStrings.checkUmrahPackageDetailsTxt.tr, isHajj),
+            trailing:
+                Image.asset(AssetConstant.arrowDownIcon, width: 10, height: 10),
+            onTap: () {},
+          ),
+          0.02.height(context),
+
+          CommonListTile(
+            tileColor: FrontEndConfig.listTileColor,
+            borderGradient: FrontEndConfig.listTileBorder,
+            image: AssetConstant.aeroplaneIcon,
+            title: AppStrings.checkTravelDocumentsTxt.tr,
+            trailing:
+                Image.asset(AssetConstant.arrowDownIcon, width: 10, height: 10),
+            onTap: () {},
+          ),
+          0.02.height(context),
+
+          Text(
+            _replaceGuideWord(AppStrings.howToPerformUmrahHeadingTxt.tr, isHajj),
+            style: FrontEndConfig.mainTextStyle
+                .copyWith(fontSize: FrontEndConfig.fontSize(18)),
+          ),
+          0.02.height(context),
+
+          CommonListTile(
+            tileColor: FrontEndConfig.listTileColor,
+            borderGradient: FrontEndConfig.listTileBorder,
+            leading: CircleAvatar(
+              backgroundColor: const Color(0xffC89C18).withOpacity(0.3),
+              radius: 13,
+              child: Text(
+                "1",
+                style: GoogleFonts.raleway(
+                  color: FrontEndConfig.textColor,
+                  fontSize: FrontEndConfig.fontSize(16),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            title: _replaceGuideWord(AppStrings.methodOfPuttingIhramTxt.tr, isHajj),
+            onTap: () {
+              NavigatorHelper.push(context, MethodPuttingIhram());
+            },
+          ),
+          0.02.height(context),
+
+          CommonListTile(
+            tileColor: FrontEndConfig.listTileColor,
+            borderGradient: FrontEndConfig.listTileBorder,
+            leading: CircleAvatar(
+              backgroundColor: const Color(0xffC89C18).withOpacity(0.3),
+              radius: 13,
+              child: Text(
+                "2",
+                style: GoogleFonts.raleway(
+                  color: FrontEndConfig.textColor,
+                  fontSize: FrontEndConfig.fontSize(16),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            title: _replaceGuideWord(AppStrings.methodOfPuttingIhramTxt.tr, isHajj),
+            onTap: () {},
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,116 +179,67 @@ class _UmrahGuideState extends State<UmrahGuide> {
                 Padding(
                   padding: const EdgeInsetsDirectional.only(end: 10.0),
                   child: CommonAppBar(
-                    title: AppStrings.umrahGuideAppBarTitleTxt.tr,
+                    title: AppStrings.guideAppBarTitleTxt.tr,
                     color: FrontEndConfig.iconColor,
                     showLeading: false,
                     actionIcon: AssetConstant.helpIcon,
                     onActionTap: () {
-                      NavigatorHelper.push(context, FaqScreen());
+                      NavigatorHelper.push(
+                        context,
+                        _tabController.index == 0
+                            ? const FaqScreen()
+                            : const HajjFaqScreen(),
+                      );
                     },
                   ),
                 ),
                 0.02.height(context),
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 17.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppStrings.prepareBeforeUmrahHeadingTxt.tr,
-                          style: FrontEndConfig.mainTextStyle.copyWith(fontSize: 18),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                  child: MyContainer(
+                    height: 50,
+                    gradient: FrontEndConfig.btnBorderColor,
+                    borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: MyContainer(
+                        decoration: BoxDecoration(
+                          color: FrontEndConfig.backgroundColor.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        0.02.height(context),
-
-                        CommonListTile(
-                          tileColor: FrontEndConfig.listTileColor,
-                          borderGradient: FrontEndConfig.listTileBorder,
-                          image: AssetConstant.documentIcon,
-                          title: AppStrings.checkTravelDocumentsTxt.tr,
-                          trailing: Image.asset(AssetConstant.arrowDownIcon, width: 10, height: 10),
-                          onTap: () => TravelDocumentsSheet.show(context),
-                        ),
-                        0.02.height(context),
-
-                        CommonListTile(
-                          tileColor: FrontEndConfig.listTileColor,
-                          borderGradient: FrontEndConfig.listTileBorder,
-                          image: AssetConstant.packIcon,
-                          title: AppStrings.packSmartlyTxt.tr,
-                          trailing: Image.asset(AssetConstant.arrowDownIcon, width: 10, height: 10),
-                          onTap: () {},
-                        ),
-                        0.02.height(context),
-
-                        CommonListTile(
-                          tileColor: FrontEndConfig.listTileColor,
-                          borderGradient: FrontEndConfig.listTileBorder,
-                          image: AssetConstant.bagListIcon,
-                          title: AppStrings.checkUmrahPackageDetailsTxt.tr,
-                          trailing: Image.asset(AssetConstant.arrowDownIcon, width: 10, height: 10),
-                          onTap: () {},
-                        ),
-                        0.02.height(context),
-
-                        CommonListTile(
-                          tileColor: FrontEndConfig.listTileColor,
-                          borderGradient: FrontEndConfig.listTileBorder,
-                          image: AssetConstant.aeroplaneIcon,
-                          title: AppStrings.checkTravelDocumentsTxt.tr,
-                          trailing: Image.asset(AssetConstant.arrowDownIcon, width: 10, height: 10),
-                          onTap: () {},
-                        ),
-                        0.02.height(context),
-
-                        Text(
-                          AppStrings.howToPerformUmrahHeadingTxt.tr,
-                          style: FrontEndConfig.mainTextStyle.copyWith(fontSize: 18),
-                        ),
-                        0.02.height(context),
-
-                        CommonListTile(
-                          tileColor: FrontEndConfig.listTileColor,
-                          borderGradient: FrontEndConfig.listTileBorder,
-                          leading: CircleAvatar(
-                            backgroundColor: const Color(0xffC89C18).withOpacity(0.3),
-                            radius: 13,
-                            child: Text(
-                              "1",
-                              style: GoogleFonts.raleway(
-                                color: FrontEndConfig.textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                        child: TabBar(
+                          controller: _tabController,
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          dividerColor: Colors.transparent,
+                          unselectedLabelColor: FrontEndConfig.textColor,
+                          indicator: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            gradient: FrontEndConfig.btnBorderColor,
                           ),
-                          title: AppStrings.methodOfPuttingIhramTxt.tr,
-                          onTap: () {
-                            NavigatorHelper.push(context, MethodPuttingIhram());
-                          },
-                        ),
-                        0.02.height(context),
-
-                        CommonListTile(
-                          tileColor: FrontEndConfig.listTileColor,
-                          borderGradient: FrontEndConfig.listTileBorder,
-                          leading: CircleAvatar(
-                            backgroundColor: const Color(0xffC89C18).withOpacity(0.3),
-                            radius: 13,
-                            child: Text(
-                              "2",
-                              style: GoogleFonts.raleway(
-                                color: FrontEndConfig.textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
+                          labelColor: FrontEndConfig.textColor,
+                          tabs: [
+                            Text(
+                              _guideTabLabel(false),
+                              style: FrontEndConfig.tabBarTextStyle,
                             ),
-                          ),
-                          title: AppStrings.methodOfPuttingIhramTxt.tr,
-                          onTap: () {},
+                            Text(
+                              _guideTabLabel(true),
+                              style: FrontEndConfig.tabBarTextStyle,
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
+                  ),
+                ),
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      _buildGuideContent(context, isHajj: false),
+                      _buildGuideContent(context, isHajj: true),
+                    ],
                   ),
                 ),
               ],

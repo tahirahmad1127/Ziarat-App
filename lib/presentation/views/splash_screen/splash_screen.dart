@@ -7,9 +7,11 @@ import 'package:ziarat_app/presentation/views/onBoarding/onBoarding_page.dart';
 import 'package:ziarat_app/presentation/views/bottom_bar/bottom_bar.dart';
 
 import '../../../configurations/frontend_config.dart';
+import '../../../infrastructure/models/maintenance.dart';
+import '../../../infrastructure/services/maintenance.dart';
 import '../../constants/asset_constant.dart';
+import '../maintenence/maintenence_screen.dart';
 
-// ✅ This is the entry point — check first launch and route accordingly
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -20,6 +22,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   static const _firstLaunchKey = 'is_first_launch';
 
+  final MaintenanceService _maintenanceService = MaintenanceService();
+
   @override
   void initState() {
     super.initState();
@@ -27,22 +31,33 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _handleNavigation() async {
+    // Minimum splash display time runs in parallel with the Firestore fetch
+    final futures = await Future.wait([
+      Future.delayed(const Duration(seconds: 3)),
+      _maintenanceService.getMaintenanceStatus(), // 👈 forces server fetch, bypasses cache
+    ]);
+
+    if (!mounted) return;
+
+    final maintenance = futures[1] as MaintenanceModel;
+
+    if (maintenance.isEnabled) {
+      // 🔴 App is under maintenance — go to maintenance screen
+      NavigatorHelper.pushReplacement(context, const MaintenanceScreen());
+      return;
+    }
+
+    // ✅ App is healthy — check first-launch and route accordingly
     final prefs = await SharedPreferences.getInstance();
     final isFirstLaunch = prefs.getBool(_firstLaunchKey) ?? true;
 
+    if (!mounted) return;
+
     if (isFirstLaunch) {
-      // ✅ First time — show splash for 3 seconds, then go to onboarding
       await prefs.setBool(_firstLaunchKey, false);
-      await Future.delayed(const Duration(seconds: 3));
-      if (mounted) {
-        NavigatorHelper.pushReplacement(context, const OnboardingPage());
-      }
+      NavigatorHelper.pushReplacement(context, const OnboardingPage());
     } else {
-      // ✅ Already installed — still show splash, then go directly to the app
-      await Future.delayed(const Duration(seconds: 3));
-      if (mounted) {
-        NavigatorHelper.pushReplacement(context, const BottomBarScreen());
-      }
+      NavigatorHelper.pushReplacement(context, const BottomBarScreen());
     }
   }
 

@@ -150,7 +150,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             textAlign: TextAlign.center,
                             style: FrontEndConfig.languageHeadingTextStyle
                                 .copyWith(
-                              fontSize: 28,
+                              fontSize: FrontEndConfig.fontSize(28),
                               fontFamily: _onboardingFontFamily(),
                             ),
                           ),
@@ -164,7 +164,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             onBoardingList[index].subtitle.tr,
                             textAlign: TextAlign.center,
                             style: FrontEndConfig.bodyTextStyle.copyWith(
-                              fontSize: 15,
+                              fontSize: FrontEndConfig.fontSize(15),
                               fontWeight: FontWeight.w400,
                               fontFamily: _onboardingFontFamily(),
                             ),

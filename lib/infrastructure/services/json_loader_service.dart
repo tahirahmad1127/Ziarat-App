@@ -14,6 +14,19 @@ class JsonLoaderService {
         .toList();
   }
 
+  static Future<List<UmrahMasailModel>> loadHajjMasail() async {
+    final String response =
+        await rootBundle.loadString('assets/json/hajj_masail.json');
+    final decoded = json.decode(response);
+    final List<dynamic> list = decoded is List
+        ? decoded
+        : ((decoded is Map<String, dynamic> ? decoded['data'] : null) as List? ??
+            const []);
+    return list
+        .map((e) => UmrahMasailModel.fromJson(e))
+        .toList();
+  }
+
   static Future<List<HaramGateModel>> loadHaramGates() async {
     final String response =
     await rootBundle.loadString('assets/json/haram_gates.json');

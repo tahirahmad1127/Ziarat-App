@@ -2,6 +2,7 @@ class AssetConstant{
 
   ///Image Paths
   static const splashlogo = 'assets/images/splashscreen.png';
+  static const String underMaintenence = 'assets/images/under_maintenence.png';
   static const backgroundimage = 'assets/images/background.png';
   static const onBoarding1 = 'assets/images/onBoarding1.png';
   static const onBoarding2 = 'assets/images/onBoarding2.png';

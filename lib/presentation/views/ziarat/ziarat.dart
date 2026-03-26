@@ -256,9 +256,8 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
         final ZiaratModel item = list[index];
         final String imageUrl =
         (item.images != null && item.images!.isNotEmpty)
-            ? item.images!.first
-            : "";
-
+            ? item.images!.first.imageUrl ?? ''
+            : '';
         return GestureDetector(
           onTap: () {
             NavigatorHelper.push(

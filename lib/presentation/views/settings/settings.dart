@@ -134,11 +134,11 @@ class _SettingsPageState extends State<SettingsPage> {
                                           : Get.locale?.languageCode == 'ur'
                                           ? 'اُردُو'
                                           : AppStrings.languageEnglishTxt.tr,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 12,
+                                        fontSize: FrontEndConfig.fontSize(12),
                                         fontWeight: FontWeight.normal,
-                                        fontFamily: 'Raleway',
+                                        fontFamily: FrontEndConfig.bodyTextStyle.fontFamily,
                                       ),
                                     ),
                                   ),

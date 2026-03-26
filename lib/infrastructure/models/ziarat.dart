@@ -22,7 +22,9 @@ class ZiaratListingModel {
   factory ZiaratListingModel.fromJson(Map<String, dynamic> json) => ZiaratListingModel(
     success: json["success"],
     count: json["count"],
-    data: json["data"] == null ? [] : List<ZiaratModel>.from(json["data"]!.map((x) => ZiaratModel.fromJson(x))),
+    data: json["data"] == null
+        ? []
+        : List<ZiaratModel>.from(json["data"]!.map((x) => ZiaratModel.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -30,6 +32,26 @@ class ZiaratListingModel {
     "count": count,
     "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
   };
+}
+
+class ImageModel {
+  final String? url;
+  final String? key;
+
+  ImageModel({this.url, this.key});
+
+  factory ImageModel.fromJson(Map<String, dynamic> json) => ImageModel(
+    url: json["url"],
+    key: json["key"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "url": url,
+    "key": key,
+  };
+
+  /// Convenience getter — returns url, falling back to key if url is null
+  String? get imageUrl => url ?? key;
 }
 
 class ZiaratModel {
@@ -40,7 +62,7 @@ class ZiaratModel {
   final String? dua;
   final double? lat;
   final double? lng;
-  final List<String>? images;
+  final List<ImageModel>? images;
   final String? audioGuide;
   final bool? isActive;
   final DateTime? createdAt;
@@ -63,21 +85,46 @@ class ZiaratModel {
     this.v,
   });
 
-  factory ZiaratModel.fromJson(Map<String, dynamic> json) => ZiaratModel(
-    id: json["_id"],
-    type: json["type"],
-    title: json["title"],
-    description: json["description"],
-    dua: json["dua"],
-    lat: json["lat"]?.toDouble(),
-    lng: json["lng"]?.toDouble(),
-    images: json["images"] == null ? [] : List<String>.from(json["images"]!.map((x) => x)),
-    audioGuide: json["audioGuide"],
-    isActive: json["isActive"],
-    createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
-    updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
-    v: json["__v"],
-  );
+  /// Safely converts any field to String? — handles String, Map, List, num, bool
+  static String? _safeString(dynamic value) {
+    if (value == null) return null;
+    if (value is String) return value;
+    if (value is Map) {
+      // Try common keys first, then fall back to first non-null value
+      for (final key in ['text', 'arabic', 'value', 'name', 'title', 'content']) {
+        if (value[key] != null) return value[key].toString();
+      }
+      return value.values.firstWhere((v) => v != null, orElse: () => null)?.toString();
+    }
+    return value.toString();
+  }
+
+  factory ZiaratModel.fromJson(Map<String, dynamic> json) {
+
+
+    return ZiaratModel(
+      id: _safeString(json["_id"]),
+      type: _safeString(json["type"]),
+      title: _safeString(json["title"]),
+      description: _safeString(json["description"]),
+      dua: _safeString(json["dua"]),
+      lat: json["lat"]?.toDouble(),
+      lng: json["lng"]?.toDouble(),
+      images: json["images"] == null
+          ? []
+          : List<ImageModel>.from(
+        json["images"]!.map((x) {
+          if (x is Map<String, dynamic>) return ImageModel.fromJson(x);
+          return ImageModel(url: x.toString());
+        }),
+      ),
+      audioGuide: _safeString(json["audioGuide"]),
+      isActive: json["isActive"],
+      createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+      updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+      v: json["__v"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "_id": id,
@@ -87,7 +134,7 @@ class ZiaratModel {
     "dua": dua,
     "lat": lat,
     "lng": lng,
-    "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+    "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x.toJson())),
     "audioGuide": audioGuide,
     "isActive": isActive,
     "createdAt": createdAt?.toIso8601String(),
