@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:ziarat_app/application/ziarat_bloc/ziarat_bloc.dart';
@@ -32,6 +33,9 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
   Timer? _debounce;
   List<ZiaratModel> _currentList = [];
 
+  // Track locale so we can rebuild when it changes
+  Locale? _lastLocale;
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +50,19 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
         widget.ziaratBloc.add(const GetMadinaZiaratEvent());
       }
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Rebuild the list whenever the app locale changes so the
+    // locale-aware getters (item.title, item.description) return
+    // the correct language string.
+    final currentLocale = Localizations.localeOf(context);
+    if (_lastLocale != null && _lastLocale != currentLocale) {
+      setState(() {});
+    }
+    _lastLocale = currentLocale;
   }
 
   @override
@@ -90,6 +107,22 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
     });
   }
 
+  /// Strips all HTML tags, collapses whitespace/line breaks,
+  /// then wraps in a single <p> for the Html widget to render cleanly.
+  String _cleanHtmlForPreview(String html) {
+    final cleaned = html
+        .replaceAll(RegExp(r'<br\s*/?>', caseSensitive: false), ' ')
+        .replaceAll(
+        RegExp(r'</?(p|h[1-6]|div|li|ul|ol)[^>]*>', caseSensitive: false),
+        ' ')
+        .replaceAll(RegExp(r'<[^>]*>'), '')
+        .replaceAll(RegExp(r'&nbsp;'), ' ')
+        .replaceAll(RegExp(r'&[a-z]+;'), '')
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+    return '<p>$cleaned</p>';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,8 +130,7 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
         children: [
           Container(color: FrontEndConfig.backgroundColor),
           Positioned.fill(
-            child:
-            Image.asset(AssetConstant.backgroundimage, fit: BoxFit.cover),
+            child: Image.asset(AssetConstant.backgroundimage, fit: BoxFit.cover),
           ),
           SafeArea(
             child: Column(
@@ -134,8 +166,8 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                             hintText: AppStrings.searchZiyaratHintTxt.tr,
                             hintStyle: FrontEndConfig.subHeadingTextStyle,
                             filled: true,
-                            fillColor:
-                            FrontEndConfig.backgroundColor.withOpacity(0.8),
+                            fillColor: FrontEndConfig.backgroundColor
+                                .withOpacity(0.8),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Image.asset(
@@ -250,14 +282,25 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildZiaratList(List<ZiaratModel> list) {
+    // Determine RTL once for the whole list based on current locale
+    final langCode = Get.locale?.languageCode ?? 'en';
+    final isRtl = langCode == 'ar' || langCode == 'ur';
+
     return ListView.builder(
       itemCount: list.length,
       itemBuilder: (context, index) {
         final ZiaratModel item = list[index];
+
+        // These getters read Get.locale at call time and return the
+        // correct localized string (en / ur / ar)
+        final String localizedTitle = item.title ?? '';
+        final String localizedDescription = item.description ?? '';
+
         final String imageUrl =
         (item.images != null && item.images!.isNotEmpty)
             ? item.images!.first.imageUrl ?? ''
             : '';
+
         return GestureDetector(
           onTap: () {
             NavigatorHelper.push(
@@ -269,7 +312,6 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
             child: MyContainer(
-              height: 296,
               decoration: BoxDecoration(
                 gradient: FrontEndConfig.btnBorderColor,
                 borderRadius: BorderRadius.circular(12),
@@ -282,8 +324,11 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: isRtl
+                        ? CrossAxisAlignment.end
+                        : CrossAxisAlignment.start,
                     children: [
+                      // ── Image ────────────────────────────────────────────
                       ClipRRect(
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(12),
@@ -308,14 +353,12 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                               ),
                             );
                           },
-                          placeholder: (context, url) {
-                            return Image.asset(
-                              'assets/images/logo2.png',
-                              height: 163,
-                              width: double.infinity,
-                              fit: BoxFit.fill,
-                            );
-                          },
+                          placeholder: (context, url) => Image.asset(
+                            'assets/images/logo2.png',
+                            height: 163,
+                            width: double.infinity,
+                            fit: BoxFit.fill,
+                          ),
                           errorWidget: (context, url, error) {
                             debugPrint('❌ IMAGE ERROR: $error for $url');
                             return Image.asset(
@@ -333,37 +376,90 @@ class _ZiaratState extends State<Ziarat> with SingleTickerProviderStateMixin {
                           fit: BoxFit.fill,
                         ),
                       ),
+
                       0.01.height(context),
+
+                      // ── Title ────────────────────────────────────────────
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 11.0),
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 11.0),
                         child: Text(
-                          item.title ?? "",
+                          localizedTitle,
                           style: FrontEndConfig.headingTextStyle,
+                          textAlign:
+                          isRtl ? TextAlign.right : TextAlign.left,
+                          textDirection:
+                          isRtl ? TextDirection.rtl : TextDirection.ltr,
                         ),
                       ),
+
                       0.01.height(context),
+
+                      // ── Location row ─────────────────────────────────────
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 11.0),
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 11.0),
                         child: Row(
+                          mainAxisAlignment: isRtl
+                              ? MainAxisAlignment.end
+                              : MainAxisAlignment.start,
                           children: [
-                            Image.asset(AssetConstant.location,
-                                width: 18, height: 18),
-                            0.01.width(context),
+                            if (!isRtl) ...[
+                              Image.asset(AssetConstant.location,
+                                  width: 18, height: 18),
+                              0.01.width(context),
+                            ],
                             Text(
-                              item.type ?? "",
+                              item.type ?? '',
                               style: FrontEndConfig.subHeadingTextStyle,
                             ),
+                            if (isRtl) ...[
+                              0.01.width(context),
+                              Image.asset(AssetConstant.location,
+                                  width: 18, height: 18),
+                            ],
                           ],
                         ),
                       ),
+
                       0.01.height(context),
+
+                      // ── Description preview ───────────────────────────────
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 11.0),
-                        child: Text(
-                          "${item.description ?? ""}${AppStrings.seeMoreSuffixTxt.tr}",
-                          style: FrontEndConfig.bodyTextStyle,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                        padding:
+                        const EdgeInsets.only(left: 11.0, right: 11, bottom: 10),
+                        child: Html(
+                          data: _cleanHtmlForPreview(localizedDescription),
+                          style: {
+                            "body": Style(
+                              margin: Margins.zero,
+                              padding: HtmlPaddings.zero,
+                              maxLines: 2,
+                              textOverflow: TextOverflow.ellipsis,
+                              textAlign:
+                              isRtl ? TextAlign.right : TextAlign.left,
+                              direction: isRtl
+                                  ? TextDirection.rtl
+                                  : TextDirection.ltr,
+                            ),
+                            "p": Style(
+                              margin: Margins.zero,
+                              padding: HtmlPaddings.zero,
+                              maxLines: 2,
+                              textOverflow: TextOverflow.ellipsis,
+                              fontSize: FontSize(
+                                  FrontEndConfig.bodyTextStyle.fontSize ??
+                                      12),
+                              color: FrontEndConfig.bodyTextStyle.color,
+                              fontWeight:
+                              FrontEndConfig.bodyTextStyle.fontWeight,
+                              textAlign:
+                              isRtl ? TextAlign.right : TextAlign.left,
+                              direction: isRtl
+                                  ? TextDirection.rtl
+                                  : TextDirection.ltr,
+                            ),
+                          },
                         ),
                       ),
                     ],
@@ -401,7 +497,6 @@ class _ZiaratShimmer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Image placeholder
                   Container(
                     height: 163,
                     width: double.infinity,
@@ -413,20 +508,14 @@ class _ZiaratShimmer extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 12),
-
-                  // Title
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 11.0),
                     child: _bar(
                         width: MediaQuery.of(context).size.width * 0.55,
                         height: 15),
                   ),
-
                   const SizedBox(height: 10),
-
-                  // Location row
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 11.0),
                     child: Row(
@@ -444,18 +533,12 @@ class _ZiaratShimmer extends StatelessWidget {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 10),
-
-                  // Description line 1
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 11.0),
                     child: _bar(width: double.infinity, height: 12),
                   ),
-
                   const SizedBox(height: 6),
-
-                  // Description line 2
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 11.0),
                     child: _bar(

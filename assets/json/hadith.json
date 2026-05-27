@@ -2,63 +2,303 @@
   "data": [
     {
       "index": 1,
-      "arabic_hadith": "لِقَوْلِهِ تَعَالى: {قُلْ مَا يَعْبَؤُا بِكُمْ رَبِّ لَوْلَا دُعَاؤُكُمْ} [الفرقان: ٧٧] وَمَعْنَى الدُّعاءِ في اللُّغَةِ (الإيمان)",
-      "urdu_hadith": "اللہ تعالیٰ کے اس فرمان کی وجہ سے: آپ کہہ دیجیے کہ میرا رب تمہاری کوئی پروا نہیں کرتا اگر تمہاری دعا نہ ہو [الفرقان: ٧٧] اور لغت میں دعاء کا معنی ایمان ہے۔",
-      "english_hadith": "Your invocation means your faith. And Allah said: Say (O Muhammad): My Lord pays attention to you only because of your invocation. (V.25:77)"
+      "arabic_hadith": "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ",
+      "urdu_hadith": "اعمال کا دارومدار نیتوں پر ہے",
+      "english_hadith": "Actions are judged by intentions. (Sahih Bukhari 1, Sahih Muslim 1907)"
     },
     {
       "index": 2,
-      "arabic_hadith": "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى",
-      "urdu_hadith": "اعمال کا دارومدار نیتوں پر ہے، اور ہر شخص کو وہی ملے گا جس کی اس نے نیت کی۔",
-      "english_hadith": "Actions are judged by intentions, and every person will get the reward according to what he has intended. (Bukhari & Muslim)"
+      "arabic_hadith": "الدِّينُ النَّصِيحَةُ",
+      "urdu_hadith": "دین خیرخواہی کا نام ہے",
+      "english_hadith": "Religion is sincerity. (Sahih Muslim 55)"
     },
     {
       "index": 3,
-      "arabic_hadith": "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ",
-      "urdu_hadith": "مسلمان وہ ہے جس کی زبان اور ہاتھ سے دوسرے مسلمان محفوظ رہیں۔",
-      "english_hadith": "A Muslim is the one from whose tongue and hand other Muslims are safe. (Bukhari)"
+      "arabic_hadith": "مَنْ غَشَّنَا فَلَيْسَ مِنَّا",
+      "urdu_hadith": "جو دھوکہ دے وہ ہم میں سے نہیں",
+      "english_hadith": "Whoever cheats is not one of us. (Sahih Muslim 101)"
     },
     {
       "index": 4,
-      "arabic_hadith": "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
-      "urdu_hadith": "جو شخص اللہ اور آخرت کے دن پر ایمان رکھتا ہو، وہ یا تو اچھی بات کہے یا خاموش رہے۔",
-      "english_hadith": "Whoever believes in Allah and the Last Day should speak good or remain silent. (Bukhari & Muslim)"
+      "arabic_hadith": "الطُّهُورُ شَطْرُ الإِيمَانِ",
+      "urdu_hadith": "پاکیزگی نصف ایمان ہے",
+      "english_hadith": "Cleanliness is half of faith. (Sahih Muslim 223)"
     },
     {
       "index": 5,
-      "arabic_hadith": "لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ",
-      "urdu_hadith": "تم میں سے کوئی اس وقت تک مومن نہیں ہو سکتا جب تک وہ اپنے بھائی کے لیے وہی نہ چاہے جو اپنے لیے چاہتا ہے۔",
-      "english_hadith": "None of you will have faith until he loves for his brother what he loves for himself. (Bukhari & Muslim)"
+      "arabic_hadith": "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
+      "urdu_hadith": "تم میں بہترین وہ ہے جو قرآن سیکھے اور سکھائے",
+      "english_hadith": "The best among you are those who learn the Quran and teach it. (Sahih Bukhari 5027)"
     },
     {
       "index": 6,
-      "arabic_hadith": "أَحَبُّ الأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ",
-      "urdu_hadith": "اللہ کو سب سے زیادہ پسندیدہ عمل وہ ہے جو ہمیشہ کیا جائے، چاہے تھوڑا ہی ہو۔",
-      "english_hadith": "The most beloved deed to Allah is the most regular and constant even if it were little. (Bukhari & Muslim)"
+      "arabic_hadith": "لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ",
+      "urdu_hadith": "تم میں سے کوئی مومن نہیں جب تک اپنے بھائی کے لیے وہی پسند نہ کرے جو اپنے لیے کرتا ہے",
+      "english_hadith": "None of you truly believes until he loves for his brother what he loves for himself. (Sahih Bukhari 13, Sahih Muslim 45)"
     },
     {
       "index": 7,
-      "arabic_hadith": "الدُّنْيَا سِجْنُ الْمُؤْمِنِ وَجَنَّةُ الْكَافِرِ",
-      "urdu_hadith": "دنیا مومن کے لیے قید خانہ ہے اور کافر کے لیے جنت ہے۔",
-      "english_hadith": "The world is a prison for the believer and a paradise for the disbeliever. (Muslim)"
+      "arabic_hadith": "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ",
+      "urdu_hadith": "جہاں کہیں بھی ہو اللہ سے ڈرتے رہو",
+      "english_hadith": "Fear Allah wherever you are. (Tirmidhi 1987)"
     },
     {
       "index": 8,
-      "arabic_hadith": "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ",
-      "urdu_hadith": "جو شخص علم حاصل کرنے کے لیے کوئی راستہ اختیار کرے، اللہ اس کے لیے جنت کا راستہ آسان کر دیتا ہے۔",
-      "english_hadith": "Whoever takes a path seeking knowledge, Allah will make easy for him a path to Paradise. (Muslim)"
+      "arabic_hadith": "مَنْ صَمَتَ نَجَا",
+      "urdu_hadith": "جو خاموش رہا وہ نجات پا گیا",
+      "english_hadith": "Whoever remains silent is saved. (Tirmidhi 2501)"
     },
     {
       "index": 9,
-      "arabic_hadith": "تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ صَدَقَةٌ",
-      "urdu_hadith": "اپنے بھائی کے چہرے پر مسکرانا صدقہ ہے۔",
-      "english_hadith": "Your smile in the face of your brother is charity. (Tirmidhi)"
+      "arabic_hadith": "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ",
+      "urdu_hadith": "مسلمان وہ ہے جس کی زبان اور ہاتھ سے دوسرے مسلمان محفوظ رہیں",
+      "english_hadith": "A Muslim is the one from whose tongue and hands others are safe. (Sahih Bukhari 10, Sahih Muslim 40)"
     },
     {
       "index": 10,
-      "arabic_hadith": "إِنَّ اللَّهَ لَا يَنْظُرُ إِلَى صُوَرِكُمْ وَأَمْوَالِكُمْ وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ وَأَعْمَالِكُمْ",
-      "urdu_hadith": "بے شک اللہ تمہاری شکلوں اور مالوں کو نہیں دیکھتا، بلکہ وہ تمہارے دلوں اور اعمال کو دیکھتا ہے۔",
-      "english_hadith": "Indeed Allah does not look at your appearance or wealth, but rather He looks at your hearts and actions. (Muslim)"
+      "arabic_hadith": "إِنَّ اللَّهَ جَمِيلٌ يُحِبُّ الْجَمَالَ",
+      "urdu_hadith": "اللہ خوبصورت ہے اور خوبصورتی کو پسند کرتا ہے",
+      "english_hadith": "Allah is beautiful and loves beauty. (Sahih Muslim 91)"
+    },
+    {
+      "index": 11,
+      "arabic_hadith": "الدُّنْيَا سِجْنُ الْمُؤْمِنِ",
+      "urdu_hadith": "دنیا مومن کے لیے قید خانہ ہے",
+      "english_hadith": "The world is a prison for the believer. (Sahih Muslim 2956)"
+    },
+    {
+      "index": 12,
+      "arabic_hadith": "مَنْ لَا يَرْحَمْ لَا يُرْحَمْ",
+      "urdu_hadith": "جو رحم نہیں کرتا اس پر رحم نہیں کیا جاتا",
+      "english_hadith": "He who does not show mercy will not be shown mercy. (Bukhari 7376, Muslim 2318)"
+    },
+    {
+      "index": 13,
+      "arabic_hadith": "الْكَلِمَةُ الطَّيِّبَةُ صَدَقَةٌ",
+      "urdu_hadith": "اچھی بات بھی صدقہ ہے",
+      "english_hadith": "A good word is charity. (Sahih Bukhari 2989, Sahih Muslim 1009)"
+    },
+    {
+      "index": 14,
+      "arabic_hadith": "لَا تَغْضَبْ",
+      "urdu_hadith": "غصہ نہ کرو",
+      "english_hadith": "Do not get angry. (Sahih Bukhari 6116)"
+    },
+    {
+      "index": 15,
+      "arabic_hadith": "مَنْ سَهَّلَ عَلَى مُعْسِرٍ سَهَّلَ اللَّهُ عَلَيْهِ",
+      "urdu_hadith": "جو کسی تنگ حال پر آسانی کرے اللہ اس پر آسانی کرے گا",
+      "english_hadith": "Whoever eases hardship for someone, Allah will ease his hardship. (Sahih Muslim 2699)"
+    },
+    {
+      "index": 16,
+      "arabic_hadith": "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
+      "urdu_hadith": "جو اللہ اور آخرت پر ایمان رکھتا ہے وہ اچھی بات کرے یا خاموش رہے",
+      "english_hadith": "Whoever believes in Allah and the Last Day should speak good or remain silent. (Sahih Bukhari 6018, Sahih Muslim 47)"
+    },
+    {
+      "index": 17,
+      "arabic_hadith": "إِنَّ اللَّهَ لَا يَنْظُرُ إِلَى صُوَرِكُمْ",
+      "urdu_hadith": "اللہ تمہاری شکلوں کو نہیں دیکھتا",
+      "english_hadith": "Allah does not look at your appearance. (Sahih Muslim 2564)"
+    },
+    {
+      "index": 18,
+      "arabic_hadith": "خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ",
+      "urdu_hadith": "بہترین لوگ وہ ہیں جو لوگوں کے لیے زیادہ فائدہ مند ہوں",
+      "english_hadith": "The best people are those most beneficial to others. (Tabarani)"
+    },
+    {
+      "index": 19,
+      "arabic_hadith": "الْبِرُّ حُسْنُ الْخُلُقِ",
+      "urdu_hadith": "نیکی اچھے اخلاق کا نام ہے",
+      "english_hadith": "Righteousness is good character. (Sahih Muslim 2553)"
+    },
+    {
+      "index": 20,
+      "arabic_hadith": "إِنَّ أَحَبَّ الْأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا",
+      "urdu_hadith": "اللہ کو وہ عمل زیادہ پسند ہے جو مستقل ہو",
+      "english_hadith": "The most beloved deeds to Allah are those done consistently. (Sahih Bukhari 6464, Sahih Muslim 783)"
+    },
+    {
+      "index": 21,
+      "arabic_hadith": "مَنْ دَلَّ عَلَى خَيْرٍ فَلَهُ مِثْلُ أَجْرِهِ",
+      "urdu_hadith": "جو کسی کو نیکی کی طرف رہنمائی کرے اسے بھی اتنا ہی اجر ملتا ہے",
+      "english_hadith": "Whoever guides to good gets the same reward. (Sahih Muslim 1893)"
+    },
+    {
+      "index": 22,
+      "arabic_hadith": "اتَّقُوا النَّارَ وَلَوْ بِشِقِّ تَمْرَةٍ",
+      "urdu_hadith": "جہنم سے بچو چاہے آدھی کھجور دے کر ہی کیوں نہ ہو",
+      "english_hadith": "Save yourself from Hell even with half a date. (Sahih Bukhari 1417, Sahih Muslim 1016)"
+    },
+    {
+      "index": 23,
+      "arabic_hadith": "لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ",
+      "urdu_hadith": "طاقتور وہ نہیں جو کشتی میں جیت جائے",
+      "english_hadith": "The strong man is not the one who wrestles well. (Sahih Bukhari 6114, Sahih Muslim 2609)"
+    },
+    {
+      "index": 24,
+      "arabic_hadith": "مَنْ تَوَاضَعَ لِلَّهِ رَفَعَهُ اللَّهُ",
+      "urdu_hadith": "جو اللہ کے لیے عاجزی اختیار کرے اللہ اسے بلند کرتا ہے",
+      "english_hadith": "Whoever humbles himself for Allah, Allah raises him. (Sahih Muslim 2588)"
+    },
+    {
+      "index": 25,
+      "arabic_hadith": "الدُّعَاءُ هُوَ الْعِبَادَةُ",
+      "urdu_hadith": "دعا ہی عبادت ہے",
+      "english_hadith": "Supplication is worship. (Tirmidhi 2969)"
+    },
+    {
+      "index": 26,
+      "arabic_hadith": "مَنْ لَا يَشْكُرِ النَّاسَ لَا يَشْكُرِ اللَّهَ",
+      "urdu_hadith": "جو لوگوں کا شکر ادا نہیں کرتا وہ اللہ کا بھی شکر ادا نہیں کرتا",
+      "english_hadith": "He who does not thank people does not thank Allah. (Tirmidhi 1954)"
+    },
+    {
+      "index": 27,
+      "arabic_hadith": "الْيَدُ الْعُلْيَا خَيْرٌ مِنَ الْيَدِ السُّفْلَى",
+      "urdu_hadith": "اوپر والا ہاتھ (دینے والا) نیچے والے ہاتھ سے بہتر ہے",
+      "english_hadith": "The upper hand is better than the lower hand. (Sahih Bukhari 1429)"
+    },
+    {
+      "index": 28,
+      "arabic_hadith": "مَنْ صَلَّى عَلَيَّ وَاحِدَةً صَلَّى اللَّهُ عَلَيْهِ عَشْرًا",
+      "urdu_hadith": "جو مجھ پر ایک درود بھیجے اللہ اس پر دس رحمتیں بھیجتا ہے",
+      "english_hadith": "Whoever sends blessings upon me once, Allah sends ten upon him. (Sahih Muslim 384)"
+    },
+    {
+      "index": 29,
+      "arabic_hadith": "مَنْ سَتَرَ مُسْلِمًا سَتَرَهُ اللَّهُ",
+      "urdu_hadith": "جو کسی مسلمان کی پردہ پوشی کرے اللہ اس کی پردہ پوشی کرے گا",
+      "english_hadith": "Whoever conceals a Muslim's fault, Allah will conceal his. (Sahih Muslim 2699)"
+    },
+    {
+      "index": 30,
+      "arabic_hadith": "الْمُؤْمِنُ مِرْآةُ الْمُؤْمِنِ",
+      "urdu_hadith": "مومن مومن کا آئینہ ہے",
+      "english_hadith": "A believer is a mirror of another believer. (Abu Dawood 4918)"
+    },
+    {
+      "index": 31,
+      "arabic_hadith": "أَفْضَلُ الذِّكْرِ لَا إِلَهَ إِلَّا اللَّهُ",
+      "urdu_hadith": "سب سے افضل ذکر لا الہ الا اللہ ہے",
+      "english_hadith": "The best remembrance is \"La ilaha illallah\". (Tirmidhi 3383)"
+    },
+    {
+      "index": 32,
+      "arabic_hadith": "الْحَيَاءُ شُعْبَةٌ مِنَ الْإِيمَانِ",
+      "urdu_hadith": "حیا ایمان کا حصہ ہے",
+      "english_hadith": "Modesty is part of faith. (Sahih Bukhari 9, Sahih Muslim 35)"
+    },
+    {
+      "index": 33,
+      "arabic_hadith": "الْمُسْلِمُ أَخُو الْمُسْلِمِ",
+      "urdu_hadith": "مسلمان مسلمان کا بھائی ہے",
+      "english_hadith": "A Muslim is the brother of a Muslim. (Sahih Bukhari 2442, Sahih Muslim 2580)"
+    },
+    {
+      "index": 34,
+      "arabic_hadith": "مَنْ كَذَبَ عَلَيَّ مُتَعَمِّدًا",
+      "urdu_hadith": "جو مجھ پر جھوٹ باندھے وہ اپنا ٹھکانہ جہنم میں بنائے",
+      "english_hadith": "Whoever lies about me intentionally will enter Hell. (Sahih Bukhari 1291, Sahih Muslim 3)"
+    },
+    {
+      "index": 35,
+      "arabic_hadith": "مَنْ حَفِظَ عَشْرَ آيَاتٍ",
+      "urdu_hadith": "جو دس آیات یاد کرے وہ محفوظ رہتا ہے",
+      "english_hadith": "Whoever memorizes ten verses is protected. (Sahih Muslim 809)"
+    },
+    {
+      "index": 36,
+      "arabic_hadith": "إِنَّ الصِّدْقَ يَهْدِي إِلَى الْبِرِّ",
+      "urdu_hadith": "سچائی نیکی کی طرف لے جاتی ہے",
+      "english_hadith": "Truth leads to righteousness. (Sahih Bukhari 6094, Sahih Muslim 2607)"
+    },
+    {
+      "index": 37,
+      "arabic_hadith": "إِيَّاكُمْ وَالظَّنَّ",
+      "urdu_hadith": "بدگمانی سے بچو",
+      "english_hadith": "Avoid suspicion. (Sahih Bukhari 6066, Sahih Muslim 2563)"
+    },
+    {
+      "index": 38,
+      "arabic_hadith": "مَنْ صَبَرَ ظَفِرَ",
+      "urdu_hadith": "جو صبر کرے وہ کامیاب ہوتا ہے",
+      "english_hadith": "Whoever is patient succeeds. (Musnad Ahmad)"
+    },
+    {
+      "index": 39,
+      "arabic_hadith": "الْمُؤْمِنُ قَوِيٌّ خَيْرٌ",
+      "urdu_hadith": "طاقتور مومن بہتر ہے",
+      "english_hadith": "A strong believer is better. (Sahih Muslim 2664)"
+    },
+    {
+      "index": 40,
+      "arabic_hadith": "احْفَظِ اللَّهَ يَحْفَظْكَ",
+      "urdu_hadith": "اللہ کی حفاظت کرو وہ تمہاری حفاظت کرے گا",
+      "english_hadith": "Protect Allah (His commands), He will protect you. (Tirmidhi 2516)"
+    },
+    {
+      "index": 41,
+      "arabic_hadith": "الْمَرْءُ مَعَ مَنْ أَحَبَّ",
+      "urdu_hadith": "انسان اسی کے ساتھ ہوگا جس سے محبت کرے",
+      "english_hadith": "A person will be with whom he loves. (Sahih Bukhari 6169, Sahih Muslim 2640)"
+    },
+    {
+      "index": 42,
+      "arabic_hadith": "الدُّعَاءُ هُوَ الْعِبَادَةُ",
+      "urdu_hadith": "دعا ہی عبادت ہے",
+      "english_hadith": "Supplication is worship. (Tirmidhi 2969)"
+    },
+    {
+      "index": 43,
+      "arabic_hadith": "خَيْرُكُمْ خَيْرُكُمْ لِأَهْلِهِ",
+      "urdu_hadith": "تم میں بہترین وہ ہے جو اپنے گھر والوں کے لیے بہترین ہو",
+      "english_hadith": "The best of you are best to their families. (Tirmidhi 3895)"
+    },
+    {
+      "index": 44,
+      "arabic_hadith": "إِنَّ اللَّهَ يُحِبُّ الرِّفْقَ",
+      "urdu_hadith": "اللہ نرمی کو پسند کرتا ہے",
+      "english_hadith": "Allah loves gentleness. (Sahih Bukhari 6927, Sahih Muslim 2165)"
+    },
+    {
+      "index": 45,
+      "arabic_hadith": "مَنْ لَا يَرْحَمُ الصَّغِيرَ",
+      "urdu_hadith": "جو چھوٹوں پر رحم نہ کرے وہ ہم میں سے نہیں",
+      "english_hadith": "He who does not show mercy to young ones is not from us. (Tirmidhi 1921)"
+    },
+    {
+      "index": 46,
+      "arabic_hadith": "كُلُّ مَعْرُوفٍ صَدَقَةٌ",
+      "urdu_hadith": "ہر نیکی صدقہ ہے",
+      "english_hadith": "Every good deed is charity. (Sahih Bukhari 6021, Sahih Muslim 1005)"
+    },
+    {
+      "index": 47,
+      "arabic_hadith": "الْمُؤْمِنُ لِلْمُؤْمِنِ كَالْبُنْيَانِ",
+      "urdu_hadith": "مومن مومن کے لیے دیوار کی طرح ہے",
+      "english_hadith": "A believer is like a structure for another. (Sahih Bukhari 2446, Sahih Muslim 2585)"
+    },
+    {
+      "index": 48,
+      "arabic_hadith": "مَنْ كَانَ فِي حَاجَةِ أَخِيهِ",
+      "urdu_hadith": "جو اپنے بھائی کی مدد کرے اللہ اس کی مدد کرتا ہے",
+      "english_hadith": "Whoever helps his brother, Allah helps him. (Sahih Bukhari 2442, Sahih Muslim 2580)"
+    },
+    {
+      "index": 49,
+      "arabic_hadith": "الْكَذِبُ يَهْدِي إِلَى الْفُجُورِ",
+      "urdu_hadith": "جھوٹ برائی کی طرف لے جاتا ہے",
+      "english_hadith": "Lying leads to wickedness. (Sahih Bukhari 6094, Sahih Muslim 2607)"
+    },
+    {
+      "index": 50,
+      "arabic_hadith": "مَنْ حُسْنِ إِسْلَامِ الْمَرْءِ تَرْكُهُ مَا لَا يَعْنِيهِ",
+      "urdu_hadith": "اچھے اسلام کی نشانی ہے کہ انسان فضول چیزیں چھوڑ دے",
+      "english_hadith": "Part of good Islam is leaving what does not concern you. (Tirmidhi 2317)"
     }
   ]
 }

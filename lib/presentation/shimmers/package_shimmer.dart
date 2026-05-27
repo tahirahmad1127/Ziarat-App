@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../configurations/frontend_config.dart';
+
+import '../../configurations/frontend_config.dart';
 
 class PackageShimmer extends StatelessWidget {
   const PackageShimmer({super.key});

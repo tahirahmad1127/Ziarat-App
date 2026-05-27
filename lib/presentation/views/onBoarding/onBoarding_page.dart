@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:ziarat_app/application/navigation_helper.dart';
 import 'package:ziarat_app/infrastructure/models/onboarding.dart';
 import 'package:ziarat_app/presentation/constants/app_constant.dart';
 import 'package:ziarat_app/presentation/views/bottom_bar/bottom_bar.dart';
 import 'package:ziarat_app/presentation/views/extra/extra.dart';
 
+import '../../../application/navigation_helper.dart';
 import '../../../configurations/frontend_config.dart';
 import '../../constants/asset_constant.dart';
 import '../../elements/boarding_button.dart';
@@ -237,7 +237,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         child: Text(
                           getMainButtonText(),
                           style: FrontEndConfig.btnTextStyle.copyWith(
-                            fontSize: 16,
+                            fontSize: FrontEndConfig.fontSize(16),
                             fontFamily: _onboardingFontFamily(),
                           ),
                         ),

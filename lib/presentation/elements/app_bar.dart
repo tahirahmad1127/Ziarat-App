@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ziarat_app/configurations/frontend_config.dart';
 import 'package:ziarat_app/presentation/constants/asset_constant.dart';
+
+import '../../configurations/frontend_config.dart';
 
 class CommonAppBar extends StatelessWidget {
   final String? title;

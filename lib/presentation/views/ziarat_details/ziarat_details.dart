@@ -1,13 +1,15 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:html/parser.dart' as html_parser;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ziarat_app/infrastructure/models/ziarat_details.dart';
 import 'package:ziarat_app/presentation/constants/app_constant.dart';
-import 'package:ziarat_app/presentation/elements/container.dart';
 import '../../../application/navigation_helper.dart';
 import '../../../configurations/frontend_config.dart';
+import 'package:ziarat_app/presentation/elements/container.dart';
 import '../../constants/asset_constant.dart';
 import '../../constants/app_strings.dart';
 
@@ -53,12 +55,11 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
           _isPlaying = state == PlayerState.playing;
           _isLoading = false;
 
-          // Show mini player if playing or paused AND bottom sheet is not open
-          if ((state == PlayerState.playing || state == PlayerState.paused) && !_bottomSheetOpen) {
+          if ((state == PlayerState.playing || state == PlayerState.paused) &&
+              !_bottomSheetOpen) {
             _miniPlayerVisible = true;
           }
 
-          // Hide mini player only if stopped or completed
           if (state == PlayerState.stopped || state == PlayerState.completed) {
             _miniPlayerVisible = false;
           }
@@ -85,18 +86,47 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
     super.dispose();
   }
 
+  // ─── Parse HTML → list of plain-text bullet strings ────────────────────────
+  /// Handles both <p>...</p> (en/ur) and <ul><li>...</li></ul> (ar) formats
+  /// returned by the API, stripping all inner HTML tags to plain text.
+  List<String> _parseImportantPointsHtml(String? html) {
+    if (html == null || html.trim().isEmpty) return [];
+
+    final document = html_parser.parse(html);
+    final points = <String>[];
+
+    // First try <li> elements (Arabic format uses <ul><li>)
+    final liElements = document.querySelectorAll('li');
+    if (liElements.isNotEmpty) {
+      for (final li in liElements) {
+        final text = li.text.trim();
+        if (text.isNotEmpty) points.add(text);
+      }
+      return points;
+    }
+
+    // Fallback: <p> elements (English / Urdu format uses <p>point text</p>)
+    final pElements = document.querySelectorAll('p');
+    for (final p in pElements) {
+      final text = p.text.trim();
+      if (text.isNotEmpty) points.add(text);
+    }
+
+    return points;
+  }
+
   Future<void> _openGoogleMaps() async {
     final lat = widget.data.lat;
     final lng = widget.data.lng;
 
     Uri uri;
     if (lat != null && lng != null) {
-      uri = Uri.parse(
-          'https://www.google.com/maps/search/?api=1&query=$lat,$lng');
+      uri =
+          Uri.parse('https://www.google.com/maps/search/?api=1&query=$lat,$lng');
     } else {
       final query = Uri.encodeComponent(widget.data.title ?? 'Ziarat');
-      uri = Uri.parse(
-          'https://www.google.com/maps/search/?api=1&query=$query');
+      uri =
+          Uri.parse('https://www.google.com/maps/search/?api=1&query=$query');
     }
 
     if (await canLaunchUrl(uri)) {
@@ -133,8 +163,7 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-                content:
-                Text('${AppStrings.failedToPlayAudioTxt.tr}: $e')),
+                content: Text('${AppStrings.failedToPlayAudioTxt.tr}: $e')),
           );
           return;
         }
@@ -147,10 +176,8 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
   }
 
   String _formatDuration(Duration d) {
-    final minutes =
-    d.inMinutes.remainder(60).toString().padLeft(2, '0');
-    final seconds =
-    d.inSeconds.remainder(60).toString().padLeft(2, '0');
+    final minutes = d.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final seconds = d.inSeconds.remainder(60).toString().padLeft(2, '0');
     return '$minutes:$seconds';
   }
 
@@ -205,8 +232,8 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
             ? GestureDetector(
           onTap: _showAudioBottomSheet,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 16, vertical: 6),
+            padding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             child: MyContainer(
               decoration: BoxDecoration(
                 gradient: FrontEndConfig.btnBorderColor,
@@ -240,27 +267,23 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                         const SizedBox(width: 10),
                         Expanded(
                           child: Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
                                 widget.data.title ?? '',
-                                style: FrontEndConfig
-                                    .headingTextStyle
-                                    .copyWith(fontSize: 12),
+                                style: FrontEndConfig.headingTextStyle
+                                    .copyWith(fontSize: FrontEndConfig.fontSize(12)),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               const SizedBox(height: 4),
                               SliderTheme(
-                                data:
-                                SliderTheme.of(context).copyWith(
+                                data: SliderTheme.of(context).copyWith(
                                   activeTrackColor:
                                   const Color(0xffC89C18),
                                   inactiveTrackColor: Colors.white24,
-                                  thumbColor:
-                                  const Color(0xffC89C18),
+                                  thumbColor: const Color(0xffC89C18),
                                   trackHeight: 2,
                                   thumbShape:
                                   const RoundSliderThumbShape(
@@ -281,13 +304,11 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                                         : 0,
                                     min: 0,
                                     max: _duration.inSeconds > 0
-                                        ? _duration.inSeconds
-                                        .toDouble()
+                                        ? _duration.inSeconds.toDouble()
                                         : 1,
                                     onChanged: (val) async {
                                       await _audioPlayer.seek(
-                                          Duration(
-                                              seconds: val.toInt()));
+                                          Duration(seconds: val.toInt()));
                                     },
                                   ),
                                 ),
@@ -305,8 +326,7 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                         GestureDetector(
                           onTap: () async {
                             await _audioPlayer.stop();
-                            setState(
-                                    () => _miniPlayerVisible = false);
+                            setState(() => _miniPlayerVisible = false);
                           },
                           child: const Icon(Icons.close,
                               color: Colors.white54, size: 16),
@@ -325,7 +345,6 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
   }
 
   void _showAudioBottomSheet() {
-    // Track that bottom sheet is open and capture current playing state
     setState(() {
       _bottomSheetOpen = true;
       _miniPlayerVisible = false;
@@ -353,8 +372,7 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
             });
 
             return Padding(
-              padding: const EdgeInsets.only(
-                  left: 16, right: 16, bottom: 25),
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 25),
               child: MyContainer(
                 decoration: BoxDecoration(
                   gradient: FrontEndConfig.btnBorderColor,
@@ -386,77 +404,45 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                                top: 10,
-                                bottom: 16),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 16),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Container(
-                                  width: 89,
-                                  height: 4,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade400,
-                                    borderRadius:
-                                    BorderRadius.circular(10),
+                                Center(
+                                  child: Container(
+                                    width: 89,
+                                    height: 4,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade400,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(height: 16),
-
-                                CircleAvatar(
-                                  backgroundColor: const Color(0xffC89C18)
-                                      .withOpacity(0.3),
-                                  radius: 28,
-                                  child: Image.asset(
-                                    AssetConstant.speaker,
-                                    width: 28,
-                                    height: 28,
-                                    color: const Color(0xffC89C18),
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-
                                 Text(
                                   widget.data.title ?? '',
                                   style: FrontEndConfig.mainTextStyle,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Audio Guide',
-                                  style:
-                                  FrontEndConfig.subHeadingTextStyle,
                                   textAlign: TextAlign.center,
                                 ),
                                 const SizedBox(height: 20),
-
                                 SliderTheme(
-                                  data:
-                                  SliderTheme.of(context).copyWith(
-                                    activeTrackColor:
-                                    const Color(0xffC89C18),
+                                  data: SliderTheme.of(context).copyWith(
+                                    activeTrackColor: const Color(0xffC89C18),
                                     inactiveTrackColor: Colors.white24,
-                                    thumbColor:
-                                    const Color(0xffC89C18),
-                                    overlayColor: const Color(0xffC89C18)
-                                        .withOpacity(0.2),
+                                    thumbColor: const Color(0xffC89C18),
                                     trackHeight: 3,
-                                    thumbShape:
-                                    const RoundSliderThumbShape(
+                                    thumbShape: const RoundSliderThumbShape(
                                         enabledThumbRadius: 6),
+                                    overlayShape:
+                                    SliderComponentShape.noOverlay,
                                   ),
                                   child: Slider(
                                     value: _duration.inSeconds > 0
                                         ? _position.inSeconds
                                         .toDouble()
-                                        .clamp(
-                                        0,
-                                        _duration.inSeconds
-                                            .toDouble())
+                                        .clamp(0,
+                                        _duration.inSeconds.toDouble())
                                         : 0,
                                     min: 0,
                                     max: _duration.inSeconds > 0
@@ -464,34 +450,29 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                                         : 1,
                                     onChanged: (val) async {
                                       await _audioPlayer.seek(
-                                          Duration(
-                                              seconds: val.toInt()));
+                                          Duration(seconds: val.toInt()));
                                     },
                                   ),
                                 ),
-
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 4),
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
                                   child: Row(
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(_formatDuration(_position),
-                                          style: FrontEndConfig
-                                              .subHeadingTextStyle),
+                                          style:
+                                          FrontEndConfig.subHeadingTextStyle),
                                       Text(_formatDuration(_duration),
-                                          style: FrontEndConfig
-                                              .subHeadingTextStyle),
+                                          style:
+                                          FrontEndConfig.subHeadingTextStyle),
                                     ],
                                   ),
                                 ),
-
                                 const SizedBox(height: 16),
-
                                 Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     IconButton(
                                       onPressed: () async {
@@ -507,7 +488,6 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                                           color: Colors.white, size: 30),
                                     ),
                                     const SizedBox(width: 16),
-
                                     _buildPlayPauseButton(
                                       isPlaying: _isPlaying,
                                       isLoading: _isLoading,
@@ -520,7 +500,6 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                                         setSheetState(() {});
                                       },
                                     ),
-
                                     const SizedBox(width: 16),
                                     IconButton(
                                       onPressed: () async {
@@ -537,23 +516,20 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                                     ),
                                   ],
                                 ),
-
                                 const SizedBox(height: 16),
-
                                 Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text('Speed:',
-                                        style: FrontEndConfig
-                                            .subHeadingTextStyle),
+                                        style:
+                                        FrontEndConfig.subHeadingTextStyle),
                                     const SizedBox(width: 10),
                                     Flexible(
                                       child: SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
                                         child: Row(
-                                          children: _speedOptions
-                                              .map((speed) {
+                                          children:
+                                          _speedOptions.map((speed) {
                                             final isSelected =
                                                 _playbackSpeed == speed;
                                             return GestureDetector(
@@ -564,25 +540,22 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                                               child: AnimatedContainer(
                                                 duration: const Duration(
                                                     milliseconds: 200),
-                                                margin: const EdgeInsets
-                                                    .symmetric(
+                                                margin:
+                                                const EdgeInsets.symmetric(
                                                     horizontal: 3),
-                                                padding: const EdgeInsets
-                                                    .symmetric(
+                                                padding:
+                                                const EdgeInsets.symmetric(
                                                     horizontal: 9,
                                                     vertical: 5),
                                                 decoration: BoxDecoration(
                                                   color: isSelected
-                                                      ? const Color(
-                                                      0xffC89C18)
+                                                      ? const Color(0xffC89C18)
                                                       : Colors.white10,
                                                   borderRadius:
-                                                  BorderRadius
-                                                      .circular(20),
+                                                  BorderRadius.circular(20),
                                                   border: Border.all(
                                                     color: isSelected
-                                                        ? const Color(
-                                                        0xffC89C18)
+                                                        ? const Color(0xffC89C18)
                                                         : Colors.white24,
                                                     width: 1,
                                                   ),
@@ -595,8 +568,7 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                                                     fontSize: 11,
                                                     fontWeight: isSelected
                                                         ? FontWeight.bold
-                                                        : FontWeight
-                                                        .normal,
+                                                        : FontWeight.normal,
                                                     color: Colors.white,
                                                   ),
                                                 ),
@@ -608,19 +580,15 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                                     ),
                                   ],
                                 ),
-
                                 const SizedBox(height: 20),
-
                                 GestureDetector(
-                                  onTap: () =>
-                                      NavigatorHelper.pop(context),
+                                  onTap: () => NavigatorHelper.pop(context),
                                   child: Text(
                                     AppStrings.closeBottomSheetBtnTxt.tr,
                                     textAlign: TextAlign.center,
                                     style: FrontEndConfig.headingTextStyle
                                         .copyWith(
-                                      decoration:
-                                      TextDecoration.underline,
+                                      decoration: TextDecoration.underline,
                                       decorationColor: Colors.white,
                                       decorationThickness: 2,
                                       height: 1,
@@ -642,11 +610,9 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
         );
       },
     ).then((_) {
-      // When bottom sheet is dismissed, mark it as closed
       if (mounted) {
         setState(() {
           _bottomSheetOpen = false;
-          // Show mini player only if audio is still playing
           if (_isPlaying) {
             _miniPlayerVisible = true;
           } else {
@@ -655,6 +621,453 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
         });
       }
     });
+  }
+
+  // ─── Dua Bottom Sheet ────────────────────────────────────────────────────────
+  void _showDuaBottomSheet(
+      BuildContext context, String? dua, String? zikar, String? nafalPrayer) {
+    final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
+    final langCode = Get.locale?.languageCode ?? 'en';
+    final bool isRtl = langCode == 'ar' || langCode == 'ur';
+
+    // ── Localised section headings ────────────────────────────────────────────
+    String zikrHeading;
+    String naflHeading;
+    if (langCode == 'ur') {
+      zikrHeading = 'ذکر';
+      naflHeading = 'نفل';
+    } else if (langCode == 'ar') {
+      zikrHeading = 'الذكر';
+      naflHeading = 'النافلة';
+    } else {
+      zikrHeading = 'Zikr';
+      naflHeading = 'Nafl';
+    }
+
+    showModalBottomSheet(
+      isDismissible: true,
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      useSafeArea: true,
+      constraints: const BoxConstraints(maxWidth: double.infinity),
+      builder: (context) {
+        final double maxHeight = MediaQuery.of(context).size.height * 0.70;
+        return SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: EdgeInsets.only(
+                bottom: 25 + bottomPadding, left: 16, right: 16),
+            child: MyContainer(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: FrontEndConfig.btnBorderColor,
+                borderRadius: BorderRadius.circular(13),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(1.0),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: maxHeight),
+                  child: MyContainer(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: FrontEndConfig.backgroundColor,
+                      borderRadius: BorderRadius.circular(13),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.25),
+                          blurRadius: 20,
+                          spreadRadius: 2,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            child: Image.asset(
+                              AssetConstant.bottomSheetDesgin,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          SingleChildScrollView(
+                            physics: const ClampingScrollPhysics(),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 10,
+                              ),
+                              child: Directionality(
+                                textDirection:
+                                isRtl ? TextDirection.rtl : TextDirection.ltr,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // ── Drag handle ───────────────────────────
+                                    Center(
+                                      child: Container(
+                                        width: 89,
+                                        height: 4,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade400,
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                    0.02.height(context),
+
+                                    // ── Icon ─────────────────────────────────
+                                    Center(
+                                      child: CircleAvatar(
+                                        radius: 32,
+                                        backgroundColor:
+                                        const Color(0xffC89C18)
+                                            .withOpacity(0.3),
+                                        child: Image.asset(
+                                          AssetConstant.pray,
+                                          height: 42,
+                                        ),
+                                      ),
+                                    ),
+                                    0.02.height(context),
+
+                                    // ── Zikr Section ──────────────────────────
+                                    Center(
+                                      child: Text(
+                                        zikrHeading,
+                                        style: FrontEndConfig.mainTextStyle,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    0.015.height(context),
+                                    if (zikar != null && zikar.isNotEmpty)
+                                      Text(
+                                        zikar,
+                                        style: FrontEndConfig.subHeadingTextStyle.copyWith(color: Colors.white),
+                                        textAlign: isRtl
+                                            ? TextAlign.right
+                                            : TextAlign.left,
+                                      )
+                                    else
+                                      const SizedBox.shrink(),
+
+                                    // ── 10px gap ─────────────────────────────
+                                    const SizedBox(height: 10),
+
+                                    // ── Nafl Section ──────────────────────────
+                                    Center(
+                                      child: Text(
+                                        naflHeading,
+                                        style: FrontEndConfig.mainTextStyle,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    0.015.height(context),
+                                    if (nafalPrayer != null &&
+                                        nafalPrayer.isNotEmpty)
+                                      Text(
+                                        nafalPrayer,
+                                        style: FrontEndConfig.subHeadingTextStyle.copyWith(color: Colors.white),
+                                        textAlign: isRtl
+                                            ? TextAlign.right
+                                            : TextAlign.left,
+                                      )
+                                    else
+                                      const SizedBox.shrink(),
+
+                                    0.04.height(context),
+
+                                    // ── Close button ──────────────────────────
+                                    Center(
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.only(bottom: 8.0),
+                                        child: GestureDetector(
+                                          onTap: () =>
+                                              NavigatorHelper.pop(context),
+                                          child: Text(
+                                            AppStrings.closeBtnTxt.tr,
+                                            textAlign: TextAlign.center,
+                                            style: FrontEndConfig.headingTextStyle
+                                                .copyWith(
+                                              decoration:
+                                              TextDecoration.underline,
+                                              decorationColor: Colors.white,
+                                              decorationThickness: 2,
+                                              height: 1,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ), // ConstrainedBox
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // ─── Important Points Bottom Sheet ──────────────────────────────────────────
+  /// Renders dynamic importantPoints from the API as styled bullet rows.
+  /// The `data.importantPoints` getter already returns the locale-correct
+  /// string (en / ur / ar) based on the current GetX locale, so this works
+  /// identically for both Makkah and Madina ziarat.
+  void _showImportantPointsBottomSheet(
+      BuildContext context, String? importantPoints) {
+    final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
+    final langCode = Get.locale?.languageCode ?? 'en';
+    final bool isRtl = langCode == 'ar' || langCode == 'ur';
+
+    // ── Heading label (localised) ─────────────────────────────────────────────
+    String heading;
+    if (langCode == 'ur') {
+      heading = 'ضروری ہدایت';
+    } else if (langCode == 'ar') {
+      heading = 'نقاط مهمة';
+    } else {
+      heading = 'Important Points';
+    }
+
+    // ── Empty-state label (localised) ────────────────────────────────────────
+    String emptyLabel;
+    if (langCode == 'ur') {
+      emptyLabel = 'کوئی ہدایت دستیاب نہیں';
+    } else if (langCode == 'ar') {
+      emptyLabel = 'لا توجد نقاط متاحة';
+    } else {
+      emptyLabel = 'No important points available.';
+    }
+
+    // ── Parse HTML → plain-text bullet list ──────────────────────────────────
+    final List<String> bulletPoints =
+    _parseImportantPointsHtml(importantPoints);
+
+    showModalBottomSheet(
+      isDismissible: true,
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      useSafeArea: true,
+      constraints: const BoxConstraints(maxWidth: double.infinity),
+      builder: (context) {
+        final double maxHeight = MediaQuery.of(context).size.height * 0.70;
+        return SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: EdgeInsets.only(
+                bottom: 25 + bottomPadding, left: 16, right: 16),
+            child: MyContainer(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: FrontEndConfig.btnBorderColor,
+                borderRadius: BorderRadius.circular(13),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(1.0),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: maxHeight),
+                  child: MyContainer(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: FrontEndConfig.backgroundColor,
+                      borderRadius: BorderRadius.circular(13),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.25),
+                          blurRadius: 20,
+                          spreadRadius: 2,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Stack(
+                        children: [
+                          // ── Background design ──────────────────────────────
+                          Positioned.fill(
+                            child: Image.asset(
+                              AssetConstant.bottomSheetDesgin,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+
+                          // ── Scrollable content ─────────────────────────────
+                          SingleChildScrollView(
+                            physics: const ClampingScrollPhysics(),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 10,
+                              ),
+                              child: Directionality(
+                                textDirection: isRtl
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // Drag handle
+                                    Center(
+                                      child: Container(
+                                        width: 89,
+                                        height: 4,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade400,
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                    0.02.height(context),
+
+                                    // Eye icon avatar
+                                    Center(
+                                      child: CircleAvatar(
+                                        radius: 32,
+                                        backgroundColor: const Color(0xffC89C18)
+                                            .withOpacity(0.3),
+                                        child: const Icon(
+                                          Icons.visibility_outlined,
+                                          color: Color(0xffC89C18),
+                                          size: 32,
+                                        ),
+                                      ),
+                                    ),
+                                    0.02.height(context),
+
+                                    // Heading
+                                    Center(
+                                      child: Text(
+                                        heading,
+                                        style: FrontEndConfig.mainTextStyle,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    0.02.height(context),
+
+                                    // ── Bullet list or empty state ───────────
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0, vertical: 6),
+                                      child: bulletPoints.isNotEmpty
+                                          ? Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: bulletPoints
+                                            .map((point) =>
+                                            _buildBulletRow(
+                                                point, isRtl))
+                                            .toList(),
+                                      )
+                                          : Center(
+                                        child: Text(
+                                          emptyLabel,
+                                          style: FrontEndConfig
+                                              .subHeadingTextStyle,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+
+                                    0.04.height(context),
+
+                                    // Close button
+                                    Center(
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.only(bottom: 8.0),
+                                        child: GestureDetector(
+                                          onTap: () =>
+                                              NavigatorHelper.pop(context),
+                                          child: Text(
+                                            AppStrings.closeBtnTxt.tr,
+                                            textAlign: TextAlign.center,
+                                            style: FrontEndConfig.headingTextStyle
+                                                .copyWith(
+                                              decoration:
+                                              TextDecoration.underline,
+                                              decorationColor: Colors.white,
+                                              decorationThickness: 2,
+                                              height: 1,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ), // ConstrainedBox
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// Renders a single bullet-point row.
+  /// The golden bullet dot is always on the leading side regardless of RTL/LTR.
+  Widget _buildBulletRow(String text, bool isRtl) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+        children: [
+          // Golden bullet dot
+          Padding(
+            padding: EdgeInsets.only(
+              top: 5,
+              left: isRtl ? 10 : 0,
+              right: isRtl ? 0 : 10,
+            ),
+            child: Container(
+              width: 7,
+              height: 7,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0xffC89C18),
+              ),
+            ),
+          ),
+
+          // Point text
+          Expanded(
+            child: Text(
+              text,
+              textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+              style: FrontEndConfig.subHeadingTextStyle,
+              textAlign: isRtl ? TextAlign.right : TextAlign.left,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -689,6 +1102,7 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                         children: [
                           Stack(
                             children: [
+                              // ── Image PageView ──────────────────────────
                               SizedBox(
                                 height: 380,
                                 width: double.infinity,
@@ -696,8 +1110,7 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                                   controller: _pageController,
                                   itemCount: images.length,
                                   onPageChanged: (index) {
-                                    setState(
-                                            () => currentIndex = index);
+                                    setState(() => currentIndex = index);
                                   },
                                   itemBuilder: (context, index) {
                                     final img = images[index];
@@ -705,19 +1118,18 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                                         ? Image.network(
                                       img,
                                       fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (_, __, ___) =>
+                                      errorBuilder: (_, __, ___) =>
                                           Image.asset(
                                             AssetConstant.masjid,
                                             fit: BoxFit.cover,
                                           ),
                                     )
-                                        : Image.asset(img,
-                                        fit: BoxFit.cover);
+                                        : Image.asset(img, fit: BoxFit.cover);
                                   },
                                 ),
                               ),
 
+                              // ── Bottom gradient ─────────────────────────
                               Positioned(
                                 bottom: 0,
                                 left: 0,
@@ -738,63 +1150,58 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                                 ),
                               ),
 
+                              // ── Thumbnail strip ─────────────────────────
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 278.0, left: 20, right: 20),
+                                padding: const EdgeInsets.only(top: 278.0),
                                 child: SizedBox(
                                   height: 70,
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: images.length,
+                                    itemCount: images.length + 2,
                                     separatorBuilder: (_, __) =>
-                                    const SizedBox(width: 10),
+                                    const SizedBox.shrink(),
                                     itemBuilder: (context, index) {
-                                      final img = images[index];
-                                      return GestureDetector(
-                                        onTap: () {
-                                          setState(() =>
-                                          currentIndex = index);
-                                          _pageController.animateToPage(
-                                            index,
-                                            duration: const Duration(
-                                                milliseconds: 300),
-                                            curve: Curves.easeInOut,
-                                          );
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color:
-                                              const Color(0xffA0832C),
-                                              width: 0.5,
-                                            ),
-                                            borderRadius:
-                                            BorderRadius.circular(12),
-                                          ),
+                                      if (index == 0 ||
+                                          index == images.length + 1) {
+                                        return const SizedBox(width: 20);
+                                      }
+                                      final img = images[index - 1];
+                                      return Padding(
+                                        padding:
+                                        const EdgeInsets.only(right: 10),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(
+                                                    () => currentIndex = index);
+                                            _pageController.animateToPage(
+                                              index,
+                                              duration: const Duration(
+                                                  milliseconds: 300),
+                                              curve: Curves.easeInOut,
+                                            );
+                                          },
                                           child: ClipRRect(
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                            BorderRadius.circular(8),
                                             child: img.startsWith('http')
                                                 ? Image.network(
                                               img,
-                                              width: 85,
-                                              height: 75,
+                                              width: 60,
+                                              height: 60,
                                               fit: BoxFit.cover,
-                                              errorBuilder: (_,
-                                                  __,
-                                                  ___) =>
+                                              errorBuilder:
+                                                  (_, __, ___) =>
                                                   Image.asset(
-                                                    AssetConstant
-                                                        .masjid,
-                                                    width: 85,
-                                                    height: 75,
+                                                    AssetConstant.masjid,
+                                                    width: 60,
+                                                    height: 60,
                                                     fit: BoxFit.cover,
                                                   ),
                                             )
                                                 : Image.asset(
                                               img,
-                                              width: 85,
-                                              height: 75,
+                                              width: 60,
+                                              height: 60,
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -805,22 +1212,26 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                                 ),
                               ),
 
+                              // ── Back button ─────────────────────────────
                               Positioned(
-                                top: 25,
-                                left: isRtl ? null : 20,
-                                right: isRtl ? 20 : null,
+                                top: 12,
+                                left: isRtl ? null : 12,
+                                right: isRtl ? 12 : null,
                                 child: GestureDetector(
-                                  onTap: () =>
-                                      NavigatorHelper.pop(context),
+                                  onTap: () => NavigatorHelper.pop(context),
                                   child: Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: const BoxDecoration(
-                                      color: Color(0xff243243),
+                                    width: 38,
+                                    height: 38,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black45,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(
-                                      Icons.arrow_back,
+                                    child: Icon(
+                                      isRtl
+                                          ? Icons.arrow_forward_ios
+                                          : Icons.arrow_back_ios_new,
                                       color: Colors.white,
+                                      size: 18,
                                     ),
                                   ),
                                 ),
@@ -828,163 +1239,202 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
                             ],
                           ),
 
-                          0.02.height(context),
-
+                          // ── Detail card ──────────────────────────────────
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 20.0),
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    MyContainer(
-                                      height: 34,
-                                      decoration: BoxDecoration(
-                                        gradient:
-                                        FrontEndConfig.btnBorderColor,
-                                        borderRadius:
-                                        BorderRadius.circular(100),
-                                      ),
-                                      child: Padding(
-                                        padding:
-                                        const EdgeInsets.all(1.0),
-                                        child: MyContainer(
-                                          padding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          decoration: BoxDecoration(
-                                            color: FrontEndConfig
-                                                .listTileColor,
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                100),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              data.type ?? "",
-                                              style: FrontEndConfig
-                                                  .btnTextStyle,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-
-                                    MyContainer(
-                                      height: 34,
-                                      width: 89,
-                                      decoration: BoxDecoration(
-                                        gradient:
-                                        FrontEndConfig.btnBorderColor,
-                                        borderRadius:
-                                        BorderRadius.circular(100),
-                                      ),
-                                      child: Padding(
-                                        padding:
-                                        const EdgeInsets.all(1.0),
-                                        child: MyContainer(
-                                          decoration: BoxDecoration(
-                                            color: FrontEndConfig
-                                                .listTileColor,
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                100),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .spaceEvenly,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: _toggleAudio,
-                                                child: _isLoading
-                                                    ? const SizedBox(
-                                                  width: 21,
-                                                  height: 21,
-                                                  child:
-                                                  CircularProgressIndicator(
-                                                    strokeWidth: 2,
+                                horizontal: 16, vertical: 8),
+                            child: MyContainer(
+                              decoration: BoxDecoration(
+                                gradient: FrontEndConfig.btnBorderColor,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: MyContainer(
+                                  decoration: BoxDecoration(
+                                    color: FrontEndConfig.listTileColor,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 16),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            // ── Type badge ──────────────────────
+                                            MyContainer(
+                                              height: 34,
+                                              decoration: BoxDecoration(
+                                                gradient:
+                                                FrontEndConfig.btnBorderColor,
+                                                borderRadius:
+                                                BorderRadius.circular(100),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                const EdgeInsets.all(1.0),
+                                                child: MyContainer(
+                                                  padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                                  decoration: BoxDecoration(
                                                     color:
-                                                    Colors.white,
+                                                    FrontEndConfig.listTileColor,
+                                                    borderRadius:
+                                                    BorderRadius.circular(100),
                                                   ),
-                                                )
-                                                    : Image.asset(
-                                                  AssetConstant
-                                                      .speaker,
-                                                  width: 21,
-                                                  height: 21,
-                                                  color: _isPlaying
-                                                      ? const Color(
-                                                      0xffC89C18)
-                                                      : FrontEndConfig
-                                                      .listTileIconColor,
+                                                  child: Center(
+                                                    child: Text(
+                                                      data.type ?? "",
+                                                      style:
+                                                      FrontEndConfig.btnTextStyle,
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
-                                              _buildDividerLinear(),
-                                              GestureDetector(
-                                                onTap: () =>
-                                                    _showDuaBottomSheet(
-                                                        context, data.dua),
-                                                child: Image.asset(
-                                                  AssetConstant.pray,
-                                                  width: 22,
-                                                  height: 22,
+                                            ),
+
+                                            // ── Action buttons: Speaker | Dua | Eye ─
+                                            MyContainer(
+                                              height: 34,
+                                              width: 130,
+                                              decoration: BoxDecoration(
+                                                gradient:
+                                                FrontEndConfig.btnBorderColor,
+                                                borderRadius:
+                                                BorderRadius.circular(100),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                const EdgeInsets.all(1.0),
+                                                child: MyContainer(
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                    FrontEndConfig.listTileColor,
+                                                    borderRadius:
+                                                    BorderRadius.circular(100),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                    children: [
+                                                      // Speaker / audio
+                                                      GestureDetector(
+                                                        onTap: _toggleAudio,
+                                                        child: _isLoading
+                                                            ? const SizedBox(
+                                                          width: 21,
+                                                          height: 21,
+                                                          child:
+                                                          CircularProgressIndicator(
+                                                            strokeWidth: 2,
+                                                            color:
+                                                            Colors.white,
+                                                          ),
+                                                        )
+                                                            : Image.asset(
+                                                          AssetConstant
+                                                              .speaker,
+                                                          width: 21,
+                                                          height: 21,
+                                                          color: _isPlaying
+                                                              ? const Color(
+                                                              0xffC89C18)
+                                                              : FrontEndConfig
+                                                              .listTileIconColor,
+                                                        ),
+                                                      ),
+
+                                                      _buildDividerLinear(),
+
+                                                      // Dua / pray
+                                                      GestureDetector(
+                                                        onTap: () =>
+                                                            _showDuaBottomSheet(
+                                                                context,
+                                                                data.dua,
+                                                                data.zikar,
+                                                                data.nafalPrayer),
+                                                        child: Image.asset(
+                                                          AssetConstant.pray,
+                                                          width: 22,
+                                                          height: 22,
+                                                        ),
+                                                      ),
+
+                                                      _buildDividerLinear(),
+
+                                                      // Eye / important points
+                                                      GestureDetector(
+                                                        onTap: () =>
+                                                            _showImportantPointsBottomSheet(
+                                                              context,
+                                                              // data.importantPoints already returns
+                                                              // the locale-correct HTML string from the API
+                                                              data.importantPoints,
+                                                            ),
+                                                        child: const Icon(
+                                                          Icons
+                                                              .visibility_outlined,
+                                                          color: Colors.white,
+                                                          size: 21,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
+
+                                        0.02.height(context),
+
+                                        Text(
+                                          data.title ?? "",
+                                          style:
+                                          FrontEndConfig.languageHeadingTextStyle,
+                                        ),
+
+                                        0.02.height(context),
+
+                                        Row(
+                                          children: [
+                                            Image.asset(AssetConstant.location,
+                                                width: 18),
+                                            0.02.width(context),
+                                            Text(
+                                              data.type ?? "",
+                                              style:
+                                              FrontEndConfig.subHeadingTextStyle,
+                                            ),
+                                          ],
+                                        ),
+
+                                        0.02.height(context),
+
+                                        Text(
+                                          AppStrings
+                                              .historicalBackgroundHeadingTxt.tr,
+                                          style: FrontEndConfig.headingTextStyle,
+                                        ),
+
+                                        0.02.height(context),
+
+                                        _buildDescriptionText(
+                                            data.title ?? "",
+                                            data.description ?? ""),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-
-                                0.02.height(context),
-
-                                Text(
-                                  data.title ?? "",
-                                  style: FrontEndConfig
-                                      .languageHeadingTextStyle,
-                                ),
-
-                                0.02.height(context),
-
-                                Row(
-                                  children: [
-                                    Image.asset(AssetConstant.location,
-                                        width: 18),
-                                    0.02.width(context),
-                                    Text(
-                                      data.type ?? "",
-                                      style: FrontEndConfig
-                                          .subHeadingTextStyle,
-                                    ),
-                                  ],
-                                ),
-
-                                0.02.height(context),
-
-                                Text(
-                                  AppStrings
-                                      .historicalBackgroundHeadingTxt.tr,
-                                  style: FrontEndConfig.headingTextStyle,
-                                ),
-
-                                0.02.height(context),
-
-                                _buildDescriptionText(data.title ?? "",
-                                    data.description ?? ""),
-                                0.02.height(context),
-                                _buildDescriptionText(data.title ?? "",
-                                    data.description ?? ""),
-                                0.02.height(context),
-                                _buildDescriptionText(data.title ?? "",
-                                    data.description ?? ""),
-                              ],
+                              ),
                             ),
                           ),
 
@@ -1014,186 +1464,19 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
             ),
           ),
         ),
-        floatingActionButtonLocation:
-        FloatingActionButtonLocation.startFloat,
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       ),
     );
   }
 
   Widget _buildDescriptionText(String title, String description) {
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-              text: AppStrings.richTextThePrefixTxt.tr,
-              style: FrontEndConfig.subHeadingTextStyle),
-          TextSpan(
-            text: " $title",
-            style: GoogleFonts.raleway(
-              fontWeight: FontWeight.w400,
-              fontSize: 12,
-              color: Colors.white,
-              decoration: TextDecoration.underline,
-            ),
-          ),
-          TextSpan(
-            text: ", $description",
-            style: FrontEndConfig.subHeadingTextStyle,
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showDuaBottomSheet(BuildContext context, String? dua) {
-    final double bottomPadding =
-        MediaQuery.of(context).viewPadding.bottom;
-
-    showModalBottomSheet(
-      isDismissible: true,
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      useSafeArea: true,
-      constraints: const BoxConstraints(maxWidth: double.infinity),
-      builder: (context) {
-        return SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: EdgeInsets.only(
-                bottom: 25 + bottomPadding, left: 16, right: 16),
-            child: MyContainer(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: FrontEndConfig.btnBorderColor,
-                borderRadius: BorderRadius.circular(13),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(1.0),
-                child: MyContainer(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: FrontEndConfig.backgroundColor,
-                    borderRadius: BorderRadius.circular(13),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.25),
-                        blurRadius: 20,
-                        spreadRadius: 2,
-                        offset: const Offset(0, 10),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: Stack(
-                      children: [
-                        Positioned.fill(
-                          child: Image.asset(
-                            AssetConstant.bottomSheetDesgin,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        SingleChildScrollView(
-                          physics: const ClampingScrollPhysics(),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 10,
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.center,
-                              children: [
-                                Center(
-                                  child: Container(
-                                    width: 89,
-                                    height: 4,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade400,
-                                      borderRadius:
-                                      BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                ),
-                                0.02.height(context),
-                                Center(
-                                  child: CircleAvatar(
-                                    radius: 32,
-                                    backgroundColor:
-                                    const Color(0xffC89C18)
-                                        .withOpacity(0.3),
-                                    child: Image.asset(
-                                      AssetConstant.pray,
-                                      height: 42,
-                                    ),
-                                  ),
-                                ),
-                                0.02.height(context),
-                                Center(
-                                  child: Text(
-                                    AppStrings
-                                        .recommendedDuaHeadingTxt.tr,
-                                    style: FrontEndConfig.mainTextStyle,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                0.02.height(context),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 15.0,
-                                    vertical: 10,
-                                  ),
-                                  child: Text(
-                                    dua ??
-                                        "رَبَّنَا لَا تُزِغۡ قُلُوبَنَا بَعۡدَ إِذۡ هَدَيۡتَنَا وَهَبۡ لَنَا مِن لَّدُنكَ رَحۡمَةًۚ إِنَّكَ أَنتَ ٱلۡوَهَّابُ",
-                                    style: TextStyle(
-                                      fontFamily: GoogleFonts.amiriQuran()
-                                          .fontFamily,
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                0.04.height(context),
-                                Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 8.0),
-                                    child: GestureDetector(
-                                      onTap: () =>
-                                          NavigatorHelper.pop(context),
-                                      child: Text(
-                                        AppStrings.closeBtnTxt.tr,
-                                        textAlign: TextAlign.center,
-                                        style: FrontEndConfig
-                                            .headingTextStyle
-                                            .copyWith(
-                                          decoration:
-                                          TextDecoration.underline,
-                                          decorationColor: Colors.white,
-                                          decorationThickness: 2,
-                                          height: 1,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
+    return Html(
+      data: description,
+      style: {
+        "body": Style.fromTextStyle(
+            FrontEndConfig.subHeadingTextStyle.copyWith(color: Colors.white)),
+        "*": Style.fromTextStyle(
+            FrontEndConfig.subHeadingTextStyle.copyWith(color: Colors.white)),
       },
     );
   }
@@ -1207,7 +1490,7 @@ class _ZiaratDetailsState extends State<ZiaratDetails> {
           colors: [
             Color(0xff999999),
             Color(0xffFFFFFF),
-            Color(0xff999999)
+            Color(0xff999999),
           ],
         ),
       ),

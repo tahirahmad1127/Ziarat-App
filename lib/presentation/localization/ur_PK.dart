@@ -60,6 +60,7 @@ class StringConstantUr extends Translations {
       /// Ziarat listing
       AppStrings.ziyaratAppBarTitleTxt: "زیارات",
       AppStrings.searchZiyaratHintTxt: "زیارت تلاش کریں...",
+      AppStrings.searchHintTxt: "تلاش کریں...",
       AppStrings.makkahTabTxt: "مکہ",
       AppStrings.madinaTabTxt: "مدینہ",
       AppStrings.noResultsFoundTxt: "کوئی نتیجہ نہیں ملا",
@@ -176,14 +177,19 @@ class StringConstantUr extends Translations {
       "کیا آپ ایپ بند کرنا چاہتے ہیں یا اسی اسکرین پر رہنا چاہتے ہیں؟",
       AppStrings.stayBtnLabelTxt: "رہیں",
       AppStrings.exitBtnLabelTxt: "بند کریں",
+      AppStrings.updateAvailableTitleTxt: "اپ ڈیٹ دستیاب ہے",
+      AppStrings.updateAvailableSubtitleTxt:
+      "زیارتِ حرمین کا نیا ورژن دستیاب ہے جس میں بہتر فیچرز اور آپ کے روحانی سفر کے لیے مزید بہتر تجربہ شامل ہے۔",
+      AppStrings.updateLaterBtnTxt: "بعد میں",
+      AppStrings.updateNowBtnTxt: "ابھی اپ ڈیٹ کریں",
 
       /// FAQ Screen
       AppStrings.faqAppBarTitleTxt: "عمرہ سے متعلق سوالات",
       AppStrings.faqIntroTxt:
-      "عمرہ کے بارے میں چند عام سوالات جو لوگ عموماً سفر سے پہلے پوچھتے ہیں:",
+      "عمرہ کی منصوبہ بندی سے پہلے لوگوں کے ذہن میں آنے والے چند عام سوالات:",
       AppStrings.hajjFaqAppBarTitleTxt: "حج سے متعلق سوالات",
       AppStrings.hajjFaqIntroTxt:
-      "حج کے بارے میں چند عام سوالات جو لوگ عموماً سفر سے پہلے پوچھتے ہیں:",
+      "حج کی منصوبہ بندی سے پہلے لوگوں کے ذہن میں آنے والے چند عام سوالات:",
       AppStrings.maintenanceTitleTxt:
       "زیارتِ حرمین اس وقت دیکھ بھال میں ہے!",
       AppStrings.maintenanceDescriptionTxt:
@@ -204,6 +210,15 @@ class StringConstantUr extends Translations {
       /// Method of Putting Ihram detail
       AppStrings.methodOfPuttingIhramDescriptionTxt:
       "یہ متن احرام باندھنے کے طریقہ کار کے لیے پلیس ہولڈر ہے۔ آپ بعد میں مستند اردو متن شامل کر سکتے ہیں جو احرام کی عملی تفصیلات بیان کرے۔",
+
+      /// Paged list / search states
+      AppStrings.noItemsFoundTxt: "کوئی آئٹم نہیں ملا۔",
+      AppStrings.noResultsFoundTxt: "کوئی نتیجہ نہیں ملا۔",
+      AppStrings.errorLoadingDataTxt: "ڈیٹا لوڈ کرنے میں خرابی۔",
+      AppStrings.retryBtnTxt: "دوبارہ کوشش کریں",
+
+      /// Common Mistakes - See More
+      AppStrings.commonMistakesSeeMorTxt: "[مزید جانیے]",
     },
   };
 }

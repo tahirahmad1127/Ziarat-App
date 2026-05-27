@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ziarat_app/configurations/frontend_config.dart';
 import 'package:ziarat_app/presentation/elements/app_bar.dart';
+import '../../../configurations/frontend_config.dart';
 
 import '../../../infrastructure/models/privacy_policy.dart';
 import '../../constants/asset_constant.dart';

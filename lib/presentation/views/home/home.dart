@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:marquee/marquee.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ziarat_app/presentation/constants/app_constant.dart';
@@ -117,7 +118,6 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _bootstrapHome() async {
-    // intl requires locale data initialization when using DateFormat with locale.
     await initializeDateFormatting('en_US', null);
     await initializeDateFormatting('ur_PK', null);
     await initializeDateFormatting('ar_SA', null);
@@ -128,16 +128,14 @@ class _HomeState extends State<Home> {
     _loadDailyContent();
   }
 
-  // ── Daily Content Loader ───────────────────────────────────────────────
-
+  // ── Daily Content Loader ───────────────────────────────────────────────────
   Future<void> _loadDailyContent() async {
     await Future.wait([_loadDailyAyat(), _loadDailyHadith()]);
   }
 
   Future<void> _loadDailyAyat() async {
     try {
-      final String raw =
-      await rootBundle.loadString('assets/json/ayat.json');
+      final String raw = await rootBundle.loadString('assets/json/ayat.json');
       final Map<String, dynamic> json = jsonDecode(raw);
       final List data = json['data'];
       final List<AyatModel> ayatList =
@@ -193,25 +191,16 @@ class _HomeState extends State<Home> {
     final hijri = HijriCalendar.fromDate(now);
     final langCode = Get.locale?.languageCode ?? 'en';
     final dateLocale =
-        (langCode == 'ar') ? 'ar_SA' : (langCode == 'ur') ? 'ur_PK' : 'en_US';
+    (langCode == 'ar') ? 'ar_SA' : (langCode == 'ur') ? 'ur_PK' : 'en_US';
 
     String hijriMonth;
     String hijriSuffix;
 
     if (langCode == 'ar') {
       const months = <String>[
-        'محرم',
-        'صفر',
-        'ربيع الأول',
-        'ربيع الثاني',
-        'جمادى الأولى',
-        'جمادى الآخرة',
-        'رجب',
-        'شعبان',
-        'رمضان',
-        'شوال',
-        'ذو القعدة',
-        'ذو الحجة',
+        'محرم', 'صفر', 'ربيع الأول', 'ربيع الثاني',
+        'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان',
+        'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة',
       ];
       hijriMonth = (hijri.hMonth >= 1 && hijri.hMonth <= 12)
           ? months[hijri.hMonth - 1]
@@ -219,18 +208,9 @@ class _HomeState extends State<Home> {
       hijriSuffix = 'هـ';
     } else if (langCode == 'ur') {
       const months = <String>[
-        'محرم',
-        'صفر',
-        'ربیع الاول',
-        'ربیع الثانی',
-        'جمادی الاول',
-        'جمادی الثانی',
-        'رجب',
-        'شعبان',
-        'رمضان',
-        'شوال',
-        'ذوالقعدہ',
-        'ذوالحجہ',
+        'محرم', 'صفر', 'ربیع الاول', 'ربیع الثانی',
+        'جمادی الاول', 'جمادی الثانی', 'رجب', 'شعبان',
+        'رمضان', 'شوال', 'ذوالقعدہ', 'ذوالحجہ',
       ];
       hijriMonth = (hijri.hMonth >= 1 && hijri.hMonth <= 12)
           ? months[hijri.hMonth - 1]
@@ -242,14 +222,13 @@ class _HomeState extends State<Home> {
     }
 
     final gregorianFormatted =
-        DateFormat('EEE, MMM dd, yyyy', dateLocale).format(now);
+    DateFormat('EEE, MMM dd, yyyy', dateLocale).format(now);
     final hijriFormatted =
         '${hijri.hDay} $hijriMonth ${hijri.hYear} $hijriSuffix';
 
     setState(() {
       _currentTime = DateFormat('hh:mm').format(now);
-      _hijriDate =
-          '$hijriFormatted  |  $gregorianFormatted';
+      _hijriDate = '$hijriFormatted  |  $gregorianFormatted';
       _gregorianDate = gregorianFormatted;
       _hijriDateOnly = hijriFormatted;
     });
@@ -269,9 +248,9 @@ class _HomeState extends State<Home> {
       _latitude = lat;
       _longitude = lng;
       _locationName =
-          (locationName != null && locationName.trim().isNotEmpty)
-              ? locationName
-              : AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr;
+      (locationName != null && locationName.trim().isNotEmpty)
+          ? locationName
+          : AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr;
     });
     return true;
   }
@@ -302,9 +281,10 @@ class _HomeState extends State<Home> {
       }
 
       if (permission == LocationPermission.deniedForever) {
-        if (mounted)
+        if (mounted) {
           setState(() => _locationName =
               AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr);
+        }
         _calcPrayerTimes(_latitude, _longitude);
         return;
       }
@@ -345,9 +325,10 @@ class _HomeState extends State<Home> {
           );
         }
       } catch (_) {
-        if (mounted)
+        if (mounted) {
           setState(() => _locationName =
               AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr);
+        }
         await _saveCachedLocation(
           lat: position.latitude,
           lng: position.longitude,
@@ -355,9 +336,10 @@ class _HomeState extends State<Home> {
         );
       }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() =>
         _locationName = AppStrings.fallbackLocationMakkahSaudiArabiaTxt.tr);
+      }
     }
 
     _calcPrayerTimes(_latitude, _longitude);
@@ -392,9 +374,12 @@ class _HomeState extends State<Home> {
     final now = DateTime.now();
     final pt = _prayerTimes!;
 
+    // Use overridden Zuhr time (12:40) for next-prayer countdown
+    final zuhrOverride = _zuhrOverride(pt.dhuhr.toLocal());
+
     final prayerMap = {
       'Fajr': pt.fajr.toLocal(),
-      'Zuhr': pt.dhuhr.toLocal(),
+      'Zuhr': zuhrOverride,
       'Asr': pt.asr.toLocal(),
       'Maghrib': pt.maghrib.toLocal(),
       'Isha': pt.isha.toLocal(),
@@ -430,16 +415,28 @@ class _HomeState extends State<Home> {
     }
   }
 
+  /// Returns a DateTime with the time overridden to 12:40 PM (same date).
+  DateTime _zuhrOverride(DateTime original) {
+    return DateTime(
+      original.year,
+      original.month,
+      original.day,
+      12, // hour
+      40, // minute
+    );
+  }
+
   String _currentPrayerName() {
     if (_prayerTimes == null) return '';
     final now = DateTime.now();
     final pt = _prayerTimes!;
+    final zuhrOverride = _zuhrOverride(pt.dhuhr.toLocal());
 
     final list = [
       _PrayerEntry('Isha', pt.isha.toLocal()),
       _PrayerEntry('Maghrib', pt.maghrib.toLocal()),
       _PrayerEntry('Asr', pt.asr.toLocal()),
-      _PrayerEntry('Zuhr', pt.dhuhr.toLocal()),
+      _PrayerEntry('Zuhr', zuhrOverride),
       _PrayerEntry('Fajr', pt.fajr.toLocal()),
     ];
 
@@ -450,22 +447,6 @@ class _HomeState extends State<Home> {
   }
 
   String _fmt(DateTime dt) => DateFormat('hh:mm a').format(dt.toLocal());
-
-  String _getLocaleText({
-    required String arabic,
-    required String urdu,
-    required String english,
-  }) {
-    final lang = Get.locale?.languageCode ?? 'en';
-    switch (lang) {
-      case 'ar':
-        return arabic;
-      case 'ur':
-        return urdu;
-      default:
-        return english;
-    }
-  }
 
   // ── RTL Date Display ──────────────────────────────────────────────────────
   Widget _buildRtlDateDisplay() {
@@ -525,23 +506,30 @@ class _HomeState extends State<Home> {
           Positioned(
             top: 0,
             left: 0,
-            child: Image.asset(AssetConstant.homeLeft,
-                width: width * 0.35,
-                height: height * 0.22,
-                fit: BoxFit.cover),
+            child: Image.asset(
+              AssetConstant.homeLeft,
+              width: width * 0.35,
+              height: height * 0.22,
+              fit: BoxFit.cover,
+            ),
           ),
           Positioned(
             top: 0,
             right: 0,
-            child: Image.asset(AssetConstant.homeRight,
-                width: width * 0.35,
-                height: height * 0.22,
-                fit: BoxFit.cover),
+            child: Image.asset(
+              AssetConstant.homeRight,
+              width: width * 0.35,
+              height: height * 0.22,
+              fit: BoxFit.cover,
+            ),
           ),
           Align(
             alignment: Alignment.topRight,
-            child: Image.asset(AssetConstant.lamp,
-                height: height * 0.32, width: width * 0.38),
+            child: Image.asset(
+              AssetConstant.lamp,
+              height: height * 0.32,
+              width: width * 0.38,
+            ),
           ),
 
           SafeArea(
@@ -576,9 +564,28 @@ class _HomeState extends State<Home> {
                                   width: 15, height: 15),
                               const SizedBox(width: 4),
                               Flexible(
-                                child: Text(
+                                child: _locationName.length > 22
+                                    ? SizedBox(
+                                  height: 18,
+                                  child: Marquee(
+                                    text: _locationName,
+                                    style: FrontEndConfig
+                                        .subHeadingTextStyle,
+                                    blankSpace: 28,
+                                    velocity: 22,
+                                    startPadding: 4,
+                                    accelerationDuration:
+                                    const Duration(
+                                        milliseconds: 600),
+                                    decelerationDuration:
+                                    const Duration(
+                                        milliseconds: 600),
+                                  ),
+                                )
+                                    : Text(
                                   _locationName,
-                                  style: FrontEndConfig.subHeadingTextStyle,
+                                  style:
+                                  FrontEndConfig.subHeadingTextStyle,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -588,7 +595,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
 
-                    0.015.height(context), // ✅ gap between location pill and clock
+                    0.015.height(context),
 
                     // ── Clock ──
                     Text(
@@ -675,8 +682,9 @@ class _HomeState extends State<Home> {
 
                     // ── Ayat of the Day ──
                     Align(
-                      alignment:
-                      isRtl ? Alignment.centerRight : Alignment.centerLeft,
+                      alignment: isRtl
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
                       child: Text(
                         AppStrings.ayatOfTheDayTxt.tr,
                         style: FrontEndConfig.mainTextStyle,
@@ -688,8 +696,9 @@ class _HomeState extends State<Home> {
 
                     // ── Hadith of the Day ──
                     Align(
-                      alignment:
-                      isRtl ? Alignment.centerRight : Alignment.centerLeft,
+                      alignment: isRtl
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
                       child: Text(
                         AppStrings.hadithOfTheDayTxt.tr,
                         style: FrontEndConfig.mainTextStyle,
@@ -701,8 +710,9 @@ class _HomeState extends State<Home> {
 
                     // ── Prayer Times ──
                     Align(
-                      alignment:
-                      isRtl ? Alignment.centerRight : Alignment.centerLeft,
+                      alignment: isRtl
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
                       child: Text(
                         AppStrings.prayerTimesTxt.tr,
                         style: FrontEndConfig.mainTextStyle,
@@ -727,11 +737,15 @@ class _HomeState extends State<Home> {
     final pt = _prayerTimes;
     final active = _currentPrayerName();
 
+    // Zuhr is overridden to 12:40 PM
+    final zuhrTime = pt != null
+        ? _fmt(_zuhrOverride(pt.dhuhr.toLocal()))
+        : '--:--';
+
     final prayers = [
-      _PrayerDisplay('Fajr',
-          pt != null ? _fmt(pt.fajr) : '--:--', AssetConstant.fajar),
       _PrayerDisplay(
-          'Zuhr', pt != null ? _fmt(pt.dhuhr) : '--:--', AssetConstant.zuhr),
+          'Fajr', pt != null ? _fmt(pt.fajr) : '--:--', AssetConstant.fajar),
+      _PrayerDisplay('Zuhr', zuhrTime, AssetConstant.zuhr),
       _PrayerDisplay(
           'Asr', pt != null ? _fmt(pt.asr) : '--:--', AssetConstant.asar),
       _PrayerDisplay('Maghrib',
@@ -740,8 +754,16 @@ class _HomeState extends State<Home> {
           'Isha', pt != null ? _fmt(pt.isha) : '--:--', AssetConstant.isha),
     ];
 
+    // Scale font size with screen width so Arabic/Urdu names don't overflow
+    final langCode = Get.locale?.languageCode ?? 'en';
+    final nameFontSize = langCode == 'ur'
+        ? (width * 0.058).clamp(19.0, 26.0)
+        : (width * 0.038).clamp(13.0, 18.0);
+    final timeFontSize = (width * 0.028).clamp(10.0, 13.0);
+    final iconSize = (width * 0.05).clamp(16.0, 24.0);
+
     return MyContainer(
-      height: height * 0.15,
+      // Let the card grow in height — no fixed height so text never clips
       decoration: BoxDecoration(
         gradient: FrontEndConfig.btnBorderColor,
         borderRadius: BorderRadius.circular(13),
@@ -753,29 +775,50 @@ class _HomeState extends State<Home> {
         ),
         child: Stack(
           children: [
-            Padding(
-              padding: EdgeInsets.only(left: width * 0.35),
+            // Decorative background image — clipped so it never causes overflow
+            Positioned.fill(
               child: ClipRRect(
-                borderRadius:
-                const BorderRadius.only(bottomRight: Radius.circular(20)),
-                child: Image.asset(
-                  AssetConstant.prayerTimeDesign,
-                  height: height * 0.35,
-                  width: width * 0.7,
-                  fit: BoxFit.cover,
+                borderRadius: BorderRadius.circular(13),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: FractionallySizedBox(
+                    widthFactor: 0.55,
+                    child: Image.asset(
+                      AssetConstant.prayerTimeDesign,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
             ),
+
+            // Prayer columns
             Padding(
-              padding:
-              const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10),
+              padding: EdgeInsets.symmetric(
+                vertical: height * 0.012,
+                horizontal: width * 0.02,
+              ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                // Use Expanded children so each column gets equal space and
+                // never overflows regardless of language or screen width.
                 children: [
                   for (int i = 0; i < prayers.length; i++) ...[
-                    _buildPrayerColumn(
-                        context, prayers[i], prayers[i].name == active, width),
-                    if (i < prayers.length - 1) _buildDivider(),
+                    Expanded(
+                      child: _buildPrayerColumn(
+                        context,
+                        prayers[i],
+                        prayers[i].name == active,
+                        iconSize,
+                        nameFontSize,
+                        timeFontSize,
+                      ),
+                    ),
+                    if (i < prayers.length - 1)
+                      SizedBox(
+                        height: 75,
+                        child: VerticalDivider(
+                            width: 1, thickness: 1, color: Colors.grey),
+                      ),
                   ],
                 ],
               ),
@@ -786,61 +829,91 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _buildPrayerColumn(BuildContext context, _PrayerDisplay p,
-      bool isActive, double width) {
+  Widget _buildPrayerColumn(
+      BuildContext context,
+      _PrayerDisplay p,
+      bool isActive,
+      double iconSize,
+      double nameFontSize,
+      double timeFontSize,
+      ) {
+    final nameStyle = FrontEndConfig.bodyTextStyle.copyWith(
+      fontSize: nameFontSize,
+      // Prevent text from wrapping — scale down further if needed
+      overflow: TextOverflow.ellipsis,
+    );
+    final timeStyle = FrontEndConfig.packageTextStyle.copyWith(
+      fontSize: timeFontSize,
+      overflow: TextOverflow.ellipsis,
+    );
+
     if (isActive) {
       return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ShaderMask(
             shaderCallback: (b) =>
                 FrontEndConfig.btnBorderColor.createShader(b),
-            child: Text(_localizedNamazName(p.name),
-                style:
-                FrontEndConfig.bodyTextStyle.copyWith(color: Colors.white)),
+            child: Text(
+              _localizedNamazName(p.name),
+              style: nameStyle.copyWith(color: Colors.white),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+            ),
           ),
-          0.01.height(context),
+          SizedBox(height: 3),
           ShaderMask(
             shaderCallback: (b) =>
                 FrontEndConfig.btnBorderColor.createShader(b),
             blendMode: BlendMode.srcIn,
             child: Image.asset(p.iconPath,
-                width: width * 0.06,
-                height: width * 0.06,
-                color: Colors.white),
+                width: iconSize, height: iconSize, color: Colors.white),
           ),
-          0.01.height(context),
+          SizedBox(height: 3),
           ShaderMask(
             shaderCallback: (b) =>
                 FrontEndConfig.btnBorderColor.createShader(b),
-            child: Text(p.time,
-                style: FrontEndConfig.packageTextStyle
-                    .copyWith(color: Colors.white)),
+            child: Text(
+              p.time,
+              style: timeStyle.copyWith(color: Colors.white),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+            ),
           ),
         ],
       );
     }
+
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(_localizedNamazName(p.name),
-            style: FrontEndConfig.bodyTextStyle),
-        0.01.height(context),
+        Text(
+          _localizedNamazName(p.name),
+          style: nameStyle,
+          textAlign: TextAlign.center,
+          maxLines: 1,
+        ),
+        SizedBox(height: 3),
         Image.asset(p.iconPath,
-            width: width * 0.06,
-            height: width * 0.06,
+            width: iconSize,
+            height: iconSize,
             color: FrontEndConfig.iconColor),
-        0.01.height(context),
-        Text(p.time, style: FrontEndConfig.packageTextStyle),
+        SizedBox(height: 3),
+        Text(
+          p.time,
+          style: timeStyle,
+          textAlign: TextAlign.center,
+          maxLines: 1,
+        ),
       ],
     );
   }
 
   // ── Ayat Card ──────────────────────────────────────────────────────────────
   Widget _buildAyatCard(BuildContext context) {
-    if (_todayAyat == null) {
-      return _buildLoadingCard(context);
-    }
+    if (_todayAyat == null) return _buildLoadingCard(context);
 
     final ayat = _todayAyat!;
 
@@ -889,7 +962,7 @@ class _HomeState extends State<Home> {
                     Text(
                       ayat.urduAyat,
                       style: TextStyle(
-                          fontSize: context.responsiveFont(13),
+                          fontSize: context.responsiveFont(FrontEndConfig.fontSize(13)),
                           color: Colors.white,
                           fontFamily: "jameel-noori"),
                       textAlign: TextAlign.center,
@@ -900,8 +973,7 @@ class _HomeState extends State<Home> {
                     Text(
                       ayat.englishAyat,
                       style: FrontEndConfig.bodyTextStyle.copyWith(
-                        fontSize: context.responsiveFont(12),
-                      ),
+                          fontSize: context.responsiveFont(12)),
                       textAlign: TextAlign.center,
                     ),
                     0.01.height(context),
@@ -917,9 +989,7 @@ class _HomeState extends State<Home> {
 
   // ── Hadith Card ────────────────────────────────────────────────────────────
   Widget _buildHadithCard(BuildContext context) {
-    if (_todayHadith == null) {
-      return _buildLoadingCard(context);
-    }
+    if (_todayHadith == null) return _buildLoadingCard(context);
 
     final hadith = _todayHadith!;
 
@@ -968,7 +1038,7 @@ class _HomeState extends State<Home> {
                     Text(
                       hadith.urduHadith,
                       style: TextStyle(
-                          fontSize: context.responsiveFont(13),
+                          fontSize: context.responsiveFont(FrontEndConfig.fontSize(13)),
                           color: Colors.white,
                           fontFamily: "jameel-noori"),
                       textAlign: TextAlign.center,
@@ -979,8 +1049,7 @@ class _HomeState extends State<Home> {
                     Text(
                       hadith.englishHadith,
                       style: FrontEndConfig.bodyTextStyle.copyWith(
-                        fontSize: context.responsiveFont(12),
-                      ),
+                          fontSize: context.responsiveFont(12)),
                       textAlign: TextAlign.center,
                     ),
                     0.01.height(context),
@@ -1061,13 +1130,7 @@ class _HomeState extends State<Home> {
       }
     }
 
-    // English (default)
     return key;
-  }
-
-  Widget _buildDivider() {
-    return const SizedBox(
-        height: 75, child: VerticalDivider(thickness: 1, color: Colors.grey));
   }
 
   Widget _buildDividerLinear() {

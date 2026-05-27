@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../configurations/frontend_config.dart';
+
+import '../../configurations/frontend_config.dart';
 
 class SimProviderShimmer extends StatelessWidget {
   const SimProviderShimmer({super.key});

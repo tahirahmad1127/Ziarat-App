@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:ziarat_app/configurations/frontend_config.dart';
 import 'package:ziarat_app/presentation/constants/app_constant.dart';
 import 'package:ziarat_app/presentation/elements/app_bar.dart';
 import 'package:ziarat_app/presentation/elements/listTile.dart';
 import 'package:ziarat_app/presentation/views/privacy_policy/layout/body.dart';
 import '../../../application/navigation_helper.dart';
+import '../../../configurations/frontend_config.dart';
 import '../../constants/asset_constant.dart';
-import '../faqs_screen/FAQ_Screen.dart';
+import '../faqs_screen/umrah_faq_screen.dart';
 import '../haram_gates/Haram_Gates.dart';
 import '../language/language.dart';
 import '../sim/layout/body.dart';

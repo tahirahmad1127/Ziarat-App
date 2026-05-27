@@ -55,6 +55,7 @@ class StringConstantEn extends Translations {
       /// Ziarat listing
       AppStrings.ziyaratAppBarTitleTxt: "Ziyarat",
       AppStrings.searchZiyaratHintTxt: "Search Ziyarat...",
+      AppStrings.searchHintTxt: "Search...",
       AppStrings.makkahTabTxt: "Makkah",
       AppStrings.madinaTabTxt: "Madina",
       AppStrings.noResultsFoundTxt: "No results found",
@@ -169,6 +170,11 @@ class StringConstantEn extends Translations {
       "Do you want to exit the app or stay on this screen?",
       AppStrings.stayBtnLabelTxt: "Stay",
       AppStrings.exitBtnLabelTxt: "Exit",
+      AppStrings.updateAvailableTitleTxt: "Update Available",
+      AppStrings.updateAvailableSubtitleTxt:
+      "A new version of Ziarat Haramain is available with improved features and a better experience for your spiritual journey.",
+      AppStrings.updateLaterBtnTxt: "Later",
+      AppStrings.updateNowBtnTxt: "Update Now",
 
       /// FAQ Screen
       AppStrings.faqAppBarTitleTxt: "Umrah Questions",
@@ -197,6 +203,15 @@ class StringConstantEn extends Translations {
       /// Method of Putting Ihram detail
       AppStrings.methodOfPuttingIhramDescriptionTxt:
       "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage.",
+
+      /// Paged list / search states
+      AppStrings.noItemsFoundTxt: "No items found.",
+      AppStrings.noResultsFoundTxt: "No results found.",
+      AppStrings.errorLoadingDataTxt: "Error loading data.",
+      AppStrings.retryBtnTxt: "Retry",
+
+      /// Common Mistakes - See More
+      AppStrings.commonMistakesSeeMorTxt: "[See More]",
 
     },
   };

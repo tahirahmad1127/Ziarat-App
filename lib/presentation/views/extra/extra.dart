@@ -9,13 +9,13 @@ import 'package:ziarat_app/presentation/views/settings/settings.dart';
 import 'package:ziarat_app/presentation/views/sim/network_provider.dart';
 import 'package:ziarat_app/presentation/views/tasbih_counter/tasbih_counter.dart';
 import 'package:ziarat_app/presentation/views/term_conditions/term_conditions.dart';
-import 'package:ziarat_app/presentation/views/umrah_guide/umrah_guide.dart';
+import 'package:ziarat_app/presentation/views/umrah_guide/guide.dart';
 import 'package:ziarat_app/presentation/views/ziarat/ziarat.dart';
 
 import '../../../application/sim_provider_bloc/sim_provider_bloc.dart';
 import '../../../infrastructure/models/sim_provider.dart';
 import '../../../injection_container.dart';
-import '../faqs_screen/FAQ_Screen.dart';
+import '../faqs_screen/umrah_faq_screen.dart';
 import '../haram_gates/Haram_Gates.dart';
 import '../privacy_policy/layout/body.dart';
 import '../sim/layout/body.dart';
@@ -82,7 +82,7 @@ class _ExtraState extends State<Extra> {
           Navigator.push(context, MaterialPageRoute(builder: (context)=> const TasbihCounter()));
         }, child: Text(AppStrings.tasbihCounterScreenTxt.tr)),
         ElevatedButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> const UmrahGuide()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const Guide()));
         }, child: Text(AppStrings.umrahGuideScreenTxt.tr)),
         ElevatedButton(onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (context) => const PrivacyPolicyViewBody()));
@@ -94,9 +94,6 @@ class _ExtraState extends State<Extra> {
           Navigator.push(context, MaterialPageRoute(builder: (context)=> const SettingsPage()));
         }, child: Text(AppStrings.settingsTitleTxt.tr)),
         // In Extra screen
-        ElevatedButton(onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const FaqScreen()));
-        }, child: Text(AppStrings.faqScreenTxt.tr)),
 
         ElevatedButton(onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const HaramGatesScreen()));

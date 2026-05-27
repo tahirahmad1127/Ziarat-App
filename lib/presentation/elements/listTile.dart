@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ziarat_app/configurations/frontend_config.dart';
 
+import '../../configurations/frontend_config.dart';
 import '../constants/asset_constant.dart';
 
 class CommonListTile extends StatelessWidget {

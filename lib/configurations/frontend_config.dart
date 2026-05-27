@@ -63,11 +63,12 @@ class FrontEndConfig {
   /// Arabic/Quran text is always noto-sans regardless of app locale
   static String get _arabicFont => 'noto-sans';
 
-  /// Urdu-only font size boost (+2px).
   /// English and Arabic keep their original sizes.
   static double _fontSizeForCurrentLocale(double baseSize) {
     final lang = Get.locale?.languageCode ?? 'en';
-    if (lang == 'ur') return baseSize + 4;
+    if (lang == 'ur') return baseSize +6;
+    if (lang == 'en') return baseSize;
+    if (lang == 'ar') return baseSize +2;
     return baseSize;
   }
 

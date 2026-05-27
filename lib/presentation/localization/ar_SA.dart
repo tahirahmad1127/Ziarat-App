@@ -58,6 +58,7 @@ class StringConstantAr extends Translations {
       /// Ziarat listing
       AppStrings.ziyaratAppBarTitleTxt: "الزيارات",
       AppStrings.searchZiyaratHintTxt: "ابحث عن زيارة...",
+      AppStrings.searchHintTxt: "بحث...",
       AppStrings.makkahTabTxt: "مكة",
       AppStrings.madinaTabTxt: "المدينة",
       AppStrings.noResultsFoundTxt: "لا توجد نتائج",
@@ -171,14 +172,19 @@ class StringConstantAr extends Translations {
       "هل تريد الخروج من التطبيق أم البقاء في هذه الشاشة؟",
       AppStrings.stayBtnLabelTxt: "البقاء",
       AppStrings.exitBtnLabelTxt: "خروج",
+      AppStrings.updateAvailableTitleTxt: "تحديث متاح",
+      AppStrings.updateAvailableSubtitleTxt:
+      "يتوفر إصدار جديد من زيارات الحرمين مع ميزات محسنة وتجربة أفضل لرحلتك الروحانية.",
+      AppStrings.updateLaterBtnTxt: "لاحقًا",
+      AppStrings.updateNowBtnTxt: "حدِّث الآن",
 
       /// FAQ Screen
       AppStrings.faqAppBarTitleTxt: "أسئلة حول العمرة",
       AppStrings.faqIntroTxt:
-      "بعض الأسئلة الشائعة حول العمرة التي يسألها الناس عادة قبل التخطيط لرحلتهم:",
+      "بعض الأسئلة الشائعة التي يطرحها الناس قبل التخطيط لرحلة العمرة:",
       AppStrings.hajjFaqAppBarTitleTxt: "أسئلة حول الحج",
       AppStrings.hajjFaqIntroTxt:
-      "بعض الأسئلة الشائعة حول الحج التي يسألها الناس عادة قبل التخطيط لرحلتهم:",
+      "بعض الأسئلة الشائعة التي يطرحها الناس قبل التخطيط لرحلة الحج:",
       AppStrings.maintenanceTitleTxt:
       "زيارات الحرمين قيد الصيانة!",
       AppStrings.maintenanceDescriptionTxt:
@@ -199,6 +205,15 @@ class StringConstantAr extends Translations {
       /// Method of Putting Ihram detail
       AppStrings.methodOfPuttingIhramDescriptionTxt:
       "هذا النص مكان وصف طريقة ارتداء الإحرام. يمكنك استبداله لاحقًا بنص عربي موثوق يشرح خطوات الإحرام بالتفصيل.",
+
+      /// Paged list / search states
+      AppStrings.noItemsFoundTxt: "لم يُعثر على أي عنصر.",
+      AppStrings.noResultsFoundTxt: "لا توجد نتائج.",
+      AppStrings.errorLoadingDataTxt: "حدث خطأ أثناء تحميل البيانات.",
+      AppStrings.retryBtnTxt: "إعادة المحاولة",
+
+      /// Common Mistakes - See More
+      AppStrings.commonMistakesSeeMorTxt: "[اقرأ المزيد]",
     },
   };
 }

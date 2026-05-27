@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:ziarat_app/infrastructure/models/ziarat.dart';
 import 'package:ziarat_app/infrastructure/models/ziarat_details.dart';
 
-import '../../configurations/back_end_configs.dart';
 import '../../configurations/end_points.dart';
 import '../api_helper.dart';
 import '../models/error.dart';
@@ -28,7 +27,6 @@ class ZiaratRepositoryImp extends ZiaratRepository {
 
   @override
   Future<Either<GlobalErrorModel, ZiaratListingModel>> getMakkahZiarat() async {
-    // ✅ Return cache if available — no API call
     if (_makkahCache != null) {
       return Right(_makkahCache!);
     }
@@ -42,7 +40,7 @@ class ZiaratRepositoryImp extends ZiaratRepository {
     return data.fold(
           (l) => Left(GlobalErrorModel(error: l.error.toString())),
           (r) {
-        _makkahCache = ZiaratListingModel.fromJson(r); // ✅ Save to cache
+        _makkahCache = ZiaratListingModel.fromJson(r);
         return Right(_makkahCache!);
       },
     );
@@ -50,7 +48,6 @@ class ZiaratRepositoryImp extends ZiaratRepository {
 
   @override
   Future<Either<GlobalErrorModel, ZiaratListingModel>> getMadinaZiarat() async {
-    // ✅ Return cache if available — no API call
     if (_madinaCache != null) {
       return Right(_madinaCache!);
     }
@@ -64,7 +61,7 @@ class ZiaratRepositoryImp extends ZiaratRepository {
     return data.fold(
           (l) => Left(GlobalErrorModel(error: l.error.toString())),
           (r) {
-        _madinaCache = ZiaratListingModel.fromJson(r); // ✅ Save to cache
+        _madinaCache = ZiaratListingModel.fromJson(r);
         return Right(_madinaCache!);
       },
     );
@@ -74,9 +71,9 @@ class ZiaratRepositoryImp extends ZiaratRepository {
   Future<Either<GlobalErrorModel, ZiaratDetailModel>> getZiaratDetail(
       String ziaratId,
       ) async {
-    // Details are not cached (each ziarat is unique, less frequent)
+    // ✅ Fixed: correct endpoint with ziarat ID
     var data = await ApiBaseHelper().getEither(
-      endPoint: ApiEndPoints.kGetMadinaZiarat,
+      endPoint: "${ApiEndPoints.kGetZiaratDetails}$ziaratId",
       isRequiredHeader: true,
       header: {'Accept': '*/*'},
     );
@@ -90,7 +87,6 @@ class ZiaratRepositoryImp extends ZiaratRepository {
   Future<Either<GlobalErrorModel, ZiaratListingModel>> searchZiarat(
       String searchKey,
       ) async {
-    // Search is never cached — always fresh results
     var data = await ApiBaseHelper().getEither(
       endPoint: "${ApiEndPoints.kSearchZiarat}?q=${Uri.encodeComponent(searchKey)}",
       isRequiredHeader: true,

@@ -1,4 +1,3 @@
-
 class AppStrings {
   /// App title
   static const String appTitle = 'Ziarat App';
@@ -52,6 +51,8 @@ class AppStrings {
   /// Ziarat listing
   static const String ziyaratAppBarTitleTxt = "Ziyarat";
   static const String searchZiyaratHintTxt = "Search Ziyarat...";
+  static const String searchHintTxt = "Search...";
+
   static const String makkahTabTxt = "Makkah";
   static const String madinaTabTxt = "Madina";
   static const String noResultsFoundTxt = "No results found";
@@ -166,14 +167,20 @@ class AppStrings {
       "Do you want to exit the app or stay on this screen?";
   static const String stayBtnLabelTxt = "Stay";
   static const String exitBtnLabelTxt = "Exit";
+  static const String updateAvailableTitleTxt = "Update Available";
+  static const String updateAvailableSubtitleTxt =
+      "A new version of Ziarat Haramain is available with improved features and a better experience for your spiritual journey.";
+  static const String updateLaterBtnTxt = "Later";
+  static const String updateNowBtnTxt = "Update Now";
 
   /// FAQ Screen
   static const String faqAppBarTitleTxt = "Umrah Questions";
-  static const String faqIntroTxt =
-      "Some frequently asked questions (FAQs) about Umrah that people commonly ask before planning their journey:";
+  static const String noItemsFoundTxt = "No items found.";
+  static const String errorLoadingDataTxt = "Error loading data.";
+  static const String retryBtnTxt = "Retry";
+  static const String faqIntroTxt ="Some common FAQs prople ask before planning their Umrah journey:";
   static const String hajjFaqAppBarTitleTxt = "Hajj Questions";
-  static const String hajjFaqIntroTxt =
-      "Some frequently asked questions (FAQs) about Hajj that people commonly ask before planning their journey:";
+  static const String hajjFaqIntroTxt = "Some common FAQs prople ask before planning their Hajj journey:";
   static const String faqQ1Txt = "Can Umrah be performed anytime?";
   static const String faqA1Txt =
       "Yes, Umrah can be performed any time of the year, except during specific days of Hajj when pilgrims focus on Hajj rituals.";
@@ -197,5 +204,7 @@ class AppStrings {
   static const String methodOfPuttingIhramDescriptionTxt =
       "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero.";
 
-}
+  /// Common Mistakes - See More
+  static const String commonMistakesSeeMorTxt = "[See More]";
 
+}

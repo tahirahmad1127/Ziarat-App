@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ziarat_app/presentation/constants/asset_constant.dart';
-import 'package:ziarat_app/configurations/frontend_config.dart';
+import '../../../configurations/frontend_config.dart';
 import '../../constants/app_strings.dart';
 
 class MaintenanceScreen extends StatefulWidget {
@@ -109,7 +109,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen>
                                     textAlign: TextAlign.center,
                                     style: FrontEndConfig.subHeadingTextStyle
                                         .copyWith(
-                                      fontSize: 24,
+                                      fontSize: FrontEndConfig.fontSize(24),
                                       height: 1.7,
                                       fontWeight: FontWeight.w700,
                                       color: Colors.white.withOpacity(0.85),
@@ -122,7 +122,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen>
                                     textAlign: TextAlign.center,
                                     style: FrontEndConfig.subHeadingTextStyle
                                         .copyWith(
-                                      fontSize: 16,
+                                      fontSize: FrontEndConfig.fontSize(16),
                                       height: 1.7,
                                       fontWeight: FontWeight.w400,
                                       color: Colors.white.withOpacity(0.85),
@@ -163,7 +163,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen>
                             'Ziyarat-e-Haramain',
                             style: FrontEndConfig.languageHeadingTextStyle
                                 .copyWith(
-                              fontSize: 18,
+                              fontSize: FrontEndConfig.fontSize(18),
                               fontWeight: FontWeight.w600,
                               letterSpacing: 0.5,
                             ),

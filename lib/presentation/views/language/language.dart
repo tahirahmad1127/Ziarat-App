@@ -8,6 +8,7 @@ import 'package:ziarat_app/presentation/elements/language_tile.dart';
 import '../../../infrastructure/services/localization.dart';
 import '../../constants/app_strings.dart';
 import '../../../configurations/frontend_config.dart';
+
 import '../../constants/asset_constant.dart';
 
 class Language extends StatefulWidget {
@@ -90,7 +91,7 @@ class _LanguageState extends State<Language> {
                   Text(
                     AppStrings.choosePreferredLanguageDescriptionTxt.tr,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontSize: 13,
+                          fontSize: FrontEndConfig.fontSize(13),
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
                         ),

@@ -2,63 +2,303 @@
   "data": [
     {
       "index": 1,
-      "arabic_ayat": "وَٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ لَنُكَفِّرَنَّ عَنْهُمْ سَيِّـَٔاتِهِمْ وَلَنَجْزِيَنَّهُمْ أَحْسَنَ ٱلَّذِى كَانُوا۟ يَعْمَلُونَ",
-      "urdu_ayat": "جو لوگ ایمان لائے اور نیک عمل کرتے رہے ہم ان کے گناہوں کو ضرور معاف کر دیں گے اور ان کو ان کے بہترین اعمال کے مطابق جزا دیں گے۔",
-      "english_ayat": "But those who believe and do righteous deeds — We will surely remove from them their misdeeds and will reward them according to the best of what they used to do. (Al-Ankabut 29:7)"
-    },
-    {
-      "index": 2,
-      "arabic_ayat": "إِنَّ ٱللَّهَ مَعَ ٱلصَّـٰبِرِينَ",
-      "urdu_ayat": "بے شک اللہ صبر کرنے والوں کے ساتھ ہے۔",
+      "arabic_ayat": "إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
+      "urdu_ayat": "بے شک اللہ صبر کرنے والوں کے ساتھ ہے",
       "english_ayat": "Indeed, Allah is with the patient. (Al-Baqarah 2:153)"
     },
     {
+      "index": 2,
+      "arabic_ayat": "وَاشْكُرُوا لِلَّهِ إِنْ كُنْتُمْ إِيَّاهُ تَعْبُدُونَ",
+      "urdu_ayat": "اللہ کا شکر ادا کرو اگر تم اسی کی عبادت کرتے ہو",
+      "english_ayat": "Be grateful to Allah if it is Him you worship. (Al-Baqarah 2:172)"
+    },
+    {
       "index": 3,
-      "arabic_ayat": "وَمَن يَتَوَكَّلْ عَلَى ٱللَّهِ فَهُوَ حَسْبُهُۥٓ",
-      "urdu_ayat": "اور جو اللہ پر بھروسہ کرے تو وہ اس کے لیے کافی ہے۔",
-      "english_ayat": "And whoever relies upon Allah — then He is sufficient for him. (At-Talaq 65:3)"
+      "arabic_ayat": "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا",
+      "urdu_ayat": "بے شک ہر مشکل کے ساتھ آسانی ہے",
+      "english_ayat": "Indeed, with hardship comes ease. (Ash-Sharh 94:5)"
     },
     {
       "index": 4,
-      "arabic_ayat": "فَإِنَّ مَعَ ٱلْعُسْرِ يُسْرًا إِنَّ مَعَ ٱلْعُسْرِ يُسْرًا",
-      "urdu_ayat": "پس بے شک تکلیف کے ساتھ آسانی ہے، بے شک تکلیف کے ساتھ آسانی ہے۔",
-      "english_ayat": "For indeed, with hardship will be ease. Indeed, with hardship will be ease. (Ash-Sharh 94:5-6)"
+      "arabic_ayat": "لَا تَقْنَطُوا مِنْ رَحْمَةِ اللَّهِ",
+      "urdu_ayat": "اللہ کی رحمت سے ناامید نہ ہو",
+      "english_ayat": "Do not despair of the mercy of Allah. (Az-Zumar 39:53)"
     },
     {
       "index": 5,
-      "arabic_ayat": "وَلَا تَيْأَسُوا۟ مِن رَّوْحِ ٱللَّهِ ۖ إِنَّهُۥ لَا يَيْأَسُ مِن رَّوْحِ ٱللَّهِ إِلَّا ٱلْقَوْمُ ٱلْكَـٰفِرُونَ",
-      "urdu_ayat": "اور اللہ کی رحمت سے مایوس نہ ہو، بے شک اللہ کی رحمت سے صرف کافر لوگ ہی مایوس ہوتے ہیں۔",
-      "english_ayat": "And do not despair of relief from Allah. Indeed, no one despairs of relief from Allah except the disbelieving people. (Yusuf 12:87)"
+      "arabic_ayat": "إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ",
+      "urdu_ayat": "بے شک اللہ بخشنے والا مہربان ہے",
+      "english_ayat": "Indeed, Allah is Forgiving and Merciful. (Al-Baqarah 2:173)"
     },
     {
       "index": 6,
-      "arabic_ayat": "رَبَّنَآ ءَاتِنَا فِى ٱلدُّنْيَا حَسَنَةً وَفِى ٱلْـَٔاخِرَةِ حَسَنَةً وَقِنَا عَذَابَ ٱلنَّارِ",
-      "urdu_ayat": "اے ہمارے رب! ہمیں دنیا میں بھلائی عطا فرما اور آخرت میں بھی بھلائی عطا فرما اور ہمیں آگ کے عذاب سے بچا۔",
-      "english_ayat": "Our Lord, give us in this world good and in the Hereafter good and protect us from the punishment of the Fire. (Al-Baqarah 2:201)"
+      "arabic_ayat": "وَتَوَكَّلْ عَلَى اللَّهِ",
+      "urdu_ayat": "اور اللہ پر بھروسہ کرو",
+      "english_ayat": "And rely upon Allah. (Al-Ahzab 33:3)"
     },
     {
       "index": 7,
-      "arabic_ayat": "ٱللَّهُ لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ",
-      "urdu_ayat": "اللہ، اس کے سوا کوئی معبود نہیں، وہ زندہ ہے، ہمیشہ قائم رہنے والا ہے۔",
-      "english_ayat": "Allah — there is no deity except Him, the Ever-Living, the Sustainer of existence. (Al-Baqarah 2:255)"
+      "arabic_ayat": "إِنَّ اللَّهَ يُحِبُّ الْمُحْسِنِينَ",
+      "urdu_ayat": "بے شک اللہ نیکی کرنے والوں سے محبت کرتا ہے",
+      "english_ayat": "Indeed, Allah loves those who do good. (Al-Baqarah 2:195)"
     },
     {
       "index": 8,
-      "arabic_ayat": "وَٱذْكُر رَّبَّكَ كَثِيرًا وَسَبِّحْ بِٱلْعَشِىِّ وَٱلْإِبْكَـٰرِ",
-      "urdu_ayat": "اور اپنے رب کو کثرت سے یاد کرو اور شام اور صبح اس کی تسبیح کرو۔",
-      "english_ayat": "And remember your Lord much and exalt Him in the evening and the morning. (Ali 'Imran 3:41)"
+      "arabic_ayat": "وَأَقِيمُوا الصَّلَاةَ",
+      "urdu_ayat": "نماز قائم کرو",
+      "english_ayat": "Establish prayer. (Al-Baqarah 2:43)"
     },
     {
       "index": 9,
-      "arabic_ayat": "إِنَّ ٱللَّهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا۟ مَا بِأَنفُسِهِمْ",
-      "urdu_ayat": "بے شک اللہ کسی قوم کی حالت نہیں بدلتا جب تک وہ خود اپنی حالت نہ بدلیں۔",
-      "english_ayat": "Indeed, Allah will not change the condition of a people until they change what is in themselves. (Ar-Ra'd 13:11)"
+      "arabic_ayat": "وَلَا تَغْفُلْ عَمَّا تَعْمَلُونَ",
+      "urdu_ayat": "اللہ تمہارے اعمال سے غافل نہیں",
+      "english_ayat": "Allah is not unaware of what you do. (Al-Baqarah 2:74)"
     },
     {
       "index": 10,
-      "arabic_ayat": "وَقُل رَّبِّ زِدْنِى عِلْمًا",
-      "urdu_ayat": "اور کہو: اے میرے رب! مجھے علم میں اضافہ عطا فرما۔",
-      "english_ayat": "And say: My Lord, increase me in knowledge. (Ta-Ha 20:114)"
+      "arabic_ayat": "إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ",
+      "urdu_ayat": "بے شک اللہ توبہ کرنے والوں سے محبت کرتا ہے",
+      "english_ayat": "Indeed, Allah loves those who repent. (Al-Baqarah 2:222)"
+    },
+    {
+      "index": 11,
+      "arabic_ayat": "وَاللَّهُ خَيْرُ الرَّازِقِينَ",
+      "urdu_ayat": "اور اللہ بہترین رزق دینے والا ہے",
+      "english_ayat": "Allah is the best of providers. (Al-Jumu'ah 62:11)"
+    },
+    {
+      "index": 12,
+      "arabic_ayat": "وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ",
+      "urdu_ayat": "اور وہ ہر چیز پر قادر ہے",
+      "english_ayat": "And He is over all things competent. (Al-Mulk 67:1)"
+    },
+    {
+      "index": 13,
+      "arabic_ayat": "وَذَكِّرْ فَإِنَّ الذِّكْرَىٰ تَنْفَعُ الْمُؤْمِنِينَ",
+      "urdu_ayat": "نصیحت کرو کیونکہ نصیحت مومنوں کو فائدہ دیتی ہے",
+      "english_ayat": "Remind, for reminder benefits the believers. (Adh-Dhariyat 51:55)"
+    },
+    {
+      "index": 14,
+      "arabic_ayat": "وَاللَّهُ يُحِبُّ الصَّابِرِينَ",
+      "urdu_ayat": "اللہ صبر کرنے والوں سے محبت کرتا ہے",
+      "english_ayat": "Allah loves the patient. (Aal-e-Imran 3:146)"
+    },
+    {
+      "index": 15,
+      "arabic_ayat": "وَإِلَى اللَّهِ تُرْجَعُ الْأُمُورُ",
+      "urdu_ayat": "تمام معاملات اللہ کی طرف لوٹتے ہیں",
+      "english_ayat": "All matters return to Allah. (Ash-Shura 42:53)"
+    },
+    {
+      "index": 16,
+      "arabic_ayat": "إِنَّ اللَّهَ لَا يُضِيعُ أَجْرَ الْمُحْسِنِينَ",
+      "urdu_ayat": "اللہ نیکی کرنے والوں کا اجر ضائع نہیں کرتا",
+      "english_ayat": "Allah does not waste the reward of the good-doers. (At-Tawbah 9:120)"
+    },
+    {
+      "index": 17,
+      "arabic_ayat": "وَاصْبِرْ وَمَا صَبْرُكَ إِلَّا بِاللَّهِ",
+      "urdu_ayat": "صبر کرو اور تمہارا صبر اللہ ہی کی مدد سے ہے",
+      "english_ayat": "Be patient, and your patience is only through Allah. (An-Nahl 16:127)"
+    },
+    {
+      "index": 18,
+      "arabic_ayat": "إِنَّ اللَّهَ سَمِيعٌ عَلِيمٌ",
+      "urdu_ayat": "بے شک اللہ سننے والا جاننے والا ہے",
+      "english_ayat": "Indeed, Allah is All-Hearing, All-Knowing. (Al-Baqarah 2:227)"
+    },
+    {
+      "index": 19,
+      "arabic_ayat": "فَاذْكُرُونِي أَذْكُرْكُمْ",
+      "urdu_ayat": "تم مجھے یاد کرو میں تمہیں یاد کروں گا",
+      "english_ayat": "Remember Me; I will remember you. (Al-Baqarah 2:152)"
+    },
+    {
+      "index": 20,
+      "arabic_ayat": "إِنَّ اللَّهَ مَعَ الْمُتَّقِينَ",
+      "urdu_ayat": "بے شک اللہ پرہیزگاروں کے ساتھ ہے",
+      "english_ayat": "Indeed, Allah is with the righteous. (At-Tawbah 9:36)"
+    },
+    {
+      "index": 21,
+      "arabic_ayat": "وَاللَّهُ غَفُورٌ رَحِيمٌ",
+      "urdu_ayat": "اور اللہ بخشنے والا مہربان ہے",
+      "english_ayat": "And Allah is Forgiving and Merciful. (Al-Baqarah 2:226)"
+    },
+    {
+      "index": 22,
+      "arabic_ayat": "وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ",
+      "urdu_ayat": "اور میری توفیق صرف اللہ کی طرف سے ہے",
+      "english_ayat": "My success is only by Allah. (Hud 11:88)"
+    },
+    {
+      "index": 23,
+      "arabic_ayat": "وَاللَّهُ خَيْرُ الْحَافِظِينَ",
+      "urdu_ayat": "اور اللہ بہترین حفاظت کرنے والا ہے",
+      "english_ayat": "Allah is the best of protectors. (Yusuf 12:64)"
+    },
+    {
+      "index": 24,
+      "arabic_ayat": "إِنَّ رَبِّي قَرِيبٌ مُجِيبٌ",
+      "urdu_ayat": "بے شک میرا رب قریب ہے اور دعا قبول کرنے والا ہے",
+      "english_ayat": "Indeed, my Lord is near and responsive. (Hud 11:61)"
+    },
+    {
+      "index": 25,
+      "arabic_ayat": "وَرَحْمَتِي وَسِعَتْ كُلَّ شَيْءٍ",
+      "urdu_ayat": "میری رحمت ہر چیز کو گھیرے ہوئے ہے",
+      "english_ayat": "My mercy encompasses all things. (Al-A'raf 7:156)"
+    },
+    {
+      "index": 26,
+      "arabic_ayat": "إِنَّ اللَّهَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ",
+      "urdu_ayat": "بے شک اللہ ہر چیز پر قادر ہے",
+      "english_ayat": "Indeed, Allah is capable of all things. (Al-Baqarah 2:20)"
+    },
+    {
+      "index": 27,
+      "arabic_ayat": "وَلَا تَيْأَسُوا مِنْ رَوْحِ اللَّهِ",
+      "urdu_ayat": "اللہ کی رحمت سے مایوس نہ ہو",
+      "english_ayat": "Do not despair of relief from Allah. (Yusuf 12:87)"
+    },
+    {
+      "index": 28,
+      "arabic_ayat": "وَاللَّهُ يُحِبُّ الْمُتَوَكِّلِينَ",
+      "urdu_ayat": "اللہ توکل کرنے والوں سے محبت کرتا ہے",
+      "english_ayat": "Allah loves those who rely upon Him. (Aal-e-Imran 3:159)"
+    },
+    {
+      "index": 29,
+      "arabic_ayat": "إِنَّ اللَّهَ لَا يُحِبُّ الظَّالِمِينَ",
+      "urdu_ayat": "اللہ ظالموں کو پسند نہیں کرتا",
+      "english_ayat": "Allah does not love the wrongdoers. (Aal-e-Imran 3:57)"
+    },
+    {
+      "index": 30,
+      "arabic_ayat": "وَإِنَّ اللَّهَ لَمَعَ الْمُحْسِنِينَ",
+      "urdu_ayat": "بے شک اللہ نیکی کرنے والوں کے ساتھ ہے",
+      "english_ayat": "Indeed, Allah is with those who do good. (Al-Ankabut 29:69)"
+    },
+    {
+      "index": 31,
+      "arabic_ayat": "وَاصْبِرُوا إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
+      "urdu_ayat": "صبر کرو بے شک اللہ صبر کرنے والوں کے ساتھ ہے",
+      "english_ayat": "Be patient, indeed Allah is with the patient. (Al-Anfal 8:46)"
+    },
+    {
+      "index": 32,
+      "arabic_ayat": "وَاعْفُوا وَاصْفَحُوا",
+      "urdu_ayat": "معاف کرو اور درگزر کرو",
+      "english_ayat": "Pardon and overlook. (Al-Baqarah 2:109)"
+    },
+    {
+      "index": 33,
+      "arabic_ayat": "إِنَّ اللَّهَ يُحِبُّ الْمُقْسِطِينَ",
+      "urdu_ayat": "اللہ انصاف کرنے والوں سے محبت کرتا ہے",
+      "english_ayat": "Allah loves those who act justly. (Al-Ma'idah 5:42)"
+    },
+    {
+      "index": 34,
+      "arabic_ayat": "وَاللَّهُ عَلِيمٌ حَكِيمٌ",
+      "urdu_ayat": "اور اللہ علم والا حکمت والا ہے",
+      "english_ayat": "Allah is All-Knowing, All-Wise. (An-Nisa 4:26)"
+    },
+    {
+      "index": 35,
+      "arabic_ayat": "وَاذْكُرِ اسْمَ رَبِّكَ",
+      "urdu_ayat": "اپنے رب کا نام یاد کرو",
+      "english_ayat": "Remember the name of your Lord. (Al-Muzzammil 73:8)"
+    },
+    {
+      "index": 36,
+      "arabic_ayat": "إِنَّ اللَّهَ يُحِبُّ الْمُتَّقِينَ",
+      "urdu_ayat": "اللہ پرہیزگاروں سے محبت کرتا ہے",
+      "english_ayat": "Allah loves the righteous. (At-Tawbah 9:4)"
+    },
+    {
+      "index": 37,
+      "arabic_ayat": "وَاللَّهُ سَمِيعٌ بَصِيرٌ",
+      "urdu_ayat": "اللہ سننے والا دیکھنے والا ہے",
+      "english_ayat": "Allah is All-Hearing, All-Seeing. (Al-Hujurat 49:1)"
+    },
+    {
+      "index": 38,
+      "arabic_ayat": "وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ",
+      "urdu_ayat": "وہ تمہارے ساتھ ہے جہاں کہیں بھی تم ہو",
+      "english_ayat": "He is with you wherever you are. (Al-Hadid 57:4)"
+    },
+    {
+      "index": 39,
+      "arabic_ayat": "وَاللَّهُ وَلِيُّ الْمُؤْمِنِينَ",
+      "urdu_ayat": "اللہ مومنوں کا دوست ہے",
+      "english_ayat": "Allah is the ally of the believers. (Aal-e-Imran 3:68)"
+    },
+    {
+      "index": 40,
+      "arabic_ayat": "إِنَّ اللَّهَ لَا يُخْلِفُ الْمِيعَادَ",
+      "urdu_ayat": "اللہ اپنے وعدے کے خلاف نہیں کرتا",
+      "english_ayat": "Allah does not break His promise. (Aal-e-Imran 3:9)"
+    },
+    {
+      "index": 41,
+      "arabic_ayat": "وَإِلَيْهِ تُرْجَعُونَ",
+      "urdu_ayat": "اور تم سب اسی کی طرف لوٹ کر جاؤ گے",
+      "english_ayat": "To Him you will be returned. (Al-Baqarah 2:245)"
+    },
+    {
+      "index": 42,
+      "arabic_ayat": "وَاللَّهُ لَطِيفٌ بِعِبَادِهِ",
+      "urdu_ayat": "اللہ اپنے بندوں پر مہربان ہے",
+      "english_ayat": "Allah is Subtle with His servants. (Ash-Shura 42:19)"
+    },
+    {
+      "index": 43,
+      "arabic_ayat": "إِنَّ اللَّهَ يُحِبُّ الصَّادِقِينَ",
+      "urdu_ayat": "اللہ سچوں سے محبت کرتا ہے",
+      "english_ayat": "Allah loves the truthful. (At-Tawbah 9:119)"
+    },
+    {
+      "index": 44,
+      "arabic_ayat": "وَاللَّهُ خَيْرُ الْمَاكِرِينَ",
+      "urdu_ayat": "اللہ بہترین تدبیر کرنے والا ہے",
+      "english_ayat": "Allah is the best of planners. (Aal-e-Imran 3:54)"
+    },
+    {
+      "index": 45,
+      "arabic_ayat": "إِنَّ اللَّهَ شَدِيدُ الْعِقَابِ",
+      "urdu_ayat": "بے شک اللہ سخت سزا دینے والا ہے",
+      "english_ayat": "Indeed, Allah is severe in punishment. (Al-Baqarah 2:165)"
+    },
+    {
+      "index": 46,
+      "arabic_ayat": "وَاللَّهُ رَءُوفٌ رَحِيمٌ",
+      "urdu_ayat": "اللہ نہایت مہربان رحم کرنے والا ہے",
+      "english_ayat": "Allah is Kind and Merciful. (Al-Baqarah 2:143)"
+    },
+    {
+      "index": 47,
+      "arabic_ayat": "وَاللَّهُ يُحِبُّ الْمُطَّهِّرِينَ",
+      "urdu_ayat": "اللہ پاکیزگی اختیار کرنے والوں سے محبت کرتا ہے",
+      "english_ayat": "Allah loves those who purify themselves. (At-Tawbah 9:108)"
+    },
+    {
+      "index": 48,
+      "arabic_ayat": "إِنَّ اللَّهَ سَرِيعُ الْحِسَابِ",
+      "urdu_ayat": "بے شک اللہ جلد حساب لینے والا ہے",
+      "english_ayat": "Indeed, Allah is swift in reckoning. (Aal-e-Imran 3:19)"
+    },
+    {
+      "index": 49,
+      "arabic_ayat": "وَاللَّهُ غَنِيٌّ حَمِيدٌ",
+      "urdu_ayat": "اللہ بے نیاز اور تعریف کے لائق ہے",
+      "english_ayat": "Allah is Self-Sufficient and Praiseworthy. (Ibrahim 14:8)"
+    },
+    {
+      "index": 50,
+      "arabic_ayat": "إِنَّ اللَّهَ مَعَ الَّذِينَ اتَّقَوْا",
+      "urdu_ayat": "بے شک اللہ متقی لوگوں کے ساتھ ہے",
+      "english_ayat": "Indeed, Allah is with those who fear Him. (An-Nahl 16:128)"
     }
   ]
 }

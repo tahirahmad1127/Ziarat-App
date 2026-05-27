@@ -8,5 +8,10 @@ class ApiEndPoints {
   static const String kGetZiaratDetails = "ziarats/getZiaratDetailsByID/";
   static const String kSearchZiarat = "ziarats/searchZiarat";
   static const String kGetLanguage = "languages/";
-
+  static const String kGetHajjSaman = "hajj-saman";
+  static const String kGetUmrahSaman = "umrah-saman";
+  static const String kGetHajjPackageDetail = "hajj-package-detail";
+  static const String kGetUmrahPackageDetail = "umrah-package-detail";
+  static const String kGetHajjTravelDocs = "hajj-travel";
+  static const String kGetUmrahTravelDocs = "umrah-travel";
 }

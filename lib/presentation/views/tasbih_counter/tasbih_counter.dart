@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../application/counter_bloc/counter_bloc.dart';
 import '../../../application/counter_bloc/counter_event.dart';
 import '../../../application/counter_bloc/counter_state.dart';
+import '../../../application/navigation_helper.dart';
 import '../../../configurations/frontend_config.dart';
 import '../../constants/asset_constant.dart';
 import '../../elements/app_bar.dart';
@@ -253,7 +254,7 @@ class TasbihCounter extends StatelessWidget {
                       Text(
                         AppStrings.tasbihAyahTranslationTxt.tr,
                         style: GoogleFonts.raleway(
-                          fontSize: 12,
+                          fontSize: FrontEndConfig.fontSize(12),
                           color: FrontEndConfig.textColor,
                           fontWeight: FontWeight.w400,
                         ),

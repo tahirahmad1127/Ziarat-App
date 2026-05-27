@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ziarat_app/configurations/frontend_config.dart';
+
+import '../../configurations/frontend_config.dart';
 
 class LanguageTile extends StatefulWidget {
   final String? title;

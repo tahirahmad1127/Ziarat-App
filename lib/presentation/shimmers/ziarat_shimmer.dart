@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../configurations/frontend_config.dart';
+import '../../configurations/frontend_config.dart';
 
 class ZiaratShimmer extends StatelessWidget {
   const ZiaratShimmer({super.key});
