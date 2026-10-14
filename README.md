@@ -1,16 +1,26 @@
-# ziarat_app
+# Ziarat-e-Harmain — Islamic Companion App
 
-A new Flutter project.
+A Flutter app for pilgrims and daily worship: prayer times, Hijri/Gregorian calendar, and multilingual support with full RTL layouts.
 
-## Getting Started
+## Key features
 
-This project is a starting point for a Flutter application.
+- Accurate prayer-time calculations with location support
+- Hijri + Gregorian calendar views
+- Multilingual UI: English, Arabic, Urdu with complete RTL layout support
+- Ziarat guides and du'as collection
+- Optimized for low-end Android devices
 
-A few resources to get you started if this is your first Flutter project:
+## Tech stack
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Flutter · Dart · GetX · Firebase · Node.js · Python
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Getting started
+
+```bash
+flutter pub get
+flutter run
+```
+
+## What I learned
+
+Built a fully RTL multilingual app and learned to keep performance smooth on low-end devices through profiling.
